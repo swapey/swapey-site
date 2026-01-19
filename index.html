@@ -1,120 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Swapey DEX | Swap Tokens on Polygon</title>
+<meta charset="UTF-8" />
+<title>Swapey DEX | Direct Swap</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #8f5bff, #16002d);
+  font-family: 'Comic Sans MS', 'Trebuchet MS', Arial, sans-serif;
+  color: white;
+  text-align: center;
+}
+header {
+  padding: 60px 20px 20px;
+}
+img {
+  width: 520px;
+  max-width: 92%;
+  margin-bottom: 20px;
+}
+h1 { font-size: 3.4rem; margin: 10px 0; }
+p { opacity: 0.85; max-width: 720px; margin: auto; }
 
-  <meta name="description" content="Swapey DEX allows you to swap hundreds of tokens on Polygon easily using decentralized liquidity." />
-  <meta name="keywords" content="Swapey, DEX, Polygon, Swap crypto, DeFi, QuickSwap" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+.warning {
+  background: rgba(255, 165, 0, 0.15);
+  border: 1px solid orange;
+  padding: 12px;
+  border-radius: 12px;
+  margin: 30px auto;
+  width: fit-content;
+}
 
-  <!-- Open Graph / Social -->
-  <meta property="og:title" content="Swapey DEX" />
-  <meta property="og:description" content="Swap hundreds of tokens instantly on Polygon using decentralized liquidity." />
-  <meta property="og:image" content="swapey-logo.png" />
-  <meta property="og:type" content="website" />
+.wallet { margin: 30px auto; }
+.btn-gaming {
+  background: linear-gradient(135deg, #ff7b00, #ffb347);
+  border: 2px solid #fff;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 16px 32px;
+  margin: 10px;
+  border-radius: 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: 0 0 10px #ff7b00, 0 0 20px #ffb347, 0 0 30px #ff7b00;
+  transition: all 0.3s ease-in-out;
+}
+.btn-gaming:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #ff7b00, 0 0 40px #ffb347, 0 0 60px #ff7b00;
+}
+.btn-gaming:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 5px #ff7b00, 0 0 10px #ffb347, 0 0 15px #ff7b00;
+}
 
-  <style>
-    body {
-      margin: 0;
-      background: radial-gradient(circle at top, #8f5bff, #16002d);
-      font-family: 'Comic Sans MS', 'Trebuchet MS', Arial, sans-serif;
-      color: white;
-      text-align: center;
-    }
+.swap-form {
+  margin: 40px auto;
+  width: 420px;
+  max-width: 95%;
+  padding: 20px;
+  border-radius: 24px;
+  background: rgba(0,0,0,0.25);
+  box-shadow: 0 0 40px rgba(255,123,0,0.5);
+  text-align: left;
+}
 
-    header {
-      padding: 60px 20px 20px;
-    }
+.swap-form label { display: block; margin: 10px 0 5px; }
+.swap-form input, .swap-form select {
+  width: 100%; padding: 8px; border-radius: 12px; border: none; font-size: 1rem;
+}
 
-    img {
-      width: 520px;
-      max-width: 92%;
-      margin-bottom: 20px;
-    }
+.address, .status {
+  margin-top: 10px; font-size: 0.85rem; opacity: 0.85; word-break: break-all;
+}
 
-    h1 {
-      font-size: 3.4rem;
-      margin: 10px 0;
-    }
-
-    p {
-      opacity: 0.85;
-      max-width: 720px;
-      margin: auto;
-    }
-
-    .warning {
-      background: rgba(255, 165, 0, 0.15);
-      border: 1px solid orange;
-      padding: 12px;
-      border-radius: 12px;
-      margin: 30px auto;
-      width: fit-content;
-    }
-
-    .wallet {
-      margin: 30px auto;
-    }
-
-    .btn-gaming {
-      background: linear-gradient(135deg, #ff7b00, #ffb347);
-      border: 2px solid #fff;
-      color: #fff;
-      font-weight: bold;
-      font-size: 1.1rem;
-      padding: 16px 32px;
-      margin: 10px;
-      border-radius: 16px;
-      cursor: pointer;
-      text-transform: uppercase;
-      box-shadow: 0 0 10px #ff7b00, 0 0 20px #ffb347, 0 0 30px #ff7b00;
-      transition: all 0.3s ease-in-out;
-    }
-
-    .btn-gaming:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px #ff7b00, 0 0 40px #ffb347, 0 0 60px #ff7b00;
-    }
-
-    .btn-gaming:active {
-      transform: scale(0.95);
-      box-shadow: 0 0 5px #ff7b00, 0 0 10px #ffb347, 0 0 15px #ff7b00;
-    }
-
-    .wallet-options {
-      margin-top: 15px;
-      font-size: 0.9rem;
-      opacity: 0.85;
-    }
-
-    .address {
-      margin-top: 10px;
-      font-size: 0.85rem;
-      opacity: 0.8;
-      word-break: break-all;
-    }
-
-    .swap {
-      margin: 40px auto;
-      width: 430px;
-      max-width: 95%;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 0 60px rgba(0,0,0,0.6);
-    }
-
-    footer {
-      margin: 40px 0;
-      font-size: 0.75rem;
-      opacity: 0.6;
-    }
-
-    .multi-chain {
-      margin: 20px auto;
-      opacity: 0.85;
-    }
-  </style>
+footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
+</style>
 </head>
 
 <body>
@@ -122,60 +85,103 @@
 <header>
   <img src="swapey-logo.png" alt="Swapey Logo" />
   <h1>Swapey DEX</h1>
-  <p>Swap hundreds of tokens instantly on Polygon using decentralized liquidity.</p>
+  <p>Swap hundreds of tokens instantly on Polygon using Swapey interface.</p>
 </header>
 
-<div class="warning">
-  ⚠️ This DEX works on <strong>Polygon Network</strong> only
-</div>
+<div class="warning">⚠️ Polygon Network only</div>
 
 <div class="wallet">
   <button class="btn-gaming" onclick="connectWallet()">Connect MetaMask</button>
-  <button class="btn-gaming" onclick="phantomRedirect()">Connect Phantom</button>
-
-  <div class="wallet-options">
-    MetaMask • Phantom (WalletConnect coming soon)
-  </div>
-
   <div id="address" class="address"></div>
 </div>
 
-<div class="multi-chain">
-  More chains and tokens coming soon! Stay tuned 🔥
-</div>
+<div class="swap-form">
+  <label>From Token:</label>
+  <select id="tokenA">
+    <option value="0x0000000000000000000000000000000000001010">MATIC</option>
+    <option value="0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619">WETH</option>
+    <option value="0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174">USDC</option>
+  </select>
 
-<div class="swap">
-  <iframe
-    src="https://quickswap.exchange/#/swap"
-    width="100%"
-    height="620"
-    frameborder="0"
-  ></iframe>
+  <label>To Token:</label>
+  <select id="tokenB">
+    <option value="0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174">USDC</option>
+    <option value="0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619">WETH</option>
+    <option value="0x0000000000000000000000000000000000001010">MATIC</option>
+  </select>
+
+  <label>Amount:</label>
+  <input type="number" id="amount" placeholder="Enter amount" />
+
+  <button class="btn-gaming" onclick="swapTokens()">Swap</button>
+  <div id="status" class="status"></div>
 </div>
 
 <footer>
-  Swapey is a decentralized interface. Use at your own risk.
+  Swapey is decentralized. Use at your own risk.
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 <script>
+let provider, signer;
+
 async function connectWallet() {
-  if (window.ethereum) {
-    try {
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-      document.getElementById('address').innerText = "Connected: " + accounts[0];
-    } catch (e) {
-      alert("Wallet connection rejected");
-    }
+  if(window.ethereum){
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    signer = provider.getSigner();
+    const address = await signer.getAddress();
+    document.getElementById("address").innerText = "Connected: " + address;
+    document.getElementById("status").innerText = "";
   } else {
-    alert("MetaMask not detected. Please install MetaMask.");
+    alert("MetaMask not detected");
   }
 }
 
-function phantomRedirect() {
-  alert("Phantom will be supported soon. For now, use the iframe with your Phantom wallet.");
+async function swapTokens(){
+  if(!signer){
+    alert("Connect MetaMask first");
+    return;
+  }
+
+  const tokenA = document.getElementById("tokenA").value;
+  const tokenB = document.getElementById("tokenB").value;
+  const amount = document.getElementById("amount").value;
+
+  if(!amount || amount <=0){
+    alert("Enter a valid amount");
+    return;
+  }
+
+  // QuickSwap Router contract (simplified example)
+  const routerAddress = "0xa5E0829CaCED8fFdd4De3c43696c57F7D7A678ff"; // QuickSwap Router
+  const routerABI = [
+    "function swapExactTokensForTokens(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline) external returns (uint[] memory amounts)",
+    "function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) external payable returns (uint[] memory amounts)"
+  ];
+  const router = new ethers.Contract(routerAddress, routerABI, signer);
+
+  try{
+    const path = [tokenA, tokenB];
+    const to = await signer.getAddress();
+    const deadline = Math.floor(Date.now()/1000) + 60*20;
+
+    const tx = await router.swapExactTokensForTokens(
+      ethers.utils.parseUnits(amount, 18),
+      0,
+      path,
+      to,
+      deadline
+    );
+    document.getElementById("status").innerText = "Transaction sent: " + tx.hash;
+    await tx.wait();
+    document.getElementById("status").innerText = "Swap successful: " + tx.hash;
+  } catch(e){
+    console.error(e);
+    document.getElementById("status").innerText = "Swap failed: " + e.message;
+  }
 }
 </script>
 
 </body>
 </html>
-
