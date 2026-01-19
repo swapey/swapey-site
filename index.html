@@ -8,6 +8,12 @@
   <meta name="keywords" content="Swapey, DEX, Polygon, Swap crypto, DeFi, QuickSwap" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="Swapey DEX" />
+  <meta property="og:description" content="Swap hundreds of tokens instantly on Polygon using decentralized liquidity." />
+  <meta property="og:image" content="swapey-logo.png" />
+  <meta property="og:type" content="website" />
+
   <style>
     body {
       margin: 0;
@@ -18,7 +24,7 @@
     }
 
     header {
-      padding: 60px 20px 30px;
+      padding: 60px 20px 20px;
     }
 
     img {
@@ -59,12 +65,14 @@
       font-size: 1.1rem;
       border-radius: 14px;
       cursor: pointer;
+      margin: 8px;
       box-shadow: 0 0 25px rgba(255,123,0,0.6);
     }
 
     .wallet-options {
       margin-top: 15px;
       font-size: 0.9rem;
+      opacity: 0.85;
     }
 
     .address {
@@ -88,6 +96,11 @@
       font-size: 0.75rem;
       opacity: 0.6;
     }
+
+    .multi-chain {
+      margin: 20px auto;
+      opacity: 0.85;
+    }
   </style>
 </head>
 
@@ -104,13 +117,18 @@
 </div>
 
 <div class="wallet">
-  <button onclick="connectWallet()">Connect Wallet</button>
+  <button onclick="connectWallet()">Connect MetaMask</button>
+  <button onclick="phantomRedirect()">Connect Phantom</button>
 
   <div class="wallet-options">
-    MetaMask • Phantom (via WalletConnect soon)
+    MetaMask • Phantom (WalletConnect coming soon)
   </div>
 
   <div id="address" class="address"></div>
+</div>
+
+<div class="multi-chain">
+  More chains and tokens coming soon! Stay tuned 🔥
 </div>
 
 <div class="swap">
@@ -123,4 +141,28 @@
 </div>
 
 <footer>
-  Swapey is a decentralized interface. Use at your
+  Swapey is a decentralized interface. Use at your own risk.
+</footer>
+
+<script>
+async function connectWallet() {
+  if (window.ethereum) {
+    try {
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      document.getElementById('address').innerText = "Connected: " + accounts[0];
+    } catch (e) {
+      alert("Wallet connection rejected");
+    }
+  } else {
+    alert("MetaMask not detected. Please install MetaMask.");
+  }
+}
+
+function phantomRedirect() {
+  alert("Phantom will be supported soon. For now, use the iframe with your Phantom wallet.");
+}
+</script>
+
+</body>
+</html>
+
