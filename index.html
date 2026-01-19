@@ -15,7 +15,7 @@ body {
   text-align:center;
 }
 
-/* === Boutons MetaMask + Phantom + History en haut à droite === */
+/* --- Top buttons --- */
 #top-right {
   position: fixed;
   top:12px;
@@ -43,16 +43,35 @@ body {
 #top-right a.btn-history:hover { transform: scale(1.1); }
 #top-right small { display:block; font-size:0.65rem; opacity:0.7; }
 
-/* === HEADER === */
+/* --- Wallet dashboard --- */
+#wallet-dashboard {
+  position: fixed;
+  top:70px;
+  right:12px;
+  width:220px;
+  padding:12px;
+  background: rgba(64,224,208,0.15);
+  border-radius:16px;
+  text-align:left;
+  box-shadow: 0 0 20px #40E0D0,0 0 40px #8F5BFF;
+  color:white;
+  font-family:'Luckiest Guy', cursive;
+  font-size:0.9rem;
+}
+#wallet-status { font-weight:bold; margin-bottom:6px; }
+#wallet-balance { margin-bottom:6px; }
+#wallet-tokens { max-height:200px; overflow-y:auto; }
+
+/* --- Header --- */
 header { padding:60px 20px 20px; }
 header img { width:520px; max-width:92%; margin-bottom:20px; }
 h1 { font-size:3.4rem; margin:10px 0; }
 p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
 
-/* === Countdown === */
+/* --- Countdown --- */
 #event-countdown { font-size:1.5rem; margin:20px 0; color:#40E0D0; font-weight:bold; }
 
-/* === Swap Form === */
+/* --- Swap form --- */
 .swap-form {
   margin:40px auto;
   width:420px;
@@ -73,7 +92,7 @@ p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
 }
 .swap-form select option { color:#000; background:#fff; }
 
-/* === Bouton Swap === */
+/* --- Swap button --- */
 .btn-cartoon {
   background: linear-gradient(135deg, #40E0D0, #8F5BFF);
   border: 4px solid #fff;
@@ -91,7 +110,7 @@ p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
 .btn-cartoon:hover { transform: scale(1.15) rotate(-2deg); box-shadow:0 0 24px #40E0D0,0 0 48px #8F5BFF,0 0 72px #40E0D0; }
 .btn-cartoon:active { transform: scale(0.95) rotate(1deg); box-shadow:0 0 10px #40E0D0,0 0 20px #8F5BFF,0 0 30px #40E0D0; }
 
-/* === Popup confirmation === */
+/* --- Popup confirmation --- */
 #confirm {
   position:fixed;
   top:20px;
@@ -109,7 +128,7 @@ p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
 }
 @keyframes flash { 0% { transform: translateX(-50%) scale(0.8); opacity:0; } 50% { transform: translateX(-50%) scale(1.1); opacity:1; } 100% { transform: translateX(-50%) scale(1); opacity:1; } }
 
-/* === Crypto News Box === */
+/* --- Crypto News Box --- */
 .announcement-box {
   margin:40px auto;
   width:90%;
@@ -126,18 +145,23 @@ p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
 .announcement-box ul { list-style:none; padding:0; margin:0; max-height:150px; overflow-y:auto; }
 .announcement-box li { margin-bottom:6px; font-size:1rem; }
 
-/* === Footer === */
+/* --- Footer --- */
 footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 </style>
 </head>
-
 <body>
 
 <div id="top-right">
-  <img src="metamask-fox.png" id="metamask-logo" onclick="connectMetaMask()" alt="MetaMask" />
-  <img src="phantom-logo.png" id="phantom-logo" onclick="connectPhantom()" alt="Phantom" />
+  <img src="metamask-fox.png" onclick="connectMetaMask()" alt="MetaMask" />
+  <img src="phantom-logo.png" onclick="connectPhantom()" alt="Phantom" />
   <a href="history.html" class="btn-history">History</a>
   <small>Polygon Network only</small>
+</div>
+
+<div id="wallet-dashboard">
+  <div id="wallet-status">Not connected</div>
+  <div id="wallet-balance"></div>
+  <div id="wallet-tokens"></div>
 </div>
 
 <header>
@@ -153,26 +177,13 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 <div class="swap-form">
   <label>From Token:</label>
   <select id="tokenA">
+    <!-- Top 50 Polygon tokens simplified example -->
     <option value="0x0000000000000000000000000000000000001010">MATIC</option>
     <option value="0x2791bca1f2de4661ed88a30c99a7a9449aa84174">USDC</option>
     <option value="0xc2132d05d31c914a87c6611c10748aeb04b58e8f">USDT</option>
     <option value="0x8f3cf7ad23cd3cadbd9735aff958023239c6a063">DAI</option>
     <option value="0x7ceb23fd6bc0add59e62ac25578270cff1b9f619">WETH</option>
-    <option value="0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6">WBTC</option>
-    <option value="0xb5c064f955d8e7f38fe0460c556a72987494ee17">QUICK</option>
-    <option value="0x9a71012b13ca4d3d0cdc72a177df3ef03b0e76a3">BAL</option>
-    <option value="0xd6df932a45c0f255f85145f286ea0b292b21c90b">AAVE</option>
-    <option value="0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39">LINK</option>
-    <option value="0xb33eaad8d922b1083446dc23f610c2567fb5180">UNI</option>
-    <option value="0x0b3f868e0be5597d5db7feb59e1cadbb0fdda50a">SUSHI</option>
-    <option value="0x385eeac5cb85a38a9a07a70c73e0a3271cfb54a7">GHST</option>
-    <option value="0xe111178a87a3bff0c8d18decba5798827539ae99">EURS</option>
-    <option value="0x41b3966b4ff7b427969ddf5da3627d6aeae9a48e">NEXO</option>
-    <option value="0xa3c322ad15218bfaed26ba7f616249f7705d945">MV</option>
-    <option value="0x16eccfdbb4ee1a85a33f3a9b21175cd7ae753db4">ROUTE</option>
-    <option value="0x9699eb5ada0843f0e9bd4438930cdd5325073ede">FEHU</option>
-    <option value="0xff22c94ffb6bb5d1df18beb5fd1dfe7583d3b214">IPMB</option>
-    <!-- Ajoute jusqu'à 50 tokens -->
+    <!-- ajoute les autres tokens ici -->
   </select>
 
   <label>To Token:</label>
@@ -181,7 +192,6 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
     <option value="0x8f3cf7ad23cd3cadbd9735aff958023239c6a063">DAI</option>
     <option value="0x0000000000000000000000000000000000001010">MATIC</option>
     <option value="0x7ceb23fd6bc0add59e62ac25578270cff1b9f619">WETH</option>
-    <option value="0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6">WBTC</option>
   </select>
 
   <label>Amount:</label>
@@ -195,9 +205,9 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 <div class="announcement-box">
   <h2>Live Crypto News</h2>
   <ul id="crypto-news">
-    <li>BTC just surged 5% in the last hour!</li>
+    <li>BTC surged 5% in the last hour!</li>
     <li>ETH staking rewards increase announced</li>
-    <li>Polygon network upgrade happening soon</li>
+    <li>Polygon network upgrade soon</li>
     <li>New token listing on Swapey DEX!</li>
   </ul>
 </div>
@@ -208,75 +218,75 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 
 <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 <script>
+// Wallet
 let provider, signer;
-
-async function connectMetaMask() {
+async function connectMetaMask(){
   if(window.ethereum){
-    provider = new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
-    signer = provider.getSigner();
-    const address = await signer.getAddress();
-    document.getElementById("status").innerText = "Connected MetaMask: " + address;
-  } else { alert("MetaMask not detected"); }
+    provider=new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts",[]);
+    signer=provider.getSigner();
+    const address=await signer.getAddress();
+    document.getElementById("wallet-status").innerText="MetaMask: "+address.slice(0,6)+"…"+address.slice(-4);
+    const balance=await provider.getBalance(address);
+    document.getElementById("wallet-balance").innerText="MATIC: "+ethers.utils.formatEther(balance);
+    // Token balances example
+    const tokens=[{symbol:"USDC", addr:"0x2791bca1f2de4661ed88a30c99a7a9449aa84174"}];
+    let html="<ul>";
+    for(const t of tokens){
+      const tokenContract=new ethers.Contract(t.addr,["function balanceOf(address) view returns (uint256)"],provider);
+      const bal=await tokenContract.balanceOf(address);
+      html+=`<li>${t.symbol}: ${ethers.utils.formatUnits(bal,18)}</li>`;
+    }
+    html+="</ul>";
+    document.getElementById("wallet-tokens").innerHTML=html;
+  } else alert("MetaMask not detected");
 }
-
-async function connectPhantom() {
+async function connectPhantom(){
   if(window.solana && window.solana.isPhantom){
-    const resp = await window.solana.connect();
-    document.getElementById("status").innerText = "Connected Phantom: " + resp.publicKey.toString();
-  } else { alert("Phantom not detected"); }
+    const resp=await window.solana.connect();
+    const publicKey=resp.publicKey.toString();
+    document.getElementById("wallet-status").innerText="Phantom: "+publicKey.slice(0,4)+"…"+publicKey.slice(-4);
+    const solBalance=await window.solana.request({method:"getBalance"});
+    document.getElementById("wallet-balance").innerText="SOL: "+(solBalance/1e9).toFixed(4);
+    document.getElementById("wallet-tokens").innerHTML="<small>Tokens SPL will appear here</small>";
+  } else alert("Phantom not detected");
 }
 
+// Swap (QuickSwap example)
 async function swapTokens(){
   if(!signer){ alert("Connect wallet first"); return; }
-
-  const tokenA = document.getElementById("tokenA").value;
-  const tokenB = document.getElementById("tokenB").value;
-  const amount = document.getElementById("amount").value;
-
-  if(!amount || amount<=0){ alert("Enter a valid amount"); return; }
-
-  const routerAddress = "0xa5E0829CaCED8fFdd4De3c43696c57F7D7A678ff";
-  const routerABI = ["function swapExactTokensForTokens(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline) external returns (uint[] memory amounts)"];
-  const router = new ethers.Contract(routerAddress, routerABI, signer);
-
+  const tokenA=document.getElementById("tokenA").value;
+  const tokenB=document.getElementById("tokenB").value;
+  const amount=document.getElementById("amount").value;
+  if(!amount||amount<=0){ alert("Enter a valid amount"); return; }
+  const routerAddress="0xa5E0829CaCED8fFdd4De3c43696c57F7D7A678ff";
+  const routerABI=["function swapExactTokensForTokens(uint amountIn,uint amountOutMin,address[] calldata path,address to,uint deadline) external returns (uint[] memory amounts)"];
+  const router=new ethers.Contract(routerAddress,routerABI,signer);
   try{
-    const path = [tokenA, tokenB];
-    const to = await signer.getAddress();
-    const deadline = Math.floor(Date.now()/1000)+60*20;
-
-    const tx = await router.swapExactTokensForTokens(
-      ethers.utils.parseUnits(amount, 18), 0, path, to, deadline
-    );
-    document.getElementById("status").innerText = "Transaction sent: " + tx.hash;
+    const path=[tokenA,tokenB];
+    const to=await signer.getAddress();
+    const deadline=Math.floor(Date.now()/1000)+60*20;
+    const tx=await router.swapExactTokensForTokens(ethers.utils.parseUnits(amount,18),0,path,to,deadline);
+    document.getElementById("status").innerText="Transaction sent: "+tx.hash;
     await tx.wait();
-
-    const confirm = document.getElementById("confirm");
-    confirm.style.display = "block";
-    setTimeout(()=>{ confirm.style.display = "none"; }, 3500);
-
-    document.getElementById("status").innerText = "Swap successful: " + tx.hash;
-  } catch(e){
-    console.error(e);
-    document.getElementById("status").innerText = "Swap failed: " + e.message;
-  }
+    const confirm=document.getElementById("confirm");
+    confirm.style.display="block";
+    setTimeout(()=>{confirm.style.display="none";},3500);
+    document.getElementById("status").innerText="Swap successful: "+tx.hash;
+  } catch(e){ console.error(e); document.getElementById("status").innerText="Swap failed: "+e.message; }
 }
 
 // Countdown
-const eventDate = new Date("2026-01-26T20:00:00");
+const eventDate=new Date("2026-01-26T20:00:00");
 function updateCountdown(){
-  const now = new Date();
-  const diff = eventDate - now;
-  if(diff<=0){
-    document.getElementById("countdown").innerText = "The announcement is live! 🎉";
-    clearInterval(countdownInterval);
-    return;
-  }
+  const now=new Date();
+  const diff=eventDate-now;
+  if(diff<=0){ document.getElementById("countdown").innerText="The announcement is live! 🎉"; clearInterval(countdownInterval); return; }
   const days=Math.floor(diff/(1000*60*60*24));
   const hours=Math.floor((diff/(1000*60*60))%24);
   const minutes=Math.floor((diff/(1000*60))%60);
   const seconds=Math.floor((diff/1000)%60);
-  document.getElementById("countdown").innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  document.getElementById("countdown").innerText=`${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 updateCountdown();
 const countdownInterval=setInterval(updateCountdown,1000);
