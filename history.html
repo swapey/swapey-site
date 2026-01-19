@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Swapey DEX 2026 | Direct Swap</title>
+<title>Swapey DEX 2026 | History & About</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 <style>
@@ -21,187 +21,69 @@ body {
   font-weight:bold; font-family:'Luckiest Guy', cursive; text-align:center; z-index:11;
 }
 
-/* Top-right Phantom & History */
-#top-right { position: fixed; top:32px; right:12px; display:flex; align-items:center; gap:10px; z-index:10; }
-#top-right img { width:40px; cursor:pointer; transition: transform 0.2s ease; }
-#top-right img:hover { transform: scale(1.2) rotate(-10deg); }
-#top-right a.btn-history { background: linear-gradient(135deg,#40E0D0,#8F5BFF); color:white; padding:10px 18px; border-radius:16px; text-decoration:none; font-weight:bold; transition:all 0.2s; }
-#top-right a.btn-history:hover { transform: scale(1.1); }
-#top-right small { display:block; font-size:0.65rem; opacity:0.7; }
-
-/* Wallet dashboard */
-#wallet-dashboard { position: fixed; top:80px; right:12px; width:260px; padding:12px; background: rgba(64,224,208,0.1); border-radius:16px; text-align:left; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; font-family:'Luckiest Guy', cursive; font-size:0.9rem; z-index:10; }
-#wallet-status { font-weight:bold; margin-bottom:6px; }
-#wallet-balance { margin-bottom:6px; }
-#wallet-tokens { max-height:280px; overflow-y:auto; }
-
 /* Header */
 header { padding:60px 20px 20px; position:relative; z-index:1; }
 header img { width:520px; max-width:92%; margin-bottom:20px; }
-h1 { font-size:3.4rem; margin:10px 0; }
+h1 { font-size:3rem; margin:10px 0; }
 p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
 
-/* Countdown */
-#event-countdown { font-size:1.5rem; margin:20px 0; color:#40E0D0; font-weight:bold; position:relative; z-index:1; }
+/* Sections */
+.section { margin:40px auto; width:90%; max-width:800px; padding:20px; border-radius:16px; background: rgba(64,224,208,0.15); border:2px solid #40E0D0; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; text-align:left; }
+.section h2 { font-size:1.8rem; margin-bottom:12px; text-align:center; }
+.section ul { padding:0; margin:0; list-style:none; }
+.section li { margin-bottom:8px; font-size:1.1rem; }
 
-/* Swap form */
-.swap-form { margin:40px auto; width:420px; max-width:95%; padding:20px; border-radius:24px; text-align:center; background: linear-gradient(135deg,#2a004f,#4d00a0); box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; position:relative; z-index:1; }
-.swap-form select, .swap-form input { width:calc(100% - 12px); padding:10px; border-radius:12px; border:none; font-size:1rem; font-family:'Luckiest Guy', cursive; text-align:center; margin:6px 0; }
-.swap-form input { color:#000; }
+/* Back button */
+a.btn-back { display:inline-block; margin:20px auto; padding:10px 18px; border-radius:16px; text-decoration:none; font-weight:bold; color:white; background: linear-gradient(135deg,#40E0D0,#8F5BFF); transition: all 0.2s; }
+a.btn-back:hover { transform: scale(1.05); }
 
-/* Swapey button */
-#swapey-button { background:none; border:none; cursor:pointer; display:block; margin:20px auto; text-align:center; font-family:'Luckiest Guy', cursive; font-size:2.8rem; color:#ffffff; text-shadow:0 0 8px #40E0D0,0 0 16px #8F5BFF; transition: all 0.3s ease; }
-#swapey-button:hover { transform: scale(1.1) rotate(-2deg); text-shadow:0 0 12px #40E0D0,0 0 24px #8F5BFF; }
-
-/* Confirmation */
-#confirm { position:fixed; top:60px; left:50%; transform:translateX(-50%); background: linear-gradient(135deg,#40E0D0,#8F5BFF); padding:16px 32px; border-radius:16px; font-weight:bold; color:black; font-size:1.2rem; display:none; box-shadow:0 0 25px #40E0D0,0 0 50px #8F5BFF; animation: flash 0.5s ease-in-out; }
-@keyframes flash { 0% { transform: translateX(-50%) scale(0.8); opacity:0; } 50% { transform: translateX(-50%) scale(1.1); opacity:1; } 100% { transform: translateX(-50%) scale(1); opacity:1; } }
-
-/* Announcement box */
-.announcement-box { margin:40px auto; width:90%; max-width:720px; padding:16px 24px; border-radius:16px; background: rgba(64,224,208,0.15); border:2px solid #40E0D0; text-align:left; color:white; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; position:relative; z-index:1; }
-.announcement-box h2 { text-align:center; font-size:1.6rem; margin-bottom:12px; }
-.announcement-box ul { list-style:none; padding:0; margin:0; max-height:150px; overflow-y:auto; }
-.announcement-box li { margin-bottom:6px; font-size:1rem; }
-
+/* Footer */
 footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; position:relative; z-index:1; }
+
 </style>
 </head>
 <body>
 
 <div id="ticker">Loading crypto prices...</div>
 
-<div id="top-right">
-  <img src="phantom-logo.png" onclick="connectPhantom()" alt="Phantom"/>
-  <a href="history.html" class="btn-history">History</a>
-  <small>Polygon Network only</small>
-</div>
-
-<div id="wallet-dashboard">
-  <div id="wallet-status">Not connected</div>
-  <div id="wallet-balance"></div>
-  <div id="wallet-tokens"></div>
-</div>
-
 <header>
   <img src="swapey-logo.png" alt="Swapey Logo"/>
-  <h1>Swapey DEX 2026</h1>
-  <p>Swap hundreds of tokens instantly on Polygon using Swapey interface.</p>
+  <h1>About Swapey</h1>
+  <p>Swapey DEX aims to give young crypto enthusiasts more freedom and fun while trading. Our goal is to make crypto accessible, low-cost, and engaging with events and experiences worldwide.</p>
 </header>
 
-<div id="event-countdown">
-  Announcement in: <span id="countdown">Loading...</span>
+<div class="section">
+  <h2>Swapey Token</h2>
+  <p>A dedicated Swapey token will be created and listed on multiple platforms. It will allow users to enjoy low fees, participate in events, and connect with the Swapey community globally.</p>
 </div>
 
-<div class="swap-form">
-  <select id="token-from"></select>
-  <input type="number" id="amount" placeholder="Enter amount"/>
-  <select id="token-to"></select>
-  <button id="swapey-button" onclick="swapTokens()">Swapey</button>
-</div>
-
-<div id="confirm">✅ Swap Successful!</div>
-
-<div class="announcement-box">
-  <h2>Live Crypto News</h2>
-  <ul id="crypto-news">
-    <li>BTC surged 5% in the last hour!</li>
-    <li>ETH staking rewards increase announced</li>
-    <li>Polygon network upgrade soon</li>
-    <li>New token listing on Swapey DEX!</li>
+<div class="section">
+  <h2>Our Mission</h2>
+  <ul>
+    <li>Provide a simple and fun way for beginners to enter crypto.</li>
+    <li>Offer low trading fees compared to traditional platforms.</li>
+    <li>Organize interactive events around the world to connect users.</li>
+    <li>Bring a playful, gaming-style experience to crypto, away from the overly serious image of Bitcoin or Ethereum.</li>
   </ul>
 </div>
+
+<div class="section">
+  <h2>Upcoming Events</h2>
+  <ul>
+    <li>January 26, 2026 - Live Announcement Event</li>
+    <li>March 2026 - Polygon Meetup in Europe</li>
+    <li>June 2026 - Swapey Gaming & Crypto Festival</li>
+    <li>September 2026 - Global Swapey Hackathon</li>
+  </ul>
+</div>
+
+<a href="index.html" class="btn-back">← Back to Swapey DEX</a>
 
 <footer>
   Swapey is decentralized. Use at your own risk.
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
-<script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@solana/spl-token-registry@0.2.10/dist/index.iife.js"></script>
 <script>
-// ----- Polygon 100 tokens placeholder -----
-const polygonTokens=[
-  {symbol:"MATIC",addr:"0x0000000000000000000000000000000000001010"},
-  {symbol:"USDC",addr:"0x2791bca1f2de4661ed88a30c99a7a9449aa84174"},
-  {symbol:"USDT",addr:"0xc2132d05d31c914a87c6611c10748aeb04b58e8f"},
-  {symbol:"DAI",addr:"0x8f3cf7ad23cd3cadbd9735aff958023239c6a063"},
-  {symbol:"WETH",addr:"0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"},
-  {symbol:"WBTC",addr:"0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6"}
-  // compléter jusqu'à 100
-];
-
-let provider, signer;
-
-// Populate selects
-function populateTokenSelects(){
-  const fromSelect=document.getElementById("token-from");
-  const toSelect=document.getElementById("token-to");
-  fromSelect.innerHTML=""; toSelect.innerHTML="";
-  polygonTokens.forEach(t=>{
-    fromSelect.innerHTML+=`<option value="${t.addr}">${t.symbol}</option>`;
-    toSelect.innerHTML+=`<option value="${t.addr}">${t.symbol}</option>`;
-  });
-}
-populateTokenSelects();
-
-// Phantom Wallet
-async function connectPhantom(){
-  if(window.solana && window.solana.isPhantom){
-    const resp=await window.solana.connect();
-    const pubKey=resp.publicKey;
-    document.getElementById("wallet-status").innerText="Phantom: "+pubKey.toString().slice(0,4)+"…"+pubKey.toString().slice(-4);
-
-    const connection=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
-    const solBalance=await connection.getBalance(pubKey);
-    document.getElementById("wallet-balance").innerText="SOL: "+(solBalance/1e9).toFixed(4);
-
-    // SPL tokens
-    const tokenList = await new TokenListProvider().resolve();
-    const tokenMap = tokenList.filter(t=>t.chainId===101);
-    const walletTokensDiv=document.getElementById("wallet-tokens");
-    walletTokensDiv.innerHTML="<ul>";
-    for(const token of tokenMap){
-      try{
-        const tokenPubKey = new solanaWeb3.PublicKey(token.address);
-        const tokenAccounts = await connection.getTokenAccountsByOwner(pubKey,{mint:tokenPubKey});
-        let balance = 0;
-        if(tokenAccounts.value.length>0){
-          const accountInfo = await connection.getParsedAccountInfo(tokenAccounts.value[0].pubkey);
-          balance = accountInfo.value.data.parsed.info.tokenAmount.uiAmount || 0;
-        }
-        walletTokensDiv.innerHTML+=`<li>${token.symbol}: ${balance}</li>`;
-      } catch(e){ console.error(token.symbol,e); }
-    }
-    walletTokensDiv.innerHTML+="</ul>";
-
-    populateTokenSelects();
-  } else alert("Phantom not detected");
-}
-
-// Countdown
-const eventDate=new Date("2026-01-26T20:00:00");
-function updateCountdown(){
-  const now=new Date();
-  const diff=eventDate-now;
-  if(diff<=0){ document.getElementById("countdown").innerText="The announcement is live! 🎉"; clearInterval(countdownInterval); return; }
-  const days=Math.floor(diff/(1000*60*60*24));
-  const hours=Math.floor((diff/(1000*60*60))%24);
-  const minutes=Math.floor((diff/(1000*60))%60);
-  const seconds=Math.floor((diff/1000)%60);
-  document.getElementById("countdown").innerText=`${days}d ${hours}h ${minutes}m ${seconds}s`;
-}
-updateCountdown();
-const countdownInterval=setInterval(updateCountdown,1000);
-
-// Swapey Swap (placeholder)
-async function swapTokens(){
-  const amount=document.getElementById("amount").value;
-  if(!amount||amount<=0){ alert("Enter a valid amount"); return; }
-  const confirm=document.getElementById("confirm");
-  confirm.style.display="block";
-  setTimeout(()=>{confirm.style.display="none";},3500);
-}
-
 // Ticker
 async function updateTicker(){
   const resp=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd");
@@ -212,5 +94,6 @@ async function updateTicker(){
 updateTicker();
 setInterval(updateTicker,10000);
 </script>
+
 </body>
 </html>
