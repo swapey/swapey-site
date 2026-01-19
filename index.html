@@ -5,7 +5,6 @@
 <title>Swapey DEX | Direct Swap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
-
 <style>
 body {
   margin:0;
@@ -14,8 +13,6 @@ body {
   color:white;
   text-align:center;
 }
-
-/* --- Top buttons --- */
 #top-right {
   position: fixed;
   top:12px;
@@ -25,32 +22,21 @@ body {
   gap:10px;
   z-index:10;
 }
-#top-right img {
-  width:40px;
-  cursor:pointer;
-  transition: transform 0.2s ease;
-}
+#top-right img { width:40px; cursor:pointer; transition: transform 0.2s ease; }
 #top-right img:hover { transform: scale(1.2) rotate(-10deg); }
 #top-right a.btn-history {
   background: linear-gradient(135deg,#40E0D0,#8F5BFF);
-  color:white;
-  padding:10px 18px;
-  border-radius:16px;
-  text-decoration:none;
-  font-weight:bold;
-  transition:all 0.2s;
+  color:white; padding:10px 18px; border-radius:16px; text-decoration:none; font-weight:bold; transition:all 0.2s;
 }
 #top-right a.btn-history:hover { transform: scale(1.1); }
 #top-right small { display:block; font-size:0.65rem; opacity:0.7; }
-
-/* --- Wallet dashboard --- */
 #wallet-dashboard {
   position: fixed;
   top:70px;
   right:12px;
-  width:220px;
+  width:240px;
   padding:12px;
-  background: rgba(64,224,208,0.15);
+  background: rgba(64,224,208,0.1);
   border-radius:16px;
   text-align:left;
   box-shadow: 0 0 20px #40E0D0,0 0 40px #8F5BFF;
@@ -60,100 +46,42 @@ body {
 }
 #wallet-status { font-weight:bold; margin-bottom:6px; }
 #wallet-balance { margin-bottom:6px; }
-#wallet-tokens { max-height:200px; overflow-y:auto; }
-
-/* --- Header --- */
+#wallet-tokens { max-height:280px; overflow-y:auto; }
 header { padding:60px 20px 20px; }
 header img { width:520px; max-width:92%; margin-bottom:20px; }
 h1 { font-size:3.4rem; margin:10px 0; }
 p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
-
-/* --- Countdown --- */
 #event-countdown { font-size:1.5rem; margin:20px 0; color:#40E0D0; font-weight:bold; }
-
-/* --- Swap form --- */
-.swap-form {
-  margin:40px auto;
-  width:420px;
-  max-width:95%;
-  padding:20px;
-  border-radius:24px;
-  background: rgba(0,0,0,0.25);
-  box-shadow:0 0 40px rgba(64,224,208,0.5),0 0 40px rgba(143,91,255,0.5);
-  text-align:left;
+.swap-form { margin:40px auto; width:420px; max-width:95%; padding:20px; border-radius:24px; text-align:center; }
+.swap-form input { width:100%; padding:10px; border-radius:12px; border:none; font-size:1rem; font-family:'Luckiest Guy', cursive; color:#000; background:#fff; text-align:center; }
+.swap-form input::placeholder { color:gold; font-weight:bold; }
+#swapey-button {
+  background:none; border:none; cursor:pointer; display:block; margin:20px auto; text-align:center;
+  font-family:'Luckiest Guy', cursive; font-size:2.8rem; color:#ffffff;
+  text-shadow: 0 0 8px #40E0D0,0 0 16px #8F5BFF; transition: all 0.3s ease;
 }
-.swap-form label { display:block; margin:10px 0 5px; }
-.swap-form input, .swap-form select {
-  width:100%; padding:8px; border-radius:12px; border:none; font-size:1rem;
-  font-family:'Luckiest Guy', cursive;
-  color:#fff;
-  background: linear-gradient(135deg,#3DD9D9,#8F5BFF);
-  text-shadow: 1px1px 2px #000;
-}
-.swap-form select option { color:#000; background:#fff; }
-
-/* --- Swap button --- */
-.btn-cartoon {
-  background: linear-gradient(135deg, #40E0D0, #8F5BFF);
-  border: 4px solid #fff;
-  color: #fff;
-  font-weight: bold;
-  font-size: 1.2rem;
-  padding: 18px 36px;
-  margin: 12px 0;
-  border-radius: 24px;
-  cursor: pointer;
-  text-transform: uppercase;
-  box-shadow: 0 0 12px #40E0D0, 0 0 24px #8F5BFF, 0 0 36px #40E0D0;
-  transition: all 0.3s ease-in-out;
-}
-.btn-cartoon:hover { transform: scale(1.15) rotate(-2deg); box-shadow:0 0 24px #40E0D0,0 0 48px #8F5BFF,0 0 72px #40E0D0; }
-.btn-cartoon:active { transform: scale(0.95) rotate(1deg); box-shadow:0 0 10px #40E0D0,0 0 20px #8F5BFF,0 0 30px #40E0D0; }
-
-/* --- Popup confirmation --- */
-#confirm {
-  position:fixed;
-  top:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background: linear-gradient(135deg, #40E0D0, #8F5BFF);
-  padding:16px 32px;
-  border-radius:16px;
-  font-weight:bold;
-  color:black;
-  font-size:1.2rem;
-  display:none;
-  box-shadow:0 0 25px #40E0D0,0 0 50px #8F5BFF;
-  animation: flash 0.5s ease-in-out;
-}
+#swapey-button:hover { transform: scale(1.1) rotate(-2deg); text-shadow:0 0 12px #40E0D0,0 0 24px #8F5BFF; }
+#confirm { position:fixed; top:20px; left:50%; transform:translateX(-50%);
+  background: linear-gradient(135deg, #40E0D0, #8F5BFF); padding:16px 32px; border-radius:16px;
+  font-weight:bold; color:black; font-size:1.2rem; display:none; box-shadow:0 0 25px #40E0D0,0 0 50px #8F5BFF;
+  animation: flash 0.5s ease-in-out; }
 @keyframes flash { 0% { transform: translateX(-50%) scale(0.8); opacity:0; } 50% { transform: translateX(-50%) scale(1.1); opacity:1; } 100% { transform: translateX(-50%) scale(1); opacity:1; } }
-
-/* --- Crypto News Box --- */
 .announcement-box {
-  margin:40px auto;
-  width:90%;
-  max-width:720px;
-  padding:16px 24px;
-  border-radius:16px;
-  background: rgba(64,224,208,0.15);
-  border:2px solid #40E0D0;
-  text-align:left;
-  color:white;
+  margin:40px auto; width:90%; max-width:720px; padding:16px 24px; border-radius:16px;
+  background: rgba(64,224,208,0.15); border:2px solid #40E0D0; text-align:left; color:white;
   box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
 }
 .announcement-box h2 { text-align:center; font-size:1.6rem; margin-bottom:12px; }
 .announcement-box ul { list-style:none; padding:0; margin:0; max-height:150px; overflow-y:auto; }
 .announcement-box li { margin-bottom:6px; font-size:1rem; }
-
-/* --- Footer --- */
 footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 </style>
 </head>
 <body>
 
 <div id="top-right">
-  <img src="metamask-fox.png" onclick="connectMetaMask()" alt="MetaMask" />
-  <img src="phantom-logo.png" onclick="connectPhantom()" alt="Phantom" />
+  <img src="metamask-fox.png" onclick="connectMetaMask()" alt="MetaMask"/>
+  <img src="phantom-logo.png" onclick="connectPhantom()" alt="Phantom"/>
   <a href="history.html" class="btn-history">History</a>
   <small>Polygon Network only</small>
 </div>
@@ -165,7 +93,7 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 </div>
 
 <header>
-  <img src="swapey-logo.png" alt="Swapey Logo" />
+  <img src="swapey-logo.png" alt="Swapey Logo"/>
   <h1>Swapey DEX</h1>
   <p>Swap hundreds of tokens instantly on Polygon using Swapey interface.</p>
 </header>
@@ -175,29 +103,8 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 </div>
 
 <div class="swap-form">
-  <label>From Token:</label>
-  <select id="tokenA">
-    <!-- Top 50 Polygon tokens simplified example -->
-    <option value="0x0000000000000000000000000000000000001010">MATIC</option>
-    <option value="0x2791bca1f2de4661ed88a30c99a7a9449aa84174">USDC</option>
-    <option value="0xc2132d05d31c914a87c6611c10748aeb04b58e8f">USDT</option>
-    <option value="0x8f3cf7ad23cd3cadbd9735aff958023239c6a063">DAI</option>
-    <option value="0x7ceb23fd6bc0add59e62ac25578270cff1b9f619">WETH</option>
-    <!-- ajoute les autres tokens ici -->
-  </select>
-
-  <label>To Token:</label>
-  <select id="tokenB">
-    <option value="0x2791bca1f2de4661ed88a30c99a7a9449aa84174">USDC</option>
-    <option value="0x8f3cf7ad23cd3cadbd9735aff958023239c6a063">DAI</option>
-    <option value="0x0000000000000000000000000000000000001010">MATIC</option>
-    <option value="0x7ceb23fd6bc0add59e62ac25578270cff1b9f619">WETH</option>
-  </select>
-
-  <label>Amount:</label>
-  <input type="number" id="amount" placeholder="Enter amount" />
-  <button class="btn-cartoon" onclick="swapTokens()">Swap</button>
-  <div id="status" class="status"></div>
+  <input type="number" id="amount" placeholder="Enter amount"/>
+  <button id="swapey-button" onclick="swapTokens()">Swapey</button>
 </div>
 
 <div id="confirm">✅ Swap Successful!</div>
@@ -218,8 +125,44 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 
 <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 <script>
-// Wallet
+// Top 50 tokens Polygon (symbol + ERC20 address)
+const polygonTokens = [
+  {symbol:"MATIC", addr:"0x0000000000000000000000000000000000001010"},
+  {symbol:"USDC", addr:"0x2791bca1f2de4661ed88a30c99a7a9449aa84174"},
+  {symbol:"USDT", addr:"0xc2132d05d31c914a87c6611c10748aeb04b58e8f"},
+  {symbol:"DAI",  addr:"0x8f3cf7ad23cd3cadbd9735aff958023239c6a063"},
+  {symbol:"WETH", addr:"0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"},
+  {symbol:"WBTC", addr:"0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6"},
+  {symbol:"AAVE", addr:"0xd6df932a45c0f255f85145f286ea0b292b21c90b"},
+  {symbol:"LINK", addr:"0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39"},
+  {symbol:"SUSHI", addr:"0x0b3f868e0be5597d5db7feb59e1cadbb0fdda50a"},
+  {symbol:"UNI", addr:"0xb33eaad8d922b1083446dc23f610c2567fb5180f"},
+  // complétez jusqu'à 50 tokens
+];
+
 let provider, signer;
+
+async function updateTokenBalances(address){
+  const walletTokensDiv = document.getElementById("wallet-tokens");
+  walletTokensDiv.innerHTML = "<ul>";
+  for(const token of polygonTokens){
+    try{
+      let balance="0";
+      if(token.symbol==="MATIC"){
+        const bal = await provider.getBalance(address);
+        balance = ethers.utils.formatEther(bal);
+      } else {
+        const contract = new ethers.Contract(token.addr, ["function balanceOf(address) view returns (uint256)","function decimals() view returns (uint8)"], provider);
+        const decimals = await contract.decimals();
+        const bal = await contract.balanceOf(address);
+        balance = ethers.utils.formatUnits(bal,decimals);
+      }
+      walletTokensDiv.innerHTML+=`<li>${token.symbol}: ${parseFloat(balance).toFixed(4)}</li>`;
+    } catch(e){ console.error(token.symbol,e); }
+  }
+  walletTokensDiv.innerHTML+="</ul>";
+}
+
 async function connectMetaMask(){
   if(window.ethereum){
     provider=new ethers.providers.Web3Provider(window.ethereum);
@@ -229,18 +172,10 @@ async function connectMetaMask(){
     document.getElementById("wallet-status").innerText="MetaMask: "+address.slice(0,6)+"…"+address.slice(-4);
     const balance=await provider.getBalance(address);
     document.getElementById("wallet-balance").innerText="MATIC: "+ethers.utils.formatEther(balance);
-    // Token balances example
-    const tokens=[{symbol:"USDC", addr:"0x2791bca1f2de4661ed88a30c99a7a9449aa84174"}];
-    let html="<ul>";
-    for(const t of tokens){
-      const tokenContract=new ethers.Contract(t.addr,["function balanceOf(address) view returns (uint256)"],provider);
-      const bal=await tokenContract.balanceOf(address);
-      html+=`<li>${t.symbol}: ${ethers.utils.formatUnits(bal,18)}</li>`;
-    }
-    html+="</ul>";
-    document.getElementById("wallet-tokens").innerHTML=html;
+    await updateTokenBalances(address);
   } else alert("MetaMask not detected");
 }
+
 async function connectPhantom(){
   if(window.solana && window.solana.isPhantom){
     const resp=await window.solana.connect();
@@ -248,32 +183,8 @@ async function connectPhantom(){
     document.getElementById("wallet-status").innerText="Phantom: "+publicKey.slice(0,4)+"…"+publicKey.slice(-4);
     const solBalance=await window.solana.request({method:"getBalance"});
     document.getElementById("wallet-balance").innerText="SOL: "+(solBalance/1e9).toFixed(4);
-    document.getElementById("wallet-tokens").innerHTML="<small>Tokens SPL will appear here</small>";
+    document.getElementById("wallet-tokens").innerHTML="<small>SPL tokens will appear here</small>";
   } else alert("Phantom not detected");
-}
-
-// Swap (QuickSwap example)
-async function swapTokens(){
-  if(!signer){ alert("Connect wallet first"); return; }
-  const tokenA=document.getElementById("tokenA").value;
-  const tokenB=document.getElementById("tokenB").value;
-  const amount=document.getElementById("amount").value;
-  if(!amount||amount<=0){ alert("Enter a valid amount"); return; }
-  const routerAddress="0xa5E0829CaCED8fFdd4De3c43696c57F7D7A678ff";
-  const routerABI=["function swapExactTokensForTokens(uint amountIn,uint amountOutMin,address[] calldata path,address to,uint deadline) external returns (uint[] memory amounts)"];
-  const router=new ethers.Contract(routerAddress,routerABI,signer);
-  try{
-    const path=[tokenA,tokenB];
-    const to=await signer.getAddress();
-    const deadline=Math.floor(Date.now()/1000)+60*20;
-    const tx=await router.swapExactTokensForTokens(ethers.utils.parseUnits(amount,18),0,path,to,deadline);
-    document.getElementById("status").innerText="Transaction sent: "+tx.hash;
-    await tx.wait();
-    const confirm=document.getElementById("confirm");
-    confirm.style.display="block";
-    setTimeout(()=>{confirm.style.display="none";},3500);
-    document.getElementById("status").innerText="Swap successful: "+tx.hash;
-  } catch(e){ console.error(e); document.getElementById("status").innerText="Swap failed: "+e.message; }
 }
 
 // Countdown
@@ -290,7 +201,17 @@ function updateCountdown(){
 }
 updateCountdown();
 const countdownInterval=setInterval(updateCountdown,1000);
-</script>
 
+// Swapey placeholder
+async function swapTokens(){
+  if(!signer){ alert("Connect wallet first"); return; }
+  const amount=document.getElementById("amount").value;
+  if(!amount||amount<=0){ alert("Enter a valid amount"); return; }
+  const confirm=document.getElementById("confirm");
+  confirm.style.display="block";
+  setTimeout(()=>{confirm.style.display="none";},3500);
+}
+</script>
 </body>
 </html>
+
