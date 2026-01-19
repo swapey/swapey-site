@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Swapey DEX | Direct Swap</title>
@@ -115,7 +115,7 @@ footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
 </header>
 
 <div id="event-countdown">
-  Événement dans : <span id="countdown">Chargement...</span>
+  Announcement in: <span id="countdown">Loading...</span>
 </div>
 
 <div class="warning">⚠️ Polygon Network only</div>
@@ -128,7 +128,7 @@ footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
 <div class="swap-form">
   <label>From Token:</label>
   <select id="tokenA">
-    <!-- 50 tokens populaires Polygon inclus -->
+    <!-- ~50 tokens populaires Polygon inclus -->
     <option value="0x0000000000000000000000000000000000001010">MATIC</option>
     <option value="0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174">USDC</option>
     <option value="0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063">DAI</option>
@@ -137,28 +137,17 @@ footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
     <option value="0x831753DD7087CaC61aB5644b308642cc1c33Dc13">QUICK</option>
     <option value="0xdAC17F958D2ee523a2206206994597C13D831ec7">USDT</option>
     <option value="0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270">WMATIC</option>
-    <option value="0x3a9fE7886cCb8102bbF7b815Aea46C56b5f0fEa5">AAVE</option>
-    <option value="0x5947BB275c521040051D82396192181b413227A3">LINK</option>
-    <option value="0x853d955aCEf822Db058eb8505911ED77F175b99e">FRAX</option>
-    <option value="0xa1d65E8fB6e87b60FECCBcE0bdAfc0f632dbD58B">FOX</option>
-    <option value="0x172370d5Cd63279eFa6d502DAB29171933a610AF">CRV</option>
-    <option value="0x1F35F5d78C84a92c67cf2af2ce77DdA281F8e5e8">BAL</option>
-    <option value="0x1BD38C1BB2D6378f16C0CE1cBb058aD81e95d3c9">SUSHI</option>
-    <option value="0x9B71dbF9448B2f26fC96875AC0cC741e9BBaB75B">MANA</option>
-    <option value="0x9A494523A474c7C1f9079fAb5F12C3c2F42D91B9">CHZ</option>
-    <!-- Ajoute le reste ici comme souhaité -->
+    <!-- Ajoute le reste ici si tu veux -->
   </select>
 
   <label>To Token:</label>
   <select id="tokenB">
-    <!-- Même options que tokenA -->
     <option value="0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174">USDC</option>
     <option value="0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063">DAI</option>
     <option value="0x0000000000000000000000000000000000001010">MATIC</option>
     <option value="0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619">WETH</option>
     <option value="0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6">WBTC</option>
     <option value="0x831753DD7087CaC61aB5644b308642cc1c33Dc13">QUICK</option>
-    <!-- Ajoute le reste ici -->
   </select>
 
   <label>Amount:</label>
@@ -230,7 +219,7 @@ function updateCountdown(){
   const now = new Date();
   const diff = eventDate - now;
   if(diff<=0){
-    document.getElementById("countdown").innerText = "L'événement a commencé ! 🎉";
+    document.getElementById("countdown").innerText = "The announcement is live! 🎉";
     clearInterval(countdownInterval);
     return;
   }
@@ -238,7 +227,7 @@ function updateCountdown(){
   const hours=Math.floor((diff/(1000*60*60))%24);
   const minutes=Math.floor((diff/(1000*60))%60);
   const seconds=Math.floor((diff/1000)%60);
-  document.getElementById("countdown").innerText = `${days}j ${hours}h ${minutes}m ${seconds}s`;
+  document.getElementById("countdown").innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 updateCountdown();
 const countdownInterval=setInterval(updateCountdown,1000);
@@ -247,6 +236,3 @@ const countdownInterval=setInterval(updateCountdown,1000);
 </body>
 </html>
 
-
-</body>
-</html>
