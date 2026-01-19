@@ -34,9 +34,9 @@ p { opacity: 0.85; max-width: 720px; margin: auto; }
 
 #wallet { margin: 30px auto; }
 
-/* Boutons style dessin animé */
+/* Boutons style dessin animé avec dégradé turquoise → violet */
 .btn-cartoon {
-  background: linear-gradient(135deg, #ff5aff, #ffb347);
+  background: linear-gradient(135deg, #40E0D0, #8F5BFF);
   border: 4px solid #fff;
   color: #fff;
   font-weight: bold;
@@ -46,16 +46,16 @@ p { opacity: 0.85; max-width: 720px; margin: auto; }
   border-radius: 24px;
   cursor: pointer;
   text-transform: uppercase;
-  box-shadow: 0 0 12px #ff5aff, 0 0 24px #ffb347, 0 0 36px #ff5aff;
+  box-shadow: 0 0 12px #40E0D0, 0 0 24px #8F5BFF, 0 0 36px #40E0D0;
   transition: all 0.3s ease-in-out;
 }
 .btn-cartoon:hover {
   transform: scale(1.15) rotate(-2deg);
-  box-shadow: 0 0 24px #ff5aff, 0 0 48px #ffb347, 0 0 72px #ff5aff;
+  box-shadow: 0 0 24px #40E0D0, 0 0 48px #8F5BFF, 0 0 72px #40E0D0;
 }
 .btn-cartoon:active {
   transform: scale(0.95) rotate(1deg);
-  box-shadow: 0 0 10px #ff5aff, 0 0 20px #ffb347, 0 0 30px #ff5aff;
+  box-shadow: 0 0 10px #40E0D0, 0 0 20px #8F5BFF, 0 0 30px #40E0D0;
 }
 
 /* Swap form */
@@ -66,7 +66,7 @@ p { opacity: 0.85; max-width: 720px; margin: auto; }
   padding: 20px;
   border-radius: 24px;
   background: rgba(0,0,0,0.25);
-  box-shadow: 0 0 40px rgba(255,123,0,0.5);
+  box-shadow: 0 0 40px rgba(64,224,208,0.5), 0 0 40px rgba(143,91,255,0.5);
   text-align: left;
 }
 .swap-form label { display: block; margin: 10px 0 5px; }
@@ -80,14 +80,14 @@ p { opacity: 0.85; max-width: 720px; margin: auto; }
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #ff7b00, #ffb347);
+  background: linear-gradient(135deg, #40E0D0, #8F5BFF);
   padding: 16px 32px;
   border-radius: 16px;
   font-weight: bold;
   color: black;
   font-size: 1.2rem;
   display: none;
-  box-shadow: 0 0 25px #ffb347, 0 0 50px #ff7b00;
+  box-shadow: 0 0 25px #40E0D0, 0 0 50px #8F5BFF;
   animation: flash 0.5s ease-in-out;
 }
 
@@ -99,7 +99,7 @@ p { opacity: 0.85; max-width: 720px; margin: auto; }
 }
 
 /* Countdown */
-#event-countdown { font-size:1.5rem; margin:20px 0; color:#ffb347; font-weight:bold; }
+#event-countdown { font-size:1.5rem; margin:20px 0; color:#40E0D0; font-weight:bold; }
 
 /* Footer */
 footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
@@ -128,7 +128,6 @@ footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
 <div class="swap-form">
   <label>From Token:</label>
   <select id="tokenA">
-    <!-- ~50 tokens populaires Polygon inclus -->
     <option value="0x0000000000000000000000000000000000001010">MATIC</option>
     <option value="0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174">USDC</option>
     <option value="0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063">DAI</option>
