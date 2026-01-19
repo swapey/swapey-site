@@ -57,16 +57,29 @@
       margin: 30px auto;
     }
 
-    button {
-      background: linear-gradient(135deg, #ffb347, #ff7b00);
-      border: none;
-      color: black;
-      padding: 14px 28px;
+    .btn-gaming {
+      background: linear-gradient(135deg, #ff7b00, #ffb347);
+      border: 2px solid #fff;
+      color: #fff;
+      font-weight: bold;
       font-size: 1.1rem;
-      border-radius: 14px;
+      padding: 16px 32px;
+      margin: 10px;
+      border-radius: 16px;
       cursor: pointer;
-      margin: 8px;
-      box-shadow: 0 0 25px rgba(255,123,0,0.6);
+      text-transform: uppercase;
+      box-shadow: 0 0 10px #ff7b00, 0 0 20px #ffb347, 0 0 30px #ff7b00;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .btn-gaming:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #ff7b00, 0 0 40px #ffb347, 0 0 60px #ff7b00;
+    }
+
+    .btn-gaming:active {
+      transform: scale(0.95);
+      box-shadow: 0 0 5px #ff7b00, 0 0 10px #ffb347, 0 0 15px #ff7b00;
     }
 
     .wallet-options {
@@ -117,8 +130,8 @@
 </div>
 
 <div class="wallet">
-  <button onclick="connectWallet()">Connect MetaMask</button>
-  <button onclick="phantomRedirect()">Connect Phantom</button>
+  <button class="btn-gaming" onclick="connectWallet()">Connect MetaMask</button>
+  <button class="btn-gaming" onclick="phantomRedirect()">Connect Phantom</button>
 
   <div class="wallet-options">
     MetaMask • Phantom (WalletConnect coming soon)
