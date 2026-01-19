@@ -1,53 +1,117 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Swapey DEX</title>
+  <title>Swapey DEX | Swap Tokens on Polygon</title>
+
+  <meta name="description" content="Swapey DEX allows you to swap hundreds of tokens on Polygon easily using decentralized liquidity." />
+  <meta name="keywords" content="Swapey, DEX, Polygon, Swap crypto, DeFi, QuickSwap" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     body {
       margin: 0;
-      background: radial-gradient(circle at top, #7b3cff, #1a0033);
-      font-family: 'Comic Sans MS', Arial, sans-serif;
+      background: radial-gradient(circle at top, #8f5bff, #16002d);
+      font-family: 'Comic Sans MS', 'Trebuchet MS', Arial, sans-serif;
       color: white;
       text-align: center;
     }
+
     header {
-      padding: 50px 20px;
+      padding: 60px 20px 30px;
     }
+
     img {
-      width: 480px;
-      max-width: 90%;
+      width: 520px;
+      max-width: 92%;
+      margin-bottom: 20px;
     }
+
     h1 {
-      font-size: 3.2rem;
-      margin: 20px 0 10px;
+      font-size: 3.4rem;
+      margin: 10px 0;
     }
+
     p {
       opacity: 0.85;
+      max-width: 720px;
+      margin: auto;
     }
+
+    .warning {
+      background: rgba(255, 165, 0, 0.15);
+      border: 1px solid orange;
+      padding: 12px;
+      border-radius: 12px;
+      margin: 30px auto;
+      width: fit-content;
+    }
+
+    .wallet {
+      margin: 30px auto;
+    }
+
+    button {
+      background: linear-gradient(135deg, #ffb347, #ff7b00);
+      border: none;
+      color: black;
+      padding: 14px 28px;
+      font-size: 1.1rem;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(255,123,0,0.6);
+    }
+
+    .wallet-options {
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    .address {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      opacity: 0.8;
+      word-break: break-all;
+    }
+
     .swap {
       margin: 40px auto;
-      width: 420px;
+      width: 430px;
       max-width: 95%;
-      border-radius: 22px;
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 0 50px rgba(0,0,0,0.6);
+      box-shadow: 0 0 60px rgba(0,0,0,0.6);
     }
+
     footer {
       margin: 40px 0;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       opacity: 0.6;
     }
   </style>
 </head>
+
 <body>
 
 <header>
-  <img src="swapey-logo.png" alt="Swapey Logo">
+  <img src="swapey-logo.png" alt="Swapey Logo" />
   <h1>Swapey DEX</h1>
-  <p>Fast swaps on Polygon</p>
+  <p>Swap hundreds of tokens instantly on Polygon using decentralized liquidity.</p>
 </header>
+
+<div class="warning">
+  ⚠️ This DEX works on <strong>Polygon Network</strong> only
+</div>
+
+<div class="wallet">
+  <button onclick="connectWallet()">Connect Wallet</button>
+
+  <div class="wallet-options">
+    MetaMask • Phantom (via WalletConnect soon)
+  </div>
+
+  <div id="address" class="address"></div>
+</div>
 
 <div class="swap">
   <iframe
@@ -59,9 +123,4 @@
 </div>
 
 <footer>
-  Swapey is a decentralized interface. Use at your own risk.
-</footer>
-
-</body>
-</html>
-
+  Swapey is a decentralized interface. Use at your
