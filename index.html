@@ -13,42 +13,32 @@ body{
   font-family:'Luckiest Guy', cursive;
   background:#120022;
   color:white;
-  overflow-x:hidden;
+  text-align:center;
 }
 
 #ticker{
   position:fixed;
-  top:0; left:0;
+  top:0;
   width:100%;
   background:#1a0033;
-  padding:6px;
+  padding:8px 0;
   font-size:0.9rem;
   color:#40E0D0;
-  white-space:nowrap;
-  z-index:20;
-}
-
-header{
-  padding-top:60px;
   text-align:center;
-}
-
-header img{
-  width:320px;
-  max-width:85%;
+  z-index:10;
 }
 
 #top-right{
   position:fixed;
-  top:38px;
+  top:44px;
   right:14px;
   display:flex;
-  gap:12px;
   align-items:center;
-  z-index:21;
+  gap:12px;
+  z-index:11;
 }
 
-.wallet-btn{
+#connect-btn{
   display:flex;
   align-items:center;
   gap:8px;
@@ -60,25 +50,25 @@ header img{
   font-size:0.9rem;
 }
 
-.wallet-btn img{
-  width:24px;
+#connect-btn img{
+  width:22px;
 }
 
-.history-btn{
-  padding:8px 14px;
-  border-radius:14px;
-  border:2px solid #40E0D0;
-  color:#40E0D0;
-  text-decoration:none;
-  font-size:0.85rem;
+header{
+  padding-top:90px;
 }
 
-main{
+header img{
+  width:300px;
+  max-width:85%;
+}
+
+.swap-box{
   max-width:420px;
   margin:40px auto;
   padding:20px;
-  background:linear-gradient(135deg,#2a004f,#4d00a0);
   border-radius:24px;
+  background:linear-gradient(135deg,#2a004f,#4d00a0);
   box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
 }
 
@@ -89,8 +79,8 @@ select,input{
   border-radius:12px;
   border:none;
   font-family:'Luckiest Guy', cursive;
-  text-align:center;
   font-size:1rem;
+  text-align:center;
 }
 
 input{color:black;}
@@ -99,17 +89,23 @@ input{color:black;}
   margin-top:16px;
   background:none;
   border:none;
-  font-size:2.6rem;
-  color:white;
-  text-shadow:0 0 10px #40E0D0,0 0 20px #8F5BFF;
+  font-size:3rem;
   cursor:pointer;
+  color:white;
+  text-shadow:
+    0 0 8px #40E0D0,
+    0 0 16px #8F5BFF;
+  transition:0.3s;
 }
 
 #swapey-btn:hover{
   transform:scale(1.1);
+  text-shadow:
+    0 0 14px #40E0D0,
+    0 0 28px #8F5BFF;
 }
 
-#wallet-box{
+#wallet{
   max-width:420px;
   margin:30px auto;
   padding:16px;
@@ -118,112 +114,91 @@ input{color:black;}
   box-shadow:0 0 20px #40E0D0;
   font-size:0.9rem;
 }
-
-#wallet-tokens{
-  max-height:240px;
-  overflow-y:auto;
-  margin-top:10px;
-}
-
-footer{
-  text-align:center;
-  font-size:0.7rem;
-  opacity:0.6;
-  margin:40px 0;
-}
 </style>
 </head>
 
 <body>
 
-<div id="ticker">Loading prices...</div>
+<div id="ticker">Loading prices…</div>
 
 <div id="top-right">
-  <div class="wallet-btn" onclick="connectPhantom()">
-    <img src="assets/phantom-logo.png">
-    <span id="wallet-btn-text">Connect Wallet</span>
+  <div id="connect-btn" onclick="connectPhantom()">
+    <img src="phantom.png">
+    <span id="wallet-text">Connect Wallet</span>
   </div>
-  <a class="history-btn" href="history.html">History</a>
 </div>
 
 <header>
-  <img src="assets/swapey-logo.png">
-  <h2>Swap hundreds of tokens instantly</h2>
+  <img src="swapey.png">
+  <h2>Fast • Fun • Decentralized</h2>
 </header>
 
-<main>
-  <select id="fromToken"></select>
+<div class="swap-box">
+  <select id="from"></select>
   <input type="number" placeholder="Enter amount">
-  <select id="toToken"></select>
+  <select id="to"></select>
   <button id="swapey-btn" onclick="comingSoon()">Swapey</button>
-</main>
-
-<div id="wallet-box">
-  <div id="wallet-status">Not connected</div>
-  <div id="wallet-balance"></div>
-  <div id="wallet-tokens"></div>
 </div>
 
-<footer>
-  Swapey DEX — Solana only — Powered by Jupiter (soon)
-</footer>
+<div id="wallet">
+  <div id="wallet-status">Not connected</div>
+  <div id="wallet-balance"></div>
+</div>
 
 <script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token-registry@0.2.10/dist/index.iife.js"></script>
 
 <script>
-let wallet;
+const from=document.getElementById("from");
+const to=document.getElementById("to");
+
+async function loadTokens(){
+  const list = await new splTokenRegistry.TokenListProvider().resolve();
+  const tokens = list.filter(t=>t.chainId===101).slice(0,100);
+
+  tokens.forEach(t=>{
+    from.innerHTML+=`<option>${t.symbol}</option>`;
+    to.innerHTML+=`<option>${t.symbol}</option>`;
+  });
+}
+loadTokens();
 
 async function connectPhantom(){
-  if(!window.solana || !window.solana.isPhantom){
+  if(!window.solana?.isPhantom){
     alert("Install Phantom Wallet");
     return;
   }
 
-  const resp = await window.solana.connect();
-  wallet = resp.publicKey.toString();
-  document.getElementById("wallet-btn-text").innerText = wallet.slice(0,4)+"…"+wallet.slice(-4);
-  document.getElementById("wallet-status").innerText = "Connected";
+  const r = await window.solana.connect();
+  const pk = r.publicKey.toString();
 
-  const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
-  const balance = await connection.getBalance(resp.publicKey);
-  document.getElementById("wallet-balance").innerText = "SOL: "+(balance/1e9).toFixed(4);
+  document.getElementById("wallet-text").innerText =
+    pk.slice(0,4)+"…"+pk.slice(-4);
 
-  const tokenList = await new splTokenRegistry.TokenListProvider().resolve();
-  const tokens = tokenList.filter(t=>t.chainId===101).slice(0,100);
+  const conn = new solanaWeb3.Connection(
+    solanaWeb3.clusterApiUrl("mainnet-beta")
+  );
+  const bal = await conn.getBalance(r.publicKey);
 
-  const box=document.getElementById("wallet-tokens");
-  box.innerHTML="";
-
-  for(const t of tokens){
-    box.innerHTML+=`<div>${t.symbol}</div>`;
-  }
-
-  populateSelects(tokens);
-}
-
-function populateSelects(tokens){
-  const f=document.getElementById("fromToken");
-  const t=document.getElementById("toToken");
-  f.innerHTML=""; t.innerHTML="";
-  tokens.forEach(tok=>{
-    f.innerHTML+=`<option>${tok.symbol}</option>`;
-    t.innerHTML+=`<option>${tok.symbol}</option>`;
-  });
+  document.getElementById("wallet-status").innerText="Connected";
+  document.getElementById("wallet-balance").innerText =
+    "SOL: "+(bal/1e9).toFixed(4);
 }
 
 function comingSoon(){
-  alert("Real swaps coming soon — Jupiter integration");
+  alert("Real swap coming soon via Jupiter 🚀");
 }
 
-async function updateTicker(){
-  const r=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd");
+async function ticker(){
+  const r=await fetch(
+    "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd"
+  );
   const d=await r.json();
-  document.getElementById("ticker").innerText=
-  `BTC $${d.bitcoin.usd} | ETH $${d.ethereum.usd} | SOL $${d.solana.usd}`;
+  document.getElementById("ticker").innerText =
+    `BTC $${d.bitcoin.usd} | ETH $${d.ethereum.usd} | SOL $${d.solana.usd}`;
 }
-updateTicker();
-setInterval(updateTicker,10000);
+ticker();
+setInterval(ticker,10000);
 </script>
 
 </body>
