@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Swapey DEX | Direct Swap</title>
+<title>Swapey DEX | Quick Swap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 <style>
@@ -26,12 +26,32 @@ p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
 
 #event-countdown { font-size:1.5rem; margin:20px 0; color:#40E0D0; font-weight:bold; }
 
-.swap-form { margin:40px auto; width:420px; max-width:95%; padding:20px; border-radius:24px; text-align:center; }
-.swap-form select, .swap-form input { width:100%; padding:10px; border-radius:12px; border:none; font-size:1rem; font-family:'Luckiest Guy', cursive; text-align:center; margin:8px 0; }
-.swap-form input { background:#fff; color:#000; }
-.swap-form input::placeholder { color:gold; font-weight:bold; }
+.swap-form { margin:40px auto; text-align:center; }
+.swap-card {
+  background: linear-gradient(135deg,#2a004f,#4d00a0);
+  border-radius: 24px;
+  padding: 20px;
+  width: 380px;
+  max-width:95%;
+  margin:auto;
+  box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
+}
+.swap-header { font-size:1.8rem; font-weight:bold; margin-bottom:12px; color:#40E0D0; text-shadow:0 0 4px #8F5BFF; }
+.swap-row { margin:8px 0; display:flex; gap:8px; }
+.swap-row select, .swap-row input { flex:1; padding:10px; border-radius:12px; border:none; font-family:'Luckiest Guy', cursive; font-size:1rem; text-align:center; }
+.swap-row input { background:#fff; color:#000; }
+.swap-row input::placeholder { color:gold; font-weight:bold; }
 
-#swapey-button { background:none; border:none; cursor:pointer; display:block; margin:20px auto; text-align:center; font-family:'Luckiest Guy', cursive; font-size:2.8rem; color:#ffffff; text-shadow:0 0 8px #40E0D0,0 0 16px #8F5BFF; transition: all 0.3s ease; }
+#swapey-button {
+  margin-top:12px;
+  background:none;
+  border:none;
+  font-size:2.4rem;
+  color:white;
+  text-shadow:0 0 8px #40E0D0,0 0 16px #8F5BFF;
+  cursor:pointer;
+  transition: all 0.3s ease;
+}
 #swapey-button:hover { transform: scale(1.1) rotate(-2deg); text-shadow:0 0 12px #40E0D0,0 0 24px #8F5BFF; }
 
 #confirm { position:fixed; top:20px; left:50%; transform:translateX(-50%); background: linear-gradient(135deg,#40E0D0,#8F5BFF); padding:16px 32px; border-radius:16px; font-weight:bold; color:black; font-size:1.2rem; display:none; box-shadow:0 0 25px #40E0D0,0 0 50px #8F5BFF; animation: flash 0.5s ease-in-out; }
@@ -71,10 +91,17 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 </div>
 
 <div class="swap-form">
-  <select id="token-from"></select>
-  <input type="number" id="amount" placeholder="Enter amount"/>
-  <select id="token-to"></select>
-  <button id="swapey-button" onclick="swapTokens()">Swapey</button>
+  <div class="swap-card">
+    <div class="swap-header">Swap Tokens</div>
+    <div class="swap-row">
+      <select id="token-from"></select>
+      <input type="number" id="amount" placeholder="Enter amount"/>
+    </div>
+    <div class="swap-row">
+      <select id="token-to"></select>
+    </div>
+    <button id="swapey-button" onclick="swapTokens()">Swapey</button>
+  </div>
 </div>
 
 <div id="confirm">✅ Swap Successful!</div>
@@ -97,7 +124,7 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 <script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token-registry@0.2.10/dist/index.iife.js"></script>
 <script>
-// --- Polygon Top 50 tokens (simplifié pour exemple)
+// Polygon top tokens
 const polygonTokens=[
   {symbol:"MATIC", addr:"0x0000000000000000000000000000000000001010"},
   {symbol:"USDC", addr:"0x2791bca1f2de4661ed88a30c99a7a9449aa84174"},
@@ -109,12 +136,11 @@ const polygonTokens=[
   {symbol:"LINK", addr:"0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39"},
   {symbol:"SUSHI", addr:"0x0b3f868e0be5597d5db7feb59e1cadbb0fdda50a"},
   {symbol:"UNI", addr:"0xb33eaad8d922b1083446dc23f610c2567fb5180f"}
-  // compléter jusqu'à 50
 ];
 
 let provider, signer;
 
-// --- Initialize selects ---
+// Populate selects
 function populateTokenSelects(){
   const fromSelect=document.getElementById("token-from");
   const toSelect=document.getElementById("token-to");
@@ -126,7 +152,7 @@ function populateTokenSelects(){
 }
 populateTokenSelects();
 
-// --- Update balances MetaMask ---
+// Update balances MetaMask
 async function updateTokenBalances(address){
   const walletTokensDiv=document.getElementById("wallet-tokens");
   walletTokensDiv.innerHTML="<ul>";
@@ -148,7 +174,7 @@ async function updateTokenBalances(address){
   walletTokensDiv.innerHTML+="</ul>";
 }
 
-// --- Connect MetaMask ---
+// Connect MetaMask
 async function connectMetaMask(){
   if(window.ethereum){
     provider=new ethers.providers.Web3Provider(window.ethereum);
@@ -162,7 +188,7 @@ async function connectMetaMask(){
   } else alert("MetaMask not detected");
 }
 
-// --- Connect Phantom SPL ---
+// Connect Phantom
 async function connectPhantom(){
   if(window.solana && window.solana.isPhantom){
     const resp=await window.solana.connect();
@@ -174,7 +200,7 @@ async function connectPhantom(){
     document.getElementById("wallet-balance").innerText="SOL: "+(solBalance/1e9).toFixed(4);
 
     const tokenList = await new TokenListProvider().resolve();
-    const tokenMap = tokenList.filter(t=>t.chainId===101); // SOL mainnet
+    const tokenMap = tokenList.filter(t=>t.chainId===101);
     const walletTokensDiv=document.getElementById("wallet-tokens");
     walletTokensDiv.innerHTML="<ul>";
     for(const token of tokenMap){
@@ -208,7 +234,7 @@ function updateCountdown(){
 updateCountdown();
 const countdownInterval=setInterval(updateCountdown,1000);
 
-// Swapey Swap QuickSwap placeholder
+// Swapey swap placeholder
 async function swapTokens(){
   if(!signer){ alert("Connect wallet first"); return; }
   const fromAddr=document.getElementById("token-from").value;
@@ -216,13 +242,10 @@ async function swapTokens(){
   const amount=document.getElementById("amount").value;
   if(!amount||amount<=0){ alert("Enter a valid amount"); return; }
 
-  // QuickSwap Router code ici
-
   const confirm=document.getElementById("confirm");
   confirm.style.display="block";
   setTimeout(()=>{confirm.style.display="none";},3500);
 
-  // Mettre à jour les balances MetaMask après swap
   const address=await signer.getAddress();
   await updateTokenBalances(address);
 }
