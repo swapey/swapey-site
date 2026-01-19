@@ -14,7 +14,7 @@ body { margin:0; background:#16002d; font-family:'Luckiest Guy', cursive; color:
 #top-right a.btn-history:hover { transform: scale(1.1); }
 #top-right small { display:block; font-size:0.65rem; opacity:0.7; }
 
-#wallet-dashboard { position: fixed; top:70px; right:12px; width:260px; padding:12px; background: rgba(64,224,208,0.1); border-radius:16px; text-align:left; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; font-family:'Luckiest Guy', cursive; font-size:0.9rem; }
+#wallet-dashboard { position: fixed; top:70px; right:12px; width:280px; padding:12px; background: rgba(64,224,208,0.1); border-radius:16px; text-align:left; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; font-family:'Luckiest Guy', cursive; font-size:0.9rem; }
 #wallet-status { font-weight:bold; margin-bottom:6px; }
 #wallet-balance { margin-bottom:6px; }
 #wallet-tokens { max-height:280px; overflow-y:auto; }
@@ -27,7 +27,8 @@ p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
 #event-countdown { font-size:1.5rem; margin:20px 0; color:#40E0D0; font-weight:bold; }
 
 .swap-form { margin:40px auto; width:420px; max-width:95%; padding:20px; border-radius:24px; text-align:center; }
-.swap-form input { width:100%; padding:10px; border-radius:12px; border:none; font-size:1rem; font-family:'Luckiest Guy', cursive; color:#000; background:#fff; text-align:center; }
+.swap-form select, .swap-form input { width:100%; padding:10px; border-radius:12px; border:none; font-size:1rem; font-family:'Luckiest Guy', cursive; text-align:center; margin:8px 0; }
+.swap-form input { background:#fff; color:#000; }
 .swap-form input::placeholder { color:gold; font-weight:bold; }
 
 #swapey-button { background:none; border:none; cursor:pointer; display:block; margin:20px auto; text-align:center; font-family:'Luckiest Guy', cursive; font-size:2.8rem; color:#ffffff; text-shadow:0 0 8px #40E0D0,0 0 16px #8F5BFF; transition: all 0.3s ease; }
@@ -70,7 +71,9 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 </div>
 
 <div class="swap-form">
+  <select id="token-from"></select>
   <input type="number" id="amount" placeholder="Enter amount"/>
+  <select id="token-to"></select>
   <button id="swapey-button" onclick="swapTokens()">Swapey</button>
 </div>
 
@@ -94,12 +97,36 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 <script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token-registry@0.2.10/dist/index.iife.js"></script>
 <script>
-// --- Polygon Top 50 tokens ---
-const polygonTokens=[{symbol:"MATIC",addr:"0x0000000000000000000000000000000000001010"},{symbol:"USDC",addr:"0x2791bca1f2de4661ed88a30c99a7a9449aa84174"},{symbol:"USDT",addr:"0xc2132d05d31c914a87c6611c10748aeb04b58e8f"},{symbol:"DAI",addr:"0x8f3cf7ad23cd3cadbd9735aff958023239c6a063"},{symbol:"WETH",addr:"0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"},{symbol:"WBTC",addr:"0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6"},{symbol:"AAVE",addr:"0xd6df932a45c0f255f85145f286ea0b292b21c90b"},{symbol:"LINK",addr:"0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39"},{symbol:"SUSHI",addr:"0x0b3f868e0be5597d5db7feb59e1cadbb0fdda50a"},{symbol:"UNI",addr:"0xb33eaad8d922b1083446dc23f610c2567fb5180f"}]; // compléter jusqu'à 50
+// --- Polygon Top 50 tokens (simplifié pour exemple)
+const polygonTokens=[
+  {symbol:"MATIC", addr:"0x0000000000000000000000000000000000001010"},
+  {symbol:"USDC", addr:"0x2791bca1f2de4661ed88a30c99a7a9449aa84174"},
+  {symbol:"USDT", addr:"0xc2132d05d31c914a87c6611c10748aeb04b58e8f"},
+  {symbol:"DAI", addr:"0x8f3cf7ad23cd3cadbd9735aff958023239c6a063"},
+  {symbol:"WETH", addr:"0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"},
+  {symbol:"WBTC", addr:"0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6"},
+  {symbol:"AAVE", addr:"0xd6df932a45c0f255f85145f286ea0b292b21c90b"},
+  {symbol:"LINK", addr:"0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39"},
+  {symbol:"SUSHI", addr:"0x0b3f868e0be5597d5db7feb59e1cadbb0fdda50a"},
+  {symbol:"UNI", addr:"0xb33eaad8d922b1083446dc23f610c2567fb5180f"}
+  // compléter jusqu'à 50
+];
 
 let provider, signer;
 
-// --- MetaMask ---
+// --- Initialize selects ---
+function populateTokenSelects(){
+  const fromSelect=document.getElementById("token-from");
+  const toSelect=document.getElementById("token-to");
+  fromSelect.innerHTML=""; toSelect.innerHTML="";
+  polygonTokens.forEach(t=>{
+    fromSelect.innerHTML+=`<option value="${t.addr}">${t.symbol}</option>`;
+    toSelect.innerHTML+=`<option value="${t.addr}">${t.symbol}</option>`;
+  });
+}
+populateTokenSelects();
+
+// --- Update balances MetaMask ---
 async function updateTokenBalances(address){
   const walletTokensDiv=document.getElementById("wallet-tokens");
   walletTokensDiv.innerHTML="<ul>";
@@ -121,6 +148,7 @@ async function updateTokenBalances(address){
   walletTokensDiv.innerHTML+="</ul>";
 }
 
+// --- Connect MetaMask ---
 async function connectMetaMask(){
   if(window.ethereum){
     provider=new ethers.providers.Web3Provider(window.ethereum);
@@ -134,28 +162,34 @@ async function connectMetaMask(){
   } else alert("MetaMask not detected");
 }
 
-// --- Phantom SPL ---
+// --- Connect Phantom SPL ---
 async function connectPhantom(){
   if(window.solana && window.solana.isPhantom){
     const resp=await window.solana.connect();
-    const publicKey=resp.publicKey.toString();
-    document.getElementById("wallet-status").innerText="Phantom: "+publicKey.slice(0,4)+"…"+publicKey.slice(-4);
+    const pubKey=resp.publicKey;
+    document.getElementById("wallet-status").innerText="Phantom: "+pubKey.toString().slice(0,4)+"…"+pubKey.toString().slice(-4);
 
     const connection=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
-    const solBalance=await connection.getBalance(resp.publicKey);
+    const solBalance=await connection.getBalance(pubKey);
     document.getElementById("wallet-balance").innerText="SOL: "+(solBalance/1e9).toFixed(4);
 
-    // SPL tokens
-    const tokenList = new TokenListProvider().resolve().then(tokens => {
-      const tokenMap = tokens.filter(t=>t.chainId===101).map(t=>t);
-      walletTokensDiv=document.getElementById("wallet-tokens");
-      walletTokensDiv.innerHTML="<ul>";
-      tokenMap.forEach(t=>{
-        walletTokensDiv.innerHTML+=`<li>${t.symbol}</li>`;
-      });
-      walletTokensDiv.innerHTML+="</ul>";
-    });
-
+    const tokenList = await new TokenListProvider().resolve();
+    const tokenMap = tokenList.filter(t=>t.chainId===101); // SOL mainnet
+    const walletTokensDiv=document.getElementById("wallet-tokens");
+    walletTokensDiv.innerHTML="<ul>";
+    for(const token of tokenMap){
+      try{
+        const tokenPubKey = new solanaWeb3.PublicKey(token.address);
+        const tokenAccount = await connection.getTokenAccountsByOwner(pubKey,{mint:tokenPubKey});
+        let balance="0";
+        if(tokenAccount.value.length>0){
+          const accountInfo = await connection.getParsedAccountInfo(tokenAccount.value[0].pubkey);
+          balance = accountInfo.value.data.parsed.info.tokenAmount.uiAmount || 0;
+        }
+        walletTokensDiv.innerHTML+=`<li>${token.symbol}: ${balance}</li>`;
+      } catch(e){ console.error(token.symbol,e); }
+    }
+    walletTokensDiv.innerHTML+="</ul>";
   } else alert("Phantom not detected");
 }
 
@@ -174,21 +208,21 @@ function updateCountdown(){
 updateCountdown();
 const countdownInterval=setInterval(updateCountdown,1000);
 
-// Swapey Swap QuickSwap invisible (Polygon)
+// Swapey Swap QuickSwap placeholder
 async function swapTokens(){
   if(!signer){ alert("Connect wallet first"); return; }
+  const fromAddr=document.getElementById("token-from").value;
+  const toAddr=document.getElementById("token-to").value;
   const amount=document.getElementById("amount").value;
   if(!amount||amount<=0){ alert("Enter a valid amount"); return; }
 
-  // Exemple swap QuickSwap invisible
-  // const router = new ethers.Contract(QUICKSWAP_ROUTER_ADDRESS, ROUTER_ABI, signer);
-  // await router.swapExactTokensForTokens(...);
+  // QuickSwap Router code ici
 
   const confirm=document.getElementById("confirm");
   confirm.style.display="block";
   setTimeout(()=>{confirm.style.display="none";},3500);
 
-  // Après swap, mettre à jour balances
+  // Mettre à jour les balances MetaMask après swap
   const address=await signer.getAddress();
   await updateTokenBalances(address);
 }
