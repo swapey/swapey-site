@@ -4,118 +4,139 @@
 <meta charset="UTF-8">
 <title>Swapey DEX | Direct Swap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- Police style arcade / cartoon -->
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 
 <style>
 body {
-  margin: 0;
-  background-color: #16002d;
-  font-family: 'Luckiest Guy', cursive;
-  color: white;
-  text-align: center;
+  margin:0;
+  background:#16002d;
+  font-family:'Luckiest Guy', cursive;
+  color:white;
+  text-align:center;
 }
+
+/* === Boutons MetaMask + Phantom + History en haut à droite === */
+#top-right {
+  position: fixed;
+  top:12px;
+  right:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  z-index:10;
+}
+#top-right img {
+  width:40px;
+  cursor:pointer;
+  transition: transform 0.2s ease;
+}
+#top-right img:hover { transform: scale(1.2) rotate(-10deg); }
+#top-right a.btn-history {
+  background: linear-gradient(135deg,#40E0D0,#8F5BFF);
+  color:white;
+  padding:10px 18px;
+  border-radius:16px;
+  text-decoration:none;
+  font-weight:bold;
+  transition:all 0.2s;
+}
+#top-right a.btn-history:hover { transform: scale(1.1); }
+#top-right small { display:block; font-size:0.65rem; opacity:0.7; }
 
 /* === HEADER === */
-header {
-  padding: 40px 20px 20px;
+header { padding:60px 20px 20px; }
+header img { width:520px; max-width:92%; margin-bottom:20px; }
+h1 { font-size:3.4rem; margin:10px 0; }
+p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
+
+/* === Countdown === */
+#event-countdown { font-size:1.5rem; margin:20px 0; color:#40E0D0; font-weight:bold; }
+
+/* === Swap Form === */
+.swap-form {
+  margin:40px auto;
+  width:420px;
+  max-width:95%;
+  padding:20px;
+  border-radius:24px;
+  background: rgba(0,0,0,0.25);
+  box-shadow:0 0 40px rgba(64,224,208,0.5),0 0 40px rgba(143,91,255,0.5);
+  text-align:left;
 }
-
-header img {
-  width: 520px;
-  max-width: 92%;
-  margin-bottom: 20px;
+.swap-form label { display:block; margin:10px 0 5px; }
+.swap-form input, .swap-form select {
+  width:100%; padding:8px; border-radius:12px; border:none; font-size:1rem;
+  font-family:'Luckiest Guy', cursive;
+  color:#fff;
+  background: linear-gradient(135deg,#3DD9D9,#8F5BFF);
+  text-shadow: 1px1px 2px #000;
 }
+.swap-form select option { color:#000; background:#fff; }
 
-h1 { font-size: 3.4rem; margin: 10px 0; }
-p { font-size: 1.2rem; color: #ffffffcc; max-width:720px; margin:auto; }
-
-/* === Boutons dessin animé === */
+/* === Bouton Swap === */
 .btn-cartoon {
   background: linear-gradient(135deg, #40E0D0, #8F5BFF);
   border: 4px solid #fff;
   color: #fff;
   font-weight: bold;
   font-size: 1.2rem;
-  padding: 14px 28px;
-  margin: 12px;
+  padding: 18px 36px;
+  margin: 12px 0;
   border-radius: 24px;
   cursor: pointer;
   text-transform: uppercase;
   box-shadow: 0 0 12px #40E0D0, 0 0 24px #8F5BFF, 0 0 36px #40E0D0;
   transition: all 0.3s ease-in-out;
 }
-.btn-cartoon:hover {
-  transform: scale(1.15) rotate(-2deg);
-  box-shadow: 0 0 24px #40E0D0, 0 0 48px #8F5BFF, 0 0 72px #40E0D0;
-}
-.btn-cartoon:active {
-  transform: scale(0.95) rotate(1deg);
-  box-shadow: 0 0 10px #40E0D0, 0 0 20px #8F5BFF, 0 0 30px #40E0D0;
-}
-
-/* === Header bouton connect MetaMask en haut à droite === */
-#top-right {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  text-align: center;
-  z-index: 10;
-}
-#top-right small { display:block; font-size:0.7rem; opacity:0.7; }
-
-/* === Swap form === */
-.swap-form {
-  margin: 40px auto;
-  width: 420px;
-  max-width: 95%;
-  padding: 20px;
-  border-radius: 24px;
-  background: rgba(0,0,0,0.25);
-  box-shadow: 0 0 40px rgba(64,224,208,0.5), 0 0 40px rgba(143,91,255,0.5);
-  text-align: left;
-}
-.swap-form label { display: block; margin: 10px 0 5px; }
-.swap-form input, .swap-form select {
-  width: 100%; padding: 8px; border-radius: 12px; border: none; font-size: 1rem;
-}
+.btn-cartoon:hover { transform: scale(1.15) rotate(-2deg); box-shadow:0 0 24px #40E0D0,0 0 48px #8F5BFF,0 0 72px #40E0D0; }
+.btn-cartoon:active { transform: scale(0.95) rotate(1deg); box-shadow:0 0 10px #40E0D0,0 0 20px #8F5BFF,0 0 30px #40E0D0; }
 
 /* === Popup confirmation === */
 #confirm {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
   background: linear-gradient(135deg, #40E0D0, #8F5BFF);
-  padding: 16px 32px;
-  border-radius: 16px;
-  font-weight: bold;
-  color: black;
-  font-size: 1.2rem;
-  display: none;
-  box-shadow: 0 0 25px #40E0D0, 0 0 50px #8F5BFF;
+  padding:16px 32px;
+  border-radius:16px;
+  font-weight:bold;
+  color:black;
+  font-size:1.2rem;
+  display:none;
+  box-shadow:0 0 25px #40E0D0,0 0 50px #8F5BFF;
   animation: flash 0.5s ease-in-out;
 }
-@keyframes flash {
-  0% { transform: translateX(-50%) scale(0.8); opacity: 0; }
-  50% { transform: translateX(-50%) scale(1.1); opacity: 1; }
-  100% { transform: translateX(-50%) scale(1); opacity: 1; }
-}
+@keyframes flash { 0% { transform: translateX(-50%) scale(0.8); opacity:0; } 50% { transform: translateX(-50%) scale(1.1); opacity:1; } 100% { transform: translateX(-50%) scale(1); opacity:1; } }
 
-/* === Countdown === */
-#event-countdown { font-size:1.5rem; margin:20px 0; color:#40E0D0; font-weight:bold; }
+/* === Crypto News Box === */
+.announcement-box {
+  margin:40px auto;
+  width:90%;
+  max-width:720px;
+  padding:16px 24px;
+  border-radius:16px;
+  background: rgba(64,224,208,0.15);
+  border:2px solid #40E0D0;
+  text-align:left;
+  color:white;
+  box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
+}
+.announcement-box h2 { text-align:center; font-size:1.6rem; margin-bottom:12px; }
+.announcement-box ul { list-style:none; padding:0; margin:0; max-height:150px; overflow-y:auto; }
+.announcement-box li { margin-bottom:6px; font-size:1rem; }
 
 /* === Footer === */
-footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
+footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 </style>
 </head>
 
 <body>
 
-<!-- Bouton Connect MetaMask et Polygon Warning -->
 <div id="top-right">
-  <button class="btn-cartoon" onclick="connectWallet()">Connect MetaMask</button>
+  <img src="metamask-fox.png" id="metamask-logo" onclick="connectMetaMask()" alt="MetaMask" />
+  <img src="phantom-logo.png" id="phantom-logo" onclick="connectPhantom()" alt="Phantom" />
+  <a href="history.html" class="btn-history">History</a>
   <small>Polygon Network only</small>
 </div>
 
@@ -133,30 +154,53 @@ footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
   <label>From Token:</label>
   <select id="tokenA">
     <option value="0x0000000000000000000000000000000000001010">MATIC</option>
-    <option value="0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174">USDC</option>
-    <option value="0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063">DAI</option>
+    <option value="0x2791bca1f2de4661ed88a30c99a7a9449aa84174">USDC</option>
+    <option value="0xc2132d05d31c914a87c6611c10748aeb04b58e8f">USDT</option>
+    <option value="0x8f3cf7ad23cd3cadbd9735aff958023239c6a063">DAI</option>
+    <option value="0x7ceb23fd6bc0add59e62ac25578270cff1b9f619">WETH</option>
+    <option value="0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6">WBTC</option>
+    <option value="0xb5c064f955d8e7f38fe0460c556a72987494ee17">QUICK</option>
+    <option value="0x9a71012b13ca4d3d0cdc72a177df3ef03b0e76a3">BAL</option>
+    <option value="0xd6df932a45c0f255f85145f286ea0b292b21c90b">AAVE</option>
+    <option value="0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39">LINK</option>
+    <option value="0xb33eaad8d922b1083446dc23f610c2567fb5180">UNI</option>
+    <option value="0x0b3f868e0be5597d5db7feb59e1cadbb0fdda50a">SUSHI</option>
+    <option value="0x385eeac5cb85a38a9a07a70c73e0a3271cfb54a7">GHST</option>
+    <option value="0xe111178a87a3bff0c8d18decba5798827539ae99">EURS</option>
+    <option value="0x41b3966b4ff7b427969ddf5da3627d6aeae9a48e">NEXO</option>
+    <option value="0xa3c322ad15218bfaed26ba7f616249f7705d945">MV</option>
+    <option value="0x16eccfdbb4ee1a85a33f3a9b21175cd7ae753db4">ROUTE</option>
+    <option value="0x9699eb5ada0843f0e9bd4438930cdd5325073ede">FEHU</option>
+    <option value="0xff22c94ffb6bb5d1df18beb5fd1dfe7583d3b214">IPMB</option>
+    <!-- Ajoute jusqu'à 50 tokens -->
   </select>
 
   <label>To Token:</label>
   <select id="tokenB">
-    <option value="0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174">USDC</option>
-    <option value="0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063">DAI</option>
+    <option value="0x2791bca1f2de4661ed88a30c99a7a9449aa84174">USDC</option>
+    <option value="0x8f3cf7ad23cd3cadbd9735aff958023239c6a063">DAI</option>
     <option value="0x0000000000000000000000000000000000001010">MATIC</option>
+    <option value="0x7ceb23fd6bc0add59e62ac25578270cff1b9f619">WETH</option>
+    <option value="0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6">WBTC</option>
   </select>
 
   <label>Amount:</label>
   <input type="number" id="amount" placeholder="Enter amount" />
-
   <button class="btn-cartoon" onclick="swapTokens()">Swap</button>
   <div id="status" class="status"></div>
 </div>
 
-<!-- Bouton History -->
-<div style="margin:20px;">
-  <a href="history.html" class="btn-cartoon">History</a>
-</div>
-
 <div id="confirm">✅ Swap Successful!</div>
+
+<div class="announcement-box">
+  <h2>Live Crypto News</h2>
+  <ul id="crypto-news">
+    <li>BTC just surged 5% in the last hour!</li>
+    <li>ETH staking rewards increase announced</li>
+    <li>Polygon network upgrade happening soon</li>
+    <li>New token listing on Swapey DEX!</li>
+  </ul>
+</div>
 
 <footer>
   Swapey is decentralized. Use at your own risk.
@@ -166,18 +210,25 @@ footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
 <script>
 let provider, signer;
 
-async function connectWallet() {
+async function connectMetaMask() {
   if(window.ethereum){
     provider = new ethers.providers.Web3Provider(window.ethereum);
     await provider.send("eth_requestAccounts", []);
     signer = provider.getSigner();
     const address = await signer.getAddress();
-    document.getElementById("status").innerText = "Connected: " + address;
+    document.getElementById("status").innerText = "Connected MetaMask: " + address;
   } else { alert("MetaMask not detected"); }
 }
 
+async function connectPhantom() {
+  if(window.solana && window.solana.isPhantom){
+    const resp = await window.solana.connect();
+    document.getElementById("status").innerText = "Connected Phantom: " + resp.publicKey.toString();
+  } else { alert("Phantom not detected"); }
+}
+
 async function swapTokens(){
-  if(!signer){ alert("Connect MetaMask first"); return; }
+  if(!signer){ alert("Connect wallet first"); return; }
 
   const tokenA = document.getElementById("tokenA").value;
   const tokenB = document.getElementById("tokenB").value;
