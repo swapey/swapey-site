@@ -2,65 +2,111 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Swapey — History</title>
+<title>Swapey DEX 2026 | History</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
-
 <style>
-body{
+body {
   margin:0;
   font-family:'Luckiest Guy', cursive;
-  background:#120022;
   color:white;
   text-align:center;
-  padding:40px 20px;
+  background:#16002d;
 }
 
-.box{
-  max-width:720px;
-  margin:auto;
-  background:linear-gradient(135deg,#2a004f,#4d00a0);
-  padding:30px;
-  border-radius:24px;
+/* ----- Top ticker ----- */
+#ticker {
+  position:fixed; top:0; width:100%; text-align:center;
+  background:#1a0033; color:#40E0D0; padding:6px; font-weight:bold;
+  font-family:'Luckiest Guy', cursive; z-index:11;
+}
+
+/* ----- Top-right Phantom wallet ----- */
+#top-right {
+  position: fixed; top:32px; right:12px; display:flex; align-items:center; gap:10px; z-index:10;
+}
+#top-right img { width:40px; cursor:pointer; transition: transform 0.2s ease; }
+#top-right img:hover { transform: scale(1.2) rotate(-10deg); }
+#top-right a.btn-home {
+  background: linear-gradient(135deg,#40E0D0,#8F5BFF); color:white;
+  padding:10px 18px; border-radius:16px; text-decoration:none; font-weight:bold; transition:all 0.2s;
+}
+#top-right a.btn-home:hover { transform: scale(1.1); }
+#top-right small { display:block; font-size:0.65rem; opacity:0.7; }
+
+/* ----- Header ----- */
+header { padding:60px 20px 20px; position:relative; z-index:1; }
+header img { width:520px; max-width:92%; margin-bottom:20px; }
+h1 { font-size:3rem; margin:10px 0; }
+p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
+
+/* ----- Content ----- */
+.content {
+  margin:40px auto; width:90%; max-width:800px; text-align:left;
+  background: rgba(64,224,208,0.1); padding:24px; border-radius:16px;
   box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
 }
+.content h2 { text-align:center; font-size:1.8rem; margin-bottom:12px; }
+.content p { font-size:1rem; margin-bottom:12px; line-height:1.5rem; }
 
-a{
-  display:inline-block;
-  margin-top:20px;
-  color:#40E0D0;
-  text-decoration:none;
+/* ----- Footer ----- */
+footer {
+  margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; position:relative; z-index:1;
 }
 </style>
 </head>
-
 <body>
 
-<div class="box">
-  <h1>Swapey</h1>
-  <p>
-    Swapey is built to give more freedom to the new generation entering crypto.
-  </p>
-  <p>
-    Low swap fees. Fun interface. Real-world events.
-  </p>
-  <p>
-    A Swapey token will be created and listed on multiple platforms.
-  </p>
-  <p>
-    Swapey will organize events around the world to connect people and make crypto
-    less serious, more human, more fun.
-  </p>
-  <p>
-    Bitcoin and Ethereum changed finance.<br>
-    <strong>Swapey changes the experience.</strong>
-  </p>
-  <p>
-    More soon.
-  </p>
+<div id="ticker">Loading crypto prices...</div>
 
-  <a href="index.html">← Back to Swapey</a>
+<div id="top-right">
+  <img src="phantom-logo.png" onclick="connectPhantom()" alt="Phantom"/>
+  <a href="index.html" class="btn-home">Home</a>
+  <small>Polygon Network only</small>
 </div>
 
+<header>
+  <img src="swapey-logo.png" alt="Swapey Logo"/>
+  <h1>Swapey Project History</h1>
+</header>
+
+<div class="content">
+  <h2>About Swapey</h2>
+  <p>Swapey was created to give young users more freedom entering the world of cryptocurrency. We focus on low exchange fees and making crypto fun and accessible. Our Swapey token will be listed across multiple platforms.</p>
+
+  <h2>Our Vision</h2>
+  <p>Swapey aims to connect people globally through events, workshops, and gaming-style crypto experiences. We want to remove the serious, intimidating aura of Bitcoin and Ethereum, and make crypto engaging and enjoyable.</p>
+
+  <h2>Upcoming Plans</h2>
+  <p>We will host multiple events around the world, introduce educational campaigns, and continuously expand the Swapey ecosystem. Stay tuned for major announcements!</p>
+</div>
+
+<footer>
+  Swapey is decentralized. Use at your own risk.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+<script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@solana/spl-token-registry@0.2.10/dist/index.iife.js"></script>
+<script>
+// Phantom Wallet
+async function connectPhantom(){
+  if(window.solana && window.solana.isPhantom){
+    const resp=await window.solana.connect();
+    const pubKey=resp.publicKey;
+    alert("Connected Phantom: "+pubKey.toString().slice(0,4)+"…"+pubKey.toString().slice(-4));
+  } else alert("Phantom not detected");
+}
+
+// Ticker
+async function updateTicker(){
+  const resp=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd");
+  const data=await resp.json();
+  document.getElementById("ticker").innerText = 
+    `BTC: $${data.bitcoin.usd} | ETH: $${data.ethereum.usd} | SOL: $${data.solana.usd}`;
+}
+updateTicker();
+setInterval(updateTicker,10000);
+</script>
 </body>
 </html>
