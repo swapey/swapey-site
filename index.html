@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <title>Swapey DEX | Direct Swap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
@@ -76,6 +76,30 @@ p { opacity: 0.85; max-width: 720px; margin: auto; }
   margin-top: 10px; font-size: 0.85rem; opacity: 0.85; word-break: break-all;
 }
 
+/* Confirmation popup */
+#confirm {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ff7b00, #ffb347);
+  padding: 16px 32px;
+  border-radius: 16px;
+  font-weight: bold;
+  color: black;
+  font-size: 1.2rem;
+  display: none;
+  box-shadow: 0 0 25px #ffb347, 0 0 50px #ff7b00;
+  animation: flash 0.5s ease-in-out;
+}
+
+/* Flash animation */
+@keyframes flash {
+  0% { transform: translateX(-50%) scale(0.8); opacity: 0; }
+  50% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+  100% { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
 footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
 </style>
 </head>
@@ -101,6 +125,9 @@ footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
     <option value="0x0000000000000000000000000000000000001010">MATIC</option>
     <option value="0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619">WETH</option>
     <option value="0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174">USDC</option>
+    <option value="0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6">WBTC</option>
+    <option value="0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063">DAI</option>
+    <option value="0x831753DD7087CaC61aB5644b308642cc1c33Dc13">Quick</option>
   </select>
 
   <label>To Token:</label>
@@ -108,6 +135,9 @@ footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
     <option value="0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174">USDC</option>
     <option value="0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619">WETH</option>
     <option value="0x0000000000000000000000000000000000001010">MATIC</option>
+    <option value="0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6">WBTC</option>
+    <option value="0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063">DAI</option>
+    <option value="0x831753DD7087CaC61aB5644b308642cc1c33Dc13">Quick</option>
   </select>
 
   <label>Amount:</label>
@@ -116,6 +146,8 @@ footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
   <button class="btn-gaming" onclick="swapTokens()">Swap</button>
   <div id="status" class="status"></div>
 </div>
+
+<div id="confirm">✅ Swap Successful!</div>
 
 <footer>
   Swapey is decentralized. Use at your own risk.
@@ -153,11 +185,9 @@ async function swapTokens(){
     return;
   }
 
-  // QuickSwap Router contract (simplified example)
-  const routerAddress = "0xa5E0829CaCED8fFdd4De3c43696c57F7D7A678ff"; // QuickSwap Router
+  const routerAddress = "0xa5E0829CaCED8fFdd4De3c43696c57F7D7A678ff"; 
   const routerABI = [
-    "function swapExactTokensForTokens(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline) external returns (uint[] memory amounts)",
-    "function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) external payable returns (uint[] memory amounts)"
+    "function swapExactTokensForTokens(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline) external returns (uint[] memory amounts)"
   ];
   const router = new ethers.Contract(routerAddress, routerABI, signer);
 
@@ -174,7 +204,14 @@ async function swapTokens(){
       deadline
     );
     document.getElementById("status").innerText = "Transaction sent: " + tx.hash;
+
     await tx.wait();
+
+    // Affichage confirmation avec flash
+    const confirm = document.getElementById("confirm");
+    confirm.style.display = "block";
+    setTimeout(()=>{ confirm.style.display = "none"; }, 3500);
+
     document.getElementById("status").innerText = "Swap successful: " + tx.hash;
   } catch(e){
     console.error(e);
