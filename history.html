@@ -11,102 +11,72 @@ body {
   font-family:'Luckiest Guy', cursive;
   color:white;
   text-align:center;
+  overflow-x:hidden;
   background:#16002d;
 }
 
-/* ----- Top ticker ----- */
-#ticker {
-  position:fixed; top:0; width:100%; text-align:center;
-  background:#1a0033; color:#40E0D0; padding:6px; font-weight:bold;
-  font-family:'Luckiest Guy', cursive; z-index:11;
-}
-
-/* ----- Top-right Phantom wallet ----- */
-#top-right {
-  position: fixed; top:32px; right:12px; display:flex; align-items:center; gap:10px; z-index:10;
-}
-#top-right img { width:40px; cursor:pointer; transition: transform 0.2s ease; }
-#top-right img:hover { transform: scale(1.2) rotate(-10deg); }
-#top-right a.btn-home {
-  background: linear-gradient(135deg,#40E0D0,#8F5BFF); color:white;
-  padding:10px 18px; border-radius:16px; text-decoration:none; font-weight:bold; transition:all 0.2s;
-}
-#top-right a.btn-home:hover { transform: scale(1.1); }
-#top-right small { display:block; font-size:0.65rem; opacity:0.7; }
+/* ----- Top-right back button ----- */
+#top-right { position: fixed; top:32px; right:12px; display:flex; align-items:center; gap:10px; z-index:10; }
+#top-right a.btn-back { background: linear-gradient(135deg,#40E0D0,#8F5BFF); color:white; padding:10px 18px; border-radius:16px; text-decoration:none; font-weight:bold; transition:all 0.2s; }
+#top-right a.btn-back:hover { transform: scale(1.1); }
 
 /* ----- Header ----- */
-header { padding:60px 20px 20px; position:relative; z-index:1; }
+header { padding:60px 20px 20px; }
 header img { width:520px; max-width:92%; margin-bottom:20px; }
-h1 { font-size:3rem; margin:10px 0; }
-p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
+h1 { font-size:3.2rem; margin:10px 0; }
+p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; text-align:left; line-height:1.6rem; }
 
-/* ----- Content ----- */
-.content {
-  margin:40px auto; width:90%; max-width:800px; text-align:left;
-  background: rgba(64,224,208,0.1); padding:24px; border-radius:16px;
-  box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
-}
-.content h2 { text-align:center; font-size:1.8rem; margin-bottom:12px; }
-.content p { font-size:1rem; margin-bottom:12px; line-height:1.5rem; }
+/* ----- Section boxes ----- */
+.section-box { margin:20px auto; width:90%; max-width:720px; padding:20px; border-radius:16px; background: rgba(64,224,208,0.15); border:2px solid #40E0D0; color:white; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; text-align:left; }
+.section-box h2 { text-align:center; font-size:1.6rem; margin-bottom:12px; }
+.section-box ul { padding-left:20px; }
 
 /* ----- Footer ----- */
-footer {
-  margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; position:relative; z-index:1;
-}
+footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 </style>
 </head>
 <body>
 
-<div id="ticker">Loading crypto prices...</div>
-
 <div id="top-right">
-  <img src="phantom-logo.png" onclick="connectPhantom()" alt="Phantom"/>
-  <a href="index.html" class="btn-home">Home</a>
-  <small>Polygon Network only</small>
+  <a href="index.html" class="btn-back">Back</a>
 </div>
 
 <header>
   <img src="swapey-logo.png" alt="Swapey Logo"/>
-  <h1>Swapey Project History</h1>
+  <h1>Swapey DEX 2026</h1>
 </header>
 
-<div class="content">
+<div class="section-box">
   <h2>About Swapey</h2>
-  <p>Swapey was created to give young users more freedom entering the world of cryptocurrency. We focus on low exchange fees and making crypto fun and accessible. Our Swapey token will be listed across multiple platforms.</p>
+  <p>
+    Swapey is designed to give more freedom to young people entering the cryptocurrency world with very low exchange fees. 
+    A Swapey token will be created and listed on multiple platforms. Swapey will organize multiple events around the world 
+    to connect people and make them comfortable with cryptocurrencies while having fun, moving away from the serious 
+    atmosphere of Bitcoin or Ethereum.
+  </p>
+</div>
 
+<div class="section-box">
+  <h2>Events & Community</h2>
+  <ul>
+    <li>Global meetups and fun crypto events</li>
+    <li>Educational sessions for newcomers</li>
+    <li>Opportunities to earn rewards and tokens</li>
+    <li>Connecting crypto enthusiasts worldwide</li>
+  </ul>
+</div>
+
+<div class="section-box">
   <h2>Our Vision</h2>
-  <p>Swapey aims to connect people globally through events, workshops, and gaming-style crypto experiences. We want to remove the serious, intimidating aura of Bitcoin and Ethereum, and make crypto engaging and enjoyable.</p>
-
-  <h2>Upcoming Plans</h2>
-  <p>We will host multiple events around the world, introduce educational campaigns, and continuously expand the Swapey ecosystem. Stay tuned for major announcements!</p>
+  <p>
+    Swapey aims to revolutionize the way young people experience cryptocurrencies, making it accessible, interactive, 
+    and enjoyable. Stay tuned for big announcements and exciting opportunities!
+  </p>
 </div>
 
 <footer>
   Swapey is decentralized. Use at your own risk.
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
-<script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@solana/spl-token-registry@0.2.10/dist/index.iife.js"></script>
-<script>
-// Phantom Wallet
-async function connectPhantom(){
-  if(window.solana && window.solana.isPhantom){
-    const resp=await window.solana.connect();
-    const pubKey=resp.publicKey;
-    alert("Connected Phantom: "+pubKey.toString().slice(0,4)+"…"+pubKey.toString().slice(-4));
-  } else alert("Phantom not detected");
-}
-
-// Ticker
-async function updateTicker(){
-  const resp=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd");
-  const data=await resp.json();
-  document.getElementById("ticker").innerText = 
-    `BTC: $${data.bitcoin.usd} | ETH: $${data.ethereum.usd} | SOL: $${data.solana.usd}`;
-}
-updateTicker();
-setInterval(updateTicker,10000);
-</script>
 </body>
 </html>
