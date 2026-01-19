@@ -1,231 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Swapey DEX</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
-
-<style>
-body {
-  margin:0;
-  background:#14001f;
-  font-family:'Luckiest Guy', cursive;
-  color:white;
-  text-align:center;
-}
-
-/* TOP BAR */
-#top-bar {
-  display:flex;
-  justify-content:flex-end;
-  padding:12px 16px;
-}
-
-#connect-btn {
-  background:linear-gradient(135deg,#40E0D0,#8F5BFF);
-  border:none;
-  border-radius:14px;
-  padding:10px 18px;
-  font-size:1rem;
-  cursor:pointer;
-  color:black;
-}
-
-/* MODAL */
-#wallet-modal {
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  justify-content:center;
-  align-items:center;
-  z-index:20;
-}
-
-#wallet-box {
-  background:#1d0030;
-  padding:24px;
-  border-radius:20px;
-  width:280px;
-}
-
-.wallet-item {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:12px;
-  margin-bottom:10px;
-  background:#2a0045;
-  border-radius:14px;
-  cursor:pointer;
-}
-
-.wallet-item img {
-  width:32px;
-}
-
-/* HEADER */
-header img {
-  width:420px;
-  max-width:90%;
-  margin-top:20px;
-}
-
-h1 { font-size:3rem; }
-
-/* SWAP */
-.swap-box {
-  max-width:420px;
-  margin:30px auto;
-  padding:20px;
-  background:#1f0035;
-  border-radius:22px;
-}
-
-.swap-row {
-  background:#fff;
-  border-radius:14px;
-  padding:12px;
-  margin-bottom:12px;
-  color:black;
-}
-
-.swap-row select,
-.swap-row input {
-  width:100%;
-  border:none;
-  font-size:1rem;
-  outline:none;
-}
-
-#swapey-btn {
-  background:none;
-  border:none;
-  font-size:2.5rem;
-  margin-top:10px;
-  cursor:pointer;
-  color:white;
-  text-shadow:0 0 10px #40E0D0,0 0 20px #8F5BFF;
-}
-
-/* DASHBOARD */
-#wallet-dashboard {
-  max-width:420px;
-  margin:20px auto;
-  background:#1f0035;
-  padding:16px;
-  border-radius:20px;
-  text-align:left;
-}
-
-@media(max-width:600px){
-  header img { width:85%; }
-}
-</style>
+  <meta charset="UTF-8" />
+  <title>Swapey DEX</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 </head>
 
 <body>
+  <header class="top">
+    <img src="/swapey-logo.png" class="logo">
+    <button id="connect">Connect Wallet</button>
+  </header>
 
-<div id="top-bar">
-  <button id="connect-btn" onclick="openWallet()">Connect Wallet</button>
-</div>
+  <main>
+    <h1>Swapey DEX</h1>
+    <p>Fun. Freedom. Real swaps on Solana.</p>
 
-<!-- MODAL -->
-<div id="wallet-modal">
-  <div id="wallet-box">
-    <h2>Connect Wallet</h2>
+    <div class="swap-box">
+      <input id="amount" placeholder="Enter amount" />
+      <select id="from"></select>
+      <select id="to"></select>
 
-    <div class="wallet-item" onclick="connectPhantom()">
-      <img src="asset/phantom.png"> Phantom
+      <button id="swapey">SWAPEY</button>
     </div>
 
-    <div class="wallet-item" onclick="alert('MetaMask coming soon')">
-      <img src="asset/metamask.png"> MetaMask
+    <div class="wallet">
+      <div id="wallet-status">Not connected</div>
+      <div id="wallet-balance"></div>
+      <ul id="wallet-tokens"></ul>
     </div>
+  </main>
 
-    <div class="wallet-item" onclick="alert('Coinbase Wallet coming soon')">
-      <img src="asset/coinbase.png"> Coinbase Wallet
-    </div>
-
-    <button onclick="closeWallet()">Close</button>
-  </div>
-</div>
-
-<header>
-  <img src="asset/swapey-logo.png">
-  <h1>Swapey DEX</h1>
-  <p>Fun, freedom and fast swaps for the new crypto generation.</p>
-</header>
-
-<!-- SWAP -->
-<div class="swap-box">
-  <div class="swap-row">
-    <input type="number" placeholder="Enter amount">
-  </div>
-
-  <div class="swap-row">
-    <select>
-      <option>USDC</option>
-      <option>SOL</option>
-      <option>ETH</option>
-      <option>MATIC</option>
-      <!-- Ajouter jusqu'à 100 -->
-    </select>
-  </div>
-
-  <button id="swapey-btn">SWAPEY</button>
-</div>
-
-<!-- WALLET DASH -->
-<div id="wallet-dashboard">
-  <div id="wallet-status">Not connected</div>
-  <div id="wallet-balance"></div>
-  <div id="wallet-tokens"></div>
-</div>
-
-<script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
-
-<script>
-function openWallet(){ document.getElementById("wallet-modal").style.display="flex"; }
-function closeWallet(){ document.getElementById("wallet-modal").style.display="none"; }
-
-async function connectPhantom(){
-  if(!window.solana) return alert("Phantom not detected");
-
-  const resp = await window.solana.connect();
-  closeWallet();
-
-  const pubKey = resp.publicKey;
-  document.getElementById("wallet-status").innerText =
-    "Phantom: " + pubKey.toString().slice(0,6)+"...";
-
-  const connection = new solanaWeb3.Connection(
-    solanaWeb3.clusterApiUrl("mainnet-beta")
-  );
-
-  const balance = await connection.getBalance(pubKey);
-  document.getElementById("wallet-balance").innerText =
-    "SOL: " + (balance/1e9).toFixed(4);
-
-  const accounts = await connection.getParsedTokenAccountsByOwner(
-    pubKey,
-    { programId: solanaWeb3.TOKEN_PROGRAM_ID }
-  );
-
-  let html = "<ul>";
-  accounts.value.forEach(a=>{
-    const info = a.account.data.parsed.info;
-    const amt = info.tokenAmount.uiAmount;
-    if(amt > 0){
-      html += `<li>${info.mint.slice(0,4)}… : ${amt}</li>`;
-    }
-  });
-  html += "</ul>";
-  document.getElementById("wallet-tokens").innerHTML = html;
-}
-</script>
-
+  <script type="module" src="/main.js"></script>
 </body>
 </html>
