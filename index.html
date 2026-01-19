@@ -16,33 +16,18 @@ body {
 }
 
 /* ----- Top ticker ----- */
-#ticker {
-  position:fixed; top:0; width:100%; text-align:center;
-  background:#1a0033; color:#40E0D0; padding:6px; font-weight:bold;
-  font-family:'Luckiest Guy', cursive; z-index:11;
-}
+#ticker { position:fixed;top:0;width:100%;background:#1a0033;color:#40E0D0;padding:6px;font-weight:bold;font-family:'Luckiest Guy', cursive;overflow:hidden; z-index:11; }
 
 /* ----- Top-right Phantom and history ----- */
-#top-right {
-  position: fixed; top:32px; right:12px; display:flex; align-items:center; gap:10px; z-index:10;
-}
+#top-right { position: fixed; top:32px; right:12px; display:flex; align-items:center; gap:10px; z-index:10; }
 #top-right img { width:40px; cursor:pointer; transition: transform 0.2s ease; }
 #top-right img:hover { transform: scale(1.2) rotate(-10deg); }
-#top-right a.btn-history {
-  background: linear-gradient(135deg,#40E0D0,#8F5BFF); color:white;
-  padding:10px 18px; border-radius:16px; text-decoration:none; font-weight:bold; transition:all 0.2s;
-}
+#top-right a.btn-history { background: linear-gradient(135deg,#40E0D0,#8F5BFF); color:white; padding:10px 18px; border-radius:16px; text-decoration:none; font-weight:bold; transition:all 0.2s; }
 #top-right a.btn-history:hover { transform: scale(1.1); }
 #top-right small { display:block; font-size:0.65rem; opacity:0.7; }
 
 /* ----- Wallet dashboard ----- */
-#wallet-dashboard {
-  position: fixed; top:80px; right:12px; width:260px;
-  padding:12px; background: rgba(64,224,208,0.1);
-  border-radius:16px; text-align:left;
-  box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
-  font-family:'Luckiest Guy', cursive; font-size:0.9rem; z-index:10;
-}
+#wallet-dashboard { position: fixed; top:80px; right:12px; width:260px; padding:12px; background: rgba(64,224,208,0.1); border-radius:16px; text-align:left; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; font-family:'Luckiest Guy', cursive; font-size:0.9rem; z-index:10; }
 #wallet-status { font-weight:bold; margin-bottom:6px; }
 #wallet-balance { margin-bottom:6px; }
 #wallet-tokens { max-height:280px; overflow-y:auto; }
@@ -57,61 +42,25 @@ p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
 #event-countdown { font-size:1.5rem; margin:20px 0; color:#40E0D0; font-weight:bold; position:relative; z-index:1; }
 
 /* ----- Swap form ----- */
-.swap-form {
-  margin:40px auto;
-  width:420px; max-width:95%; padding:20px;
-  border-radius:24px; text-align:center;
-  background: linear-gradient(135deg,#2a004f,#4d00a0);
-  box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
-  position:relative; z-index:1;
-}
-.swap-form select, .swap-form input {
-  width:100%; padding:10px; border-radius:12px;
-  border:none; font-size:1rem; font-family:'Luckiest Guy', cursive;
-  text-align:center; margin:6px 0;
-}
-.swap-form input { width:100%; color:#000; }
+.swap-form { margin:40px auto; width:420px; max-width:95%; padding:20px; border-radius:24px; text-align:center; background: linear-gradient(135deg,#2a004f,#4d00a0); box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; position:relative; z-index:1; }
+.swap-form select, .swap-form input { width:100%; padding:10px; border-radius:12px; border:none; font-size:1rem; font-family:'Luckiest Guy', cursive; text-align:center; margin:6px 0; }
+.swap-form input { color:#000; }
 
 /* ----- Swapey button ----- */
-#swapey-btn{
-  width:220px; max-width:70%; cursor:pointer; margin:20px auto 0;
-  display:block; filter: drop-shadow(0 0 8px #40E0D0) drop-shadow(0 0 18px #8F5BFF);
-  transition:transform 0.25s ease, filter 0.25s ease;
-}
-#swapey-btn:hover{
-  transform:scale(1.12) rotate(-1deg);
-  filter: drop-shadow(0 0 14px #40E0D0) drop-shadow(0 0 30px #8F5BFF);
-}
+#swapey-button { background:none; border:none; cursor:pointer; display:block; margin:20px auto; text-align:center; font-family:'Luckiest Guy', cursive; font-size:2.8rem; color:#ffffff; text-shadow:0 0 8px #40E0D0,0 0 16px #8F5BFF; transition: all 0.3s ease; }
+#swapey-button:hover { transform: scale(1.1) rotate(-2deg); text-shadow:0 0 12px #40E0D0,0 0 24px #8F5BFF; }
 
 /* ----- Confirmation message ----- */
-#confirm {
-  position:fixed; top:60px; left:50%; transform:translateX(-50%);
-  background: linear-gradient(135deg,#40E0D0,#8F5BFF);
-  padding:16px 32px; border-radius:16px;
-  font-weight:bold; color:black; font-size:1.2rem; display:none;
-  box-shadow:0 0 25px #40E0D0,0 0 50px #8F5BFF;
-  animation: flash 0.5s ease-in-out;
-}
-@keyframes flash {
-  0% { transform: translateX(-50%) scale(0.8); opacity:0; }
-  50% { transform: translateX(-50%) scale(1.1); opacity:1; }
-  100% { transform: translateX(-50%) scale(1); opacity:1; }
-}
+#confirm { position:fixed; top:60px; left:50%; transform:translateX(-50%); background: linear-gradient(135deg,#40E0D0,#8F5BFF); padding:16px 32px; border-radius:16px; font-weight:bold; color:black; font-size:1.2rem; display:none; box-shadow:0 0 25px #40E0D0,0 0 50px #8F5BFF; animation: flash 0.5s ease-in-out; }
+@keyframes flash { 0% { transform: translateX(-50%) scale(0.8); opacity:0; } 50% { transform: translateX(-50%) scale(1.1); opacity:1; } 100% { transform: translateX(-50%) scale(1); opacity:1; } }
 
 /* ----- Announcement box ----- */
-.announcement-box {
-  margin:40px auto; width:90%; max-width:720px; padding:16px 24px;
-  border-radius:16px; background: rgba(64,224,208,0.15);
-  border:2px solid #40E0D0; text-align:left; color:white;
-  box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; position:relative; z-index:1;
-}
+.announcement-box { margin:40px auto; width:90%; max-width:720px; padding:16px 24px; border-radius:16px; background: rgba(64,224,208,0.15); border:2px solid #40E0D0; text-align:left; color:white; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; position:relative; z-index:1; }
 .announcement-box h2 { text-align:center; font-size:1.6rem; margin-bottom:12px; }
 .announcement-box ul { list-style:none; padding:0; margin:0; max-height:150px; overflow-y:auto; }
 .announcement-box li { margin-bottom:6px; font-size:1rem; }
 
-footer {
-  margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; position:relative; z-index:1;
-}
+footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; position:relative; z-index:1; }
 </style>
 </head>
 <body>
@@ -144,7 +93,7 @@ footer {
   <select id="token-from"></select>
   <input type="number" id="amount" placeholder="Enter amount"/>
   <select id="token-to"></select>
-  <img src="swapey-text.png" id="swapey-btn" onclick="swapTokens()" alt="Swapey"/>
+  <button id="swapey-button" onclick="swapTokens()">Swapey</button>
 </div>
 
 <div id="confirm">✅ Swap Successful!</div>
@@ -167,39 +116,65 @@ footer {
 <script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token-registry@0.2.10/dist/index.iife.js"></script>
 <script>
-// ----- Polygon tokens (50 max example, compléter) -----
+// ----- Polygon 50 tokens -----
 const polygonTokens=[
-  {symbol:"MATIC", addr:"0x0000000000000000000000000000000000001010"},
-  {symbol:"USDC", addr:"0x2791bca1f2de4661ed88a30c99a7a9449aa84174"},
-  {symbol:"USDT", addr:"0xc2132d05d31c914a87c6611c10748aeb04b58e8f"},
-  {symbol:"DAI", addr:"0x8f3cf7ad23cd3cadbd9735aff958023239c6a063"},
-  {symbol:"WETH", addr:"0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"}
-  // ajouter jusqu'à 50 tokens
+  {symbol:"MATIC",addr:"0x0000000000000000000000000000000000001010"},
+  {symbol:"USDC",addr:"0x2791bca1f2de4661ed88a30c99a7a9449aa84174"},
+  {symbol:"USDT",addr:"0xc2132d05d31c914a87c6611c10748aeb04b58e8f"},
+  {symbol:"DAI",addr:"0x8f3cf7ad23cd3cadbd9735aff958023239c6a063"},
+  {symbol:"WETH",addr:"0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"},
+  // ... compléter jusqu'à 50
 ];
 
-let signer;
+let provider, signer;
 
 // Populate selects
 function populateTokenSelects(){
-  const from=document.getElementById("token-from");
-  const to=document.getElementById("token-to");
-  from.innerHTML=""; to.innerHTML="";
+  const fromSelect=document.getElementById("token-from");
+  const toSelect=document.getElementById("token-to");
+  fromSelect.innerHTML=""; toSelect.innerHTML="";
   polygonTokens.forEach(t=>{
-    from.innerHTML+=`<option value="${t.addr}">${t.symbol}</option>`;
-    to.innerHTML+=`<option value="${t.addr}">${t.symbol}</option>`;
+    fromSelect.innerHTML+=`<option value="${t.addr}">${t.symbol}</option>`;
+    toSelect.innerHTML+=`<option value="${t.addr}">${t.symbol}</option>`;
   });
 }
 populateTokenSelects();
 
+// Update Polygon token balances
+async function updatePolygonBalances(pubKey){
+  const walletTokensDiv=document.getElementById("wallet-tokens");
+  walletTokensDiv.innerHTML="<ul>";
+  provider = new ethers.providers.Web3Provider(window.ethereum);
+  for(const token of polygonTokens){
+    try{
+      let balance="0";
+      if(token.symbol==="MATIC"){
+        const bal = await provider.getBalance(pubKey);
+        balance = ethers.utils.formatEther(bal);
+      } else {
+        const contract = new ethers.Contract(token.addr,
+          ["function balanceOf(address) view returns (uint256)",
+           "function decimals() view returns (uint8)"],
+          provider);
+        const decimals = await contract.decimals();
+        const bal = await contract.balanceOf(pubKey);
+        balance = ethers.utils.formatUnits(bal, decimals);
+      }
+      walletTokensDiv.innerHTML+=`<li>${token.symbol}: ${parseFloat(balance).toFixed(4)}</li>`;
+    } catch(e){ console.error(token.symbol,e); }
+  }
+  walletTokensDiv.innerHTML+="</ul>";
+}
+
 // Phantom Wallet
 async function connectPhantom(){
   if(window.solana && window.solana.isPhantom){
-    const resp=await window.solana.connect();
-    const pubKey=resp.publicKey;
+    const resp = await window.solana.connect();
+    const pubKey = resp.publicKey;
     document.getElementById("wallet-status").innerText="Phantom: "+pubKey.toString().slice(0,4)+"…"+pubKey.toString().slice(-4);
 
-    const connection=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
-    const solBalance=await connection.getBalance(pubKey);
+    const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
+    const solBalance = await connection.getBalance(pubKey);
     document.getElementById("wallet-balance").innerText="SOL: "+(solBalance/1e9).toFixed(4);
 
     const tokenList = await new TokenListProvider().resolve();
@@ -219,11 +194,13 @@ async function connectPhantom(){
       } catch(e){ console.error(token.symbol,e); }
     }
     walletTokensDiv.innerHTML+="</ul>";
+
+    await updatePolygonBalances(pubKey.toString());
   } else alert("Phantom not detected");
 }
 
 // Countdown
-const eventDate=new Date("2026-01-26T20:00:00");
+const eventDate = new Date("2026-01-26T20:00:00");
 function updateCountdown(){
   const now=new Date();
   const diff=eventDate-now;
@@ -246,7 +223,7 @@ async function swapTokens(){
   setTimeout(()=>{confirm.style.display="none";},3500);
 }
 
-// Ticker (coingecko)
+// Ticker
 async function updateTicker(){
   const resp=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd");
   const data=await resp.json();
