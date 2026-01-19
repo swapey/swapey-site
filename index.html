@@ -5,65 +5,40 @@
 <title>Swapey DEX | Direct Swap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Google Fonts style arcade / cartoon -->
+<!-- Police style arcade / cartoon -->
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 
 <style>
-/* === FOND AVEC LOGOS SWAPEY === */
 body {
   margin: 0;
   background-color: #16002d;
-  background-image: 
-    url('swapey-logo.png'), 
-    url('swapey-logo.png'),
-    url('swapey-logo.png'),
-    url('swapey-logo.png'),
-    url('swapey-logo.png');
-  background-repeat: no-repeat;
-  background-position: 5% 10%, 70% 20%, 40% 60%, 80% 75%, 20% 85%;
-  background-size: 150px 150px;
   font-family: 'Luckiest Guy', cursive;
   color: white;
   text-align: center;
-  position: relative;
-}
-.overlay {
-  position: absolute;
-  top:0; left:0; right:0; bottom:0;
-  background: rgba(22,0,45,0.35); /* assombrit le fond pour lisibilité */
-  z-index: 0;
-}
-header, .swap-form, #wallet, #event-countdown, .announcement-box {
-  position: relative; z-index: 1;
 }
 
-/* === HEADER ET TEXTE === */
-h1, p, #event-countdown, .announcement-box h2 {
-  font-family: 'Luckiest Guy', cursive;
-  text-shadow: 2px 2px 4px #000;
+/* === HEADER === */
+header {
+  padding: 40px 20px 20px;
 }
-h1 { font-size: 3.8rem; margin: 10px 0; }
+
+header img {
+  width: 520px;
+  max-width: 92%;
+  margin-bottom: 20px;
+}
+
+h1 { font-size: 3.4rem; margin: 10px 0; }
 p { font-size: 1.2rem; color: #ffffffcc; max-width:720px; margin:auto; }
-#event-countdown { font-size:1.8rem; color:#40E0D0; margin:20px 0; }
 
-/* === WARNING === */
-.warning {
-  background: rgba(255, 165, 0, 0.15);
-  border: 1px solid orange;
-  padding: 12px;
-  border-radius: 12px;
-  margin: 30px auto;
-  width: fit-content;
-}
-
-/* === BOUTONS DESSIN ANIME === */
+/* === Boutons dessin animé === */
 .btn-cartoon {
   background: linear-gradient(135deg, #40E0D0, #8F5BFF);
   border: 4px solid #fff;
   color: #fff;
   font-weight: bold;
   font-size: 1.2rem;
-  padding: 18px 36px;
+  padding: 14px 28px;
   margin: 12px;
   border-radius: 24px;
   cursor: pointer;
@@ -80,7 +55,17 @@ p { font-size: 1.2rem; color: #ffffffcc; max-width:720px; margin:auto; }
   box-shadow: 0 0 10px #40E0D0, 0 0 20px #8F5BFF, 0 0 30px #40E0D0;
 }
 
-/* === FORM SWAP === */
+/* === Header bouton connect MetaMask en haut à droite === */
+#top-right {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  text-align: center;
+  z-index: 10;
+}
+#top-right small { display:block; font-size:0.7rem; opacity:0.7; }
+
+/* === Swap form === */
 .swap-form {
   margin: 40px auto;
   width: 420px;
@@ -96,7 +81,7 @@ p { font-size: 1.2rem; color: #ffffffcc; max-width:720px; margin:auto; }
   width: 100%; padding: 8px; border-radius: 12px; border: none; font-size: 1rem;
 }
 
-/* === POPUP CONFIRMATION === */
+/* === Popup confirmation === */
 #confirm {
   position: fixed;
   top: 20px;
@@ -118,27 +103,21 @@ p { font-size: 1.2rem; color: #ffffffcc; max-width:720px; margin:auto; }
   100% { transform: translateX(-50%) scale(1); opacity: 1; }
 }
 
-/* === ANNOUNCEMENT BOX === */
-.announcement-box {
-  margin: 40px auto;
-  width: 90%;
-  max-width: 720px;
-  padding: 16px 24px;
-  border-radius: 16px;
-  background: rgba(64,224,208,0.15);
-  border: 2px solid #40E0D0;
-  text-align: left;
-  color: white;
-  box-shadow: 0 0 20px #40E0D0, 0 0 40px #8F5BFF;
-}
-.announcement-box h2 { text-align:center; font-size:1.6rem; margin-bottom:12px; }
-.announcement-box ul { list-style:none; padding:0; margin:0; max-height:150px; overflow-y:auto; }
-.announcement-box li { margin-bottom:6px; font-size:1rem; }
+/* === Countdown === */
+#event-countdown { font-size:1.5rem; margin:20px 0; color:#40E0D0; font-weight:bold; }
+
+/* === Footer === */
+footer { margin: 40px 0; font-size: 0.75rem; opacity: 0.6; text-align:center; }
 </style>
 </head>
 
 <body>
-<div class="overlay"></div>
+
+<!-- Bouton Connect MetaMask et Polygon Warning -->
+<div id="top-right">
+  <button class="btn-cartoon" onclick="connectWallet()">Connect MetaMask</button>
+  <small>Polygon Network only</small>
+</div>
 
 <header>
   <img src="swapey-logo.png" alt="Swapey Logo" />
@@ -150,24 +129,12 @@ p { font-size: 1.2rem; color: #ffffffcc; max-width:720px; margin:auto; }
   Announcement in: <span id="countdown">Loading...</span>
 </div>
 
-<div class="warning">⚠️ Polygon Network only</div>
-
-<div id="wallet">
-  <button class="btn-cartoon" onclick="connectWallet()">Connect MetaMask</button>
-  <div id="address" class="address"></div>
-</div>
-
 <div class="swap-form">
   <label>From Token:</label>
   <select id="tokenA">
     <option value="0x0000000000000000000000000000000000001010">MATIC</option>
     <option value="0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174">USDC</option>
     <option value="0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063">DAI</option>
-    <option value="0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619">WETH</option>
-    <option value="0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6">WBTC</option>
-    <option value="0x831753DD7087CaC61aB5644b308642cc1c33Dc13">QUICK</option>
-    <option value="0xdAC17F958D2ee523a2206206994597C13D831ec7">USDT</option>
-    <option value="0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270">WMATIC</option>
   </select>
 
   <label>To Token:</label>
@@ -175,9 +142,6 @@ p { font-size: 1.2rem; color: #ffffffcc; max-width:720px; margin:auto; }
     <option value="0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174">USDC</option>
     <option value="0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063">DAI</option>
     <option value="0x0000000000000000000000000000000000001010">MATIC</option>
-    <option value="0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619">WETH</option>
-    <option value="0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6">WBTC</option>
-    <option value="0x831753DD7087CaC61aB5644b308642cc1c33Dc13">QUICK</option>
   </select>
 
   <label>Amount:</label>
@@ -187,17 +151,12 @@ p { font-size: 1.2rem; color: #ffffffcc; max-width:720px; margin:auto; }
   <div id="status" class="status"></div>
 </div>
 
-<div id="confirm">✅ Swap Successful!</div>
-
-<div class="announcement-box">
-  <h2>Live Crypto News</h2>
-  <ul id="crypto-news">
-    <li>BTC just surged 5% in the last hour!</li>
-    <li>ETH staking rewards increase announced</li>
-    <li>Polygon network upgrade happening soon</li>
-    <li>New token listing on Swapey DEX!</li>
-  </ul>
+<!-- Bouton History -->
+<div style="margin:20px;">
+  <a href="history.html" class="btn-cartoon">History</a>
 </div>
+
+<div id="confirm">✅ Swap Successful!</div>
 
 <footer>
   Swapey is decentralized. Use at your own risk.
@@ -213,8 +172,7 @@ async function connectWallet() {
     await provider.send("eth_requestAccounts", []);
     signer = provider.getSigner();
     const address = await signer.getAddress();
-    document.getElementById("address").innerText = "Connected: " + address;
-    document.getElementById("status").innerText = "";
+    document.getElementById("status").innerText = "Connected: " + address;
   } else { alert("MetaMask not detected"); }
 }
 
