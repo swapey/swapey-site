@@ -171,9 +171,9 @@ header p{color:#aaa}
 }
 #overlay .title,
 #overlay .time {
-  color:#ffffff; /* texte blanc */
+  color:#ffffff;
   font-size:2.3rem;
-  font-family:'Luckiest Guy', cursive; 
+  font-family:'Luckiest Guy', cursive;
   -webkit-text-stroke:2px #000000;
   text-shadow:1px 1px 3px rgba(255,255,255,0.3);
   margin:4px 0;
@@ -262,21 +262,20 @@ header p{color:#aaa}
 #roadmap ul{
   list-style:none;
   padding-left:0;
-  text-align:center;
+  text-align:left;
 }
 #roadmap li{
-  display:flex;
-  justify-content:center;
-  gap:8px;
   margin:12px 0;
+  display:flex;
+  align-items:flex-start;
 }
-#roadmap .date{
-  width:120px;
-  text-align:right;
+#roadmap .month{
   font-weight:bold;
+  width:150px;
 }
 #roadmap .event{
-  text-align:left;
+  flex:1;
+  padding-left:8px;
 }
 
 /* ===== FOOTER ===== */
@@ -345,14 +344,14 @@ footer{
 <div id="roadmap">
   <h2>2026 Roadmap</h2>
   <ul>
-    <li><div class="date">January</div><div class="event">Website Launch</div></li>
-    <li><div class="date">February 2nd</div><div class="event">Swap Unlock Event</div></li>
-    <li><div class="date">March</div><div class="event">First Gaming Integration</div></li>
-    <li><div class="date">May</div><div class="event">Staking & Rewards Program</div></li>
-    <li><div class="date">July</div><div class="event">NFT Marketplace Launch</div></li>
-    <li><div class="date">September</div><div class="event">Cross-chain Bridge Integration</div></li>
-    <li><div class="date">November</div><div class="event">Global Community Tournament</div></li>
-    <li><div class="date">December</div><div class="event">End of Year Gala & Major Updates</div></li>
+    <li><div class="month">🚀 January</div><div class="event">Website Launch</div></li>
+    <li><div class="month">🚀 February 2nd</div><div class="event">Swap Unlock Event</div></li>
+    <li><div class="month">🚀 March</div><div class="event">First Gaming Integration</div></li>
+    <li><div class="month">🚀 May</div><div class="event">Staking & Rewards Program</div></li>
+    <li><div class="month">🚀 July</div><div class="event">NFT Marketplace Launch</div></li>
+    <li><div class="month">🚀 September</div><div class="event">Cross-chain Bridge Integration</div></li>
+    <li><div class="month">🚀 November</div><div class="event">Global Community Tournament</div></li>
+    <li><div class="month">🚀 December</div><div class="event">End of Year Gala & Major Updates</div></li>
   </ul>
 </div>
 
