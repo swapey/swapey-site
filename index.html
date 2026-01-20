@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Swapey DEX | Solana Swap</title>
+<title>Swapey DEX | Direct Swap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 <style>
@@ -31,12 +31,13 @@ body {
 #top-right img { width:40px; cursor:pointer; border:3px solid red; border-radius:50%; transition: all 0.3s ease; }
 #top-right img.connected { border-color:lime; }
 
-/* Top-left history button */
+/* Top-left History */
 #history-btn { position: fixed; top:32px; left:12px; background: linear-gradient(135deg,#40E0D0,#8F5BFF); color:white; padding:10px 18px; border-radius:16px; text-decoration:none; font-weight:bold; transition:all 0.2s; z-index:10; }
 #history-btn:hover { transform: scale(1.1); }
 
 /* Wallet dashboard */
-#wallet-dashboard { position: fixed; top:80px; right:12px; width:260px; padding:12px; background: rgba(64,224,208,0.1); border-radius:16px; text-align:left; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; font-family:'Luckiest Guy', cursive; font-size:0.9rem; z-index:10; }
+#wallet-dashboard { position: fixed; top:100px; right:12px; width:260px; padding:12px; background: rgba(64,224,208,0.1); border-radius:16px; text-align:left; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; font-family:'Luckiest Guy', cursive; font-size:0.9rem; z-index:10; }
+.wallet-info { margin-bottom:8px; padding:6px; background: rgba(64,224,208,0.05); border-radius:8px; }
 
 /* Header */
 header { padding:60px 20px 20px; position:relative; z-index:1; }
@@ -50,17 +51,17 @@ p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
 /* Swap form */
 .swap-form { margin:40px auto; width:420px; max-width:95%; padding:20px; border-radius:24px; text-align:center; background: linear-gradient(135deg,#2a004f,#4d00a0); box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; position:relative; z-index:1; }
 .swap-form select, .swap-form input { width:100%; padding:10px; border-radius:12px; border:none; font-size:1rem; font-family:'Luckiest Guy', cursive; text-align:center; margin:6px 0; }
-.swap-form input { color:#000; width:100%; }
+.swap-form input { color:#000; }
 
 /* Swapey button */
 #swapey-button { background:none; border:none; cursor:pointer; display:block; margin:20px auto; text-align:center; font-family:'Luckiest Guy', cursive; font-size:2.8rem; color:#ffffff; text-shadow:0 0 8px #40E0D0,0 0 16px #8F5BFF; transition: all 0.3s ease; }
 #swapey-button:hover { transform: scale(1.1) rotate(-2deg); text-shadow:0 0 12px #40E0D0,0 0 24px #8F5BFF; }
 
-/* Confirmation */
+/* Confirmation message */
 #confirm { position:fixed; top:60px; left:50%; transform:translateX(-50%); background: linear-gradient(135deg,#40E0D0,#8F5BFF); padding:16px 32px; border-radius:16px; font-weight:bold; color:black; font-size:1.2rem; display:none; box-shadow:0 0 25px #40E0D0,0 0 50px #8F5BFF; animation: flash 0.5s ease-in-out; }
 @keyframes flash { 0% { transform: translateX(-50%) scale(0.8); opacity:0; } 50% { transform: translateX(-50%) scale(1.1); opacity:1; } 100% { transform: translateX(-50%) scale(1); opacity:1; } }
 
-/* Announcement */
+/* Announcement box */
 .announcement-box { margin:40px auto; width:90%; max-width:720px; padding:16px 24px; border-radius:16px; background: rgba(64,224,208,0.15); border:2px solid #40E0D0; text-align:left; color:white; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; position:relative; z-index:1; }
 .announcement-box h2 { text-align:center; font-size:1.6rem; margin-bottom:12px; }
 .announcement-box ul { list-style:none; padding:0; margin:0; max-height:150px; overflow-y:auto; }
@@ -80,8 +81,9 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; posit
 </div>
 
 <div id="wallet-dashboard">
-  <div id="wallet-balance"></div>
-  <div id="wallet-tokens"></div>
+  <div class="wallet-info" id="wallet-address"></div>
+  <div class="wallet-info" id="wallet-sol-balance"></div>
+  <div class="wallet-info" id="wallet-tokens"></div>
 </div>
 
 <header>
@@ -120,107 +122,91 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; posit
 <script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token-registry@0.2.10/dist/index.iife.js"></script>
 <script>
-let phantomConnected = false;
+// Phantom Wallet
+let phantomConnected=false;
 let pubKey;
 let connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
 
-// Top 50 SPL tokens (example, tu peux compléter)
-let splTokens = [
-  {symbol:"SOL", mint:null},
-  {symbol:"USDC", mint:"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"},
-  {symbol:"USDT", mint:"Es9vMFrzaCER..."} // compléter avec top 50
-];
-
 function togglePhantom(){
-  const btn = document.getElementById("phantom-btn");
+  const btn=document.getElementById("phantom-btn");
   if(!phantomConnected){
     connectPhantom();
   } else {
     phantomConnected=false;
     pubKey=null;
     btn.classList.remove("connected");
-    document.getElementById("wallet-balance").innerHTML="";
+    document.getElementById("wallet-address").innerText="";
+    document.getElementById("wallet-sol-balance").innerText="";
     document.getElementById("wallet-tokens").innerHTML="";
   }
 }
 
 async function connectPhantom(){
-  const btn = document.getElementById("phantom-btn");
+  const btn=document.getElementById("phantom-btn");
   if(window.solana && window.solana.isPhantom){
     try{
-      const resp = await window.solana.connect();
+      const resp=await window.solana.connect();
       phantomConnected=true;
       pubKey=resp.publicKey;
       btn.classList.add("connected");
+      document.getElementById("wallet-address").innerText="Address: "+pubKey.toString();
       await updateWallet();
-      populateTokenSelects();
     }catch(e){console.error(e);}
   } else alert("Phantom not detected");
 }
 
 async function updateWallet(){
-  const bal = await connection.getBalance(pubKey);
-  document.getElementById("wallet-balance").innerText = "SOL: "+(bal/1e9).toFixed(4);
+  const solBalance = await connection.getBalance(pubKey);
+  document.getElementById("wallet-sol-balance").innerText="SOL: "+(solBalance/1e9).toFixed(4);
+  
   const tokenList = await new TokenListProvider().resolve();
   const tokenMap = tokenList.filter(t=>t.chainId===101);
-  const walletTokensDiv = document.getElementById("wallet-tokens");
+  const walletTokensDiv=document.getElementById("wallet-tokens");
   walletTokensDiv.innerHTML="<ul>";
   for(const token of tokenMap){
     try{
-      const tokenPubKey = new solanaWeb3.PublicKey(token.address);
-      const tokenAccounts = await connection.getTokenAccountsByOwner(pubKey,{mint:tokenPubKey});
-      let balance = 0;
+      const tokenPubKey=new solanaWeb3.PublicKey(token.address);
+      const tokenAccounts=await connection.getTokenAccountsByOwner(pubKey,{mint:tokenPubKey});
+      let balance=0;
       if(tokenAccounts.value.length>0){
-        const accountInfo = await connection.getParsedAccountInfo(tokenAccounts.value[0].pubkey);
-        balance = accountInfo.value.data.parsed.info.tokenAmount.uiAmount || 0;
+        const accountInfo=await connection.getParsedAccountInfo(tokenAccounts.value[0].pubkey);
+        balance=accountInfo.value.data.parsed.info.tokenAmount.uiAmount || 0;
       }
       walletTokensDiv.innerHTML+=`<li>${token.symbol}: ${balance}</li>`;
-    } catch(e){ console.error(token.symbol,e); }
+    }catch(e){ console.error(token.symbol,e); }
   }
   walletTokensDiv.innerHTML+="</ul>";
 }
 
-// Populate selects
-function populateTokenSelects(){
-  const from = document.getElementById("token-from");
-  const to = document.getElementById("token-to");
-  from.innerHTML=""; to.innerHTML="";
-  splTokens.forEach(t=>{
-    from.innerHTML+=`<option value="${t.mint||t.symbol}">${t.symbol}</option>`;
-    to.innerHTML+=`<option value="${t.mint||t.symbol}">${t.symbol}</option>`;
-  });
-}
-
 // Countdown
-const eventDate = new Date("2026-01-26T20:00:00");
+const eventDate=new Date("2026-01-26T20:00:00");
 function updateCountdown(){
-  const now = new Date();
-  const diff = eventDate-now;
+  const now=new Date();
+  const diff=eventDate-now;
   if(diff<=0){ document.getElementById("countdown").innerText="The announcement is live! 🎉"; clearInterval(countdownInterval); return; }
-  const days = Math.floor(diff/(1000*60*60*24));
-  const hours = Math.floor((diff/(1000*60*60))%24);
-  const minutes = Math.floor((diff/(1000*60))%60);
-  const seconds = Math.floor((diff/1000)%60);
+  const days=Math.floor(diff/(1000*60*60*24));
+  const hours=Math.floor((diff/(1000*60*60))%24);
+  const minutes=Math.floor((diff/(1000*60))%60);
+  const seconds=Math.floor((diff/1000)%60);
   document.getElementById("countdown").innerText=`${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 updateCountdown();
 const countdownInterval=setInterval(updateCountdown,1000);
 
-// Swap placeholder
+// Swapey Swap placeholder
 async function swapTokens(){
-  if(!phantomConnected){ alert("Connect Phantom first"); return; }
-  const amount = document.getElementById("amount").value;
+  const amount=document.getElementById("amount").value;
   if(!amount||amount<=0){ alert("Enter a valid amount"); return; }
-  const confirm = document.getElementById("confirm");
+  const confirm=document.getElementById("confirm");
   confirm.style.display="block";
   setTimeout(()=>{confirm.style.display="none";},3500);
 }
 
-// Ticker (CoinGecko)
+// Ticker
 async function updateTicker(){
-  const resp = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=solana,usd-coin,tether&vs_currencies=usd");
-  const data = await resp.json();
-  document.getElementById("ticker").innerText = `SOL: $${data.solana.usd} | USDC: $${data["usd-coin"].usd} | USDT: $${data.tether.usd}`;
+  const resp=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=solana,usd-coin,tether&vs_currencies=usd");
+  const data=await resp.json();
+  document.getElementById("ticker").innerText=`SOL: $${data.solana.usd} | USDC: $${data["usd-coin"].usd} | USDT: $${data.tether.usd}`;
 }
 updateTicker();
 setInterval(updateTicker,10000);
