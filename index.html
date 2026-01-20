@@ -90,11 +90,10 @@ h1 { font-size:3rem; margin:0; color:#40E0D0; text-shadow:0 0 10px #8F5BFF; }
 p { opacity:0.8; margin-top:0; }
 
 /* ===== SWAP WRAPPER ===== */
-.swap-wrapper { position:relative; }
+.swap-wrapper { position:relative; margin-top:30px; }
 
 /* ===== SWAP BOX ===== */
 .swap-box {
-  margin-top:30px;
   background:linear-gradient(135deg,#2a004f,#4d00a0);
   padding:24px;
   border-radius:30px;
@@ -186,7 +185,7 @@ p { opacity:0.8; margin-top:0; }
 /* FOOTER */
 footer { margin:40px 0; font-size:0.65rem; opacity:0.5; }
 
-/* ===== DEX OVERLAY & COUNTDOWN ===== */
+/* ===== DEX OVERLAY & COUNTDOWN (ONLY SWAP AREA) ===== */
 #dex-overlay {
   position:absolute;
   top:0;
@@ -254,7 +253,7 @@ footer { margin:40px 0; font-size:0.65rem; opacity:0.5; }
 
 <div class="swap-wrapper">
 
-  <!-- Overlay flouté avec compteur -->
+  <!-- Overlay flouté uniquement sur le swap -->
   <div id="dex-overlay">
     <div id="countdown">
       🔒 Surprise unlocks in: <span id="timer">Loading...</span>
@@ -307,12 +306,13 @@ footer { margin:40px 0; font-size:0.65rem; opacity:0.5; }
 <script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
 
 <script>
+// Jupiter & token mapping
 const JUP="https://quote-api.jup.ag/v6";
 const TOKENS={SOL:"So11111111111111111111111111111111111111112",USDC:"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"};
 let wallet=null;
 let network="mainnet-beta";
 
-/* ===== PHANTOM CONNECT ===== */
+// Phantom connect
 async function connectPhantom(){
   if(!window.solana) return alert("Install Phantom");
   if(!wallet){
@@ -329,13 +329,13 @@ async function connectPhantom(){
   }
 }
 
-/* ===== NETWORK ===== */
+// Toggle network
 function toggleNetwork(){
   network=network==="mainnet-beta"?"devnet":"mainnet-beta";
   document.getElementById("network").innerText=network==="mainnet-beta"?"Mainnet":"Devnet";
 }
 
-/* ===== MAX ===== */
+// Max amount
 async function max(){
   if(!wallet) return;
   const c=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(network));
@@ -344,7 +344,7 @@ async function max(){
   await updateAmounts();
 }
 
-/* ===== FLIP TOKENS ===== */
+// Flip tokens
 function flipTokens(){
   const from=document.getElementById("fromToken");
   const to=document.getElementById("toToken");
@@ -354,7 +354,7 @@ function flipTokens(){
   updateAmounts();
 }
 
-/* ===== LIVE QUOTE ===== */
+// Live quote
 async function updateAmounts(){
   const from=document.getElementById("fromToken").value;
   const to=document.getElementById("toToken").value;
@@ -375,7 +375,7 @@ async function updateAmounts(){
   } catch(e){ console.error("Quote error:", e); }
 }
 
-/* ===== SWAP ===== */
+// Swap
 async function realSwap(){
   if(!wallet) return alert("Connect wallet");
   const from=document.getElementById("fromToken").value;
@@ -391,20 +391,9 @@ async function realSwap(){
   document.getElementById("min").innerText=`Min: ${(r.outAmount/1e9).toFixed(4)}`;
   document.getElementById("pay-token").innerText=from;
   document.getElementById("receive-token").innerText=to;
-  const tx=await fetch(`${JUP}/swap`,{
-    method:"POST",
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({route:r,userPublicKey:wallet,wrapAndUnwrapSol:true})
-  }).then(r=>r.json());
-  const raw=Uint8Array.from(atob(tx.swapTransaction),c=>c.charCodeAt(0));
-  const vtx=solanaWeb3.VersionedTransaction.deserialize(raw);
-  const signed=await solana.signTransaction(vtx);
-  const c=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(network));
-  await c.sendRawTransaction(signed.serialize());
-  loadHistory();
 }
 
-/* ===== HISTORY ===== */
+// History
 async function loadHistory(){
   if(!wallet) return;
   const c=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(network));
@@ -412,12 +401,12 @@ async function loadHistory(){
   document.getElementById("history").innerHTML="<b>History</b><br>"+sigs.map(s=>s.signature.slice(0,10)+"...").join("<br>");
 }
 
-/* ===== LISTENERS ===== */
+// Listeners
 document.getElementById("amount").addEventListener("input", updateAmounts);
 document.getElementById("fromToken").addEventListener("change", updateAmounts);
 document.getElementById("toToken").addEventListener("change", updateAmounts);
 
-/* ===== FLYING TOKEN ===== */
+// Flying token animation
 function flyingTokenAnimation(){
   const paySpan = document.getElementById("pay-amount");
   const receiveSpan = document.getElementById("receive-amount");
@@ -435,7 +424,7 @@ function flyingTokenAnimation(){
   setTimeout(()=> token.remove(),800);
 }
 
-/* ===== COUNTDOWN ===== */
+// Countdown for overlay
 function startCountdown(){
   const endDate = new Date("2026-01-26T20:00:00").getTime();
   const timerEl = document.getElementById("timer");
@@ -445,7 +434,7 @@ function startCountdown(){
     const distance = endDate - now;
     if(distance <= 0){
       clearInterval(interval);
-      overlay.style.display="none"; // supprime le flou et active le swap
+      overlay.style.display="none"; // supprime le flou
       return;
     }
     const days = Math.floor(distance/(1000*60*60*24));
