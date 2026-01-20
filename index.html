@@ -2,44 +2,88 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Swapey DEX — Gaming Neon</title>
+<title>Swapey DEX | Gaming Neon · Jupiter & Raydium</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 <style>
-body {margin:0; font-family:'Luckiest Guy', cursive; background:#0d001f; color:white; text-align:center; overflow-x:hidden; position:relative;}
-#top-bar{position:fixed;top:0;left:0;width:100%;background:#1a0033;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;box-sizing:border-box;z-index:10;border-bottom:2px solid #40E0D0;}
-#left-top{display:flex;align-items:center;gap:10px;min-width:0;}
-#network{background:none;border:2px solid #40E0D0;color:white;border-radius:10px;padding:4px 10px;cursor:pointer;font-family:'Luckiest Guy', cursive;transition:0.2s all;}
-#network:hover{background:#40E0D0;color:#12001f;}
-#wallet-display{font-size:0.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-#phantom-btn{flex-shrink:0;width:44px;height:44px;border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;margin-right:4px;transition:0.2s all;}
-#phantom-btn.connected{box-shadow:0 0 8px #00ff80,0 0 16px #00ff80;}
-#phantom-btn.disconnected{box-shadow:0 0 8px #ff3b3b,0 0 16px #ff3b3b;}
-#phantom-btn img{width:28px;height:28px;}
-.container{max-width:420px;margin:100px auto 0;padding:0 16px;position:relative;}
-header img{width:280px;margin-bottom:10px;}
-h1{font-size:3rem;margin:0;color:#40E0D0;text-shadow:0 0 10px #8F5BFF;}
-p{opacity:0.8;margin-top:0;}
-.swap-wrapper{position:relative;margin-top:30px;}
-.swap-box{background:linear-gradient(135deg,#2a004f,#4d00a0);padding:24px;border-radius:30px;box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;position:relative;transition:0.3s all;}
-.swap-box:hover{transform:scale(1.02);}
-.swap-row{display:flex;justify-content:space-between;margin-bottom:10px;align-items:center;}
-.swap-row div{display:flex;align-items:center;gap:8px;font-size:1rem;font-weight:bold;}
-.swap-box select,.swap-box input{width:100%;padding:12px;margin:6px 0;border-radius:14px;border:none;font-family:'Luckiest Guy', cursive;text-align:center;font-size:1rem;transition:0.2s all;}
-.swap-box input{color:black;}
-.swap-box select:hover,.swap-box input:hover{transform:scale(1.05);}
-#flip-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#40E0D0;border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;box-shadow:0 0 8px #8F5BFF;font-weight:bold;color:#12001f;transition:0.3s all;}
-#flip-btn:hover{transform:translate(-50%,-50%) scale(1.2) rotate(180deg);}
-#swap-btn{margin-top:16px;font-family:'Luckiest Guy', cursive;font-size:2.8rem;background:none;border:none;color:#ffffff;cursor:pointer;text-shadow:0 0 8px #40E0D0,0 0 16px #8F5BFF;transition: transform 0.1s ease;}
-#swap-btn:active{transform: scale(0.9) translateY(2px);}
-.row{display:flex;justify-content:space-between;font-size:0.8rem;opacity:0.9;margin-top:6px;}
-#history{margin-top:30px;font-size:0.7rem;text-align:left;background:rgba(255,255,255,0.05);padding:12px;border-radius:14px;max-height:160px;overflow:auto;box-shadow:0 0 8px #40E0D0,0 0 16px #8F5BFF inset;}
-footer{margin:40px 0;font-size:0.65rem;opacity:0.5;}
-#dex-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);backdrop-filter: blur(10px);display:flex;justify-content:center;align-items:center;border-radius:30px;z-index:50;color:#40E0D0;font-size:1.3rem;text-align:center;flex-direction:column;pointer-events:all;}
-#dex-overlay #countdown{font-family:'Luckiest Guy', cursive;font-size:1.5rem;}
-.flying-token{position:absolute;width:32px;height:32px;border-radius:50%;background:#40E0D0;display:flex;justify-content:center;align-items:center;color:#12001f;font-weight:bold;font-family:'Luckiest Guy', cursive;z-index:60;pointer-events:none;box-shadow:0 0 8px #8F5BFF,0 0 16px #40E0D0;transition: transform 0.8s cubic-bezier(0.65,0,0.35,1);}
+body {
+  margin:0;
+  font-family:'Luckiest Guy', cursive;
+  color:white;
+  background:#16002d;
+  overflow-x:hidden;
+  text-align:center;
+}
 
-/* --- MESSAGE BOX --- */
+/* ----- Top bar ----- */
+#top-bar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:6px 12px;
+  background:#1a0033;
+  font-weight:bold;
+  font-family:'Luckiest Guy', cursive;
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:12;
+}
+#top-bar #ticker { flex:1; text-align:center; font-size:0.9rem; }
+#top-bar #phantom-btn {
+  position:relative;
+  cursor:pointer;
+  border-radius:50%;
+  width:44px;
+  height:44px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-right:6px;
+  transition:all 0.2s;
+}
+#top-bar #phantom-btn.connected { box-shadow:0 0 0 3px #00ff80; } /* vert */
+#top-bar #phantom-btn.disconnected { box-shadow:0 0 0 3px #ff3b3b; } /* rouge */
+#top-bar #phantom-btn img { width:32px; height:32px; }
+
+/* ----- Wallet info ----- */
+#wallet-dashboard { margin-top:60px; max-width:300px; margin-left:auto; margin-right:auto; padding:12px; background: rgba(64,224,208,0.1); border-radius:16px; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; text-align:left; font-size:0.9rem; }
+#wallet-address, #wallet-sol { margin-bottom:6px; }
+
+/* ----- Header ----- */
+header { padding:80px 20px 20px; }
+header img { max-width:260px; margin-bottom:10px; }
+h1 { font-size:3rem; margin:10px 0; }
+p { font-size:1.1rem; color:#ffffffcc; max-width:720px; margin:auto; }
+
+/* ----- Countdown overlay ----- */
+#countdown-overlay {
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.8);
+  backdrop-filter:blur(10px);
+  z-index:20;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:#40E0D0;
+  font-family:'Luckiest Guy', cursive;
+}
+#countdown-overlay h2 { font-size:2rem; margin-bottom:16px; text-shadow:0 0 10px #40E0D0; }
+#countdown-overlay #timer { font-size:3rem; text-shadow:0 0 15px #40E0D0; }
+
+/* ----- Swap form ----- */
+.swap-form { margin:40px auto; width:420px; max-width:95%; padding:20px; border-radius:24px; text-align:center; background: linear-gradient(135deg,#2a004f,#4d00a0); box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; position:relative; z-index:10; }
+.swap-form select, .swap-form input { width:100%; padding:10px; border-radius:12px; border:none; font-size:1rem; font-family:'Luckiest Guy', cursive; text-align:center; margin:6px 0; }
+.swap-form input { color:#000; }
+
+/* ----- Swapey button ----- */
+#swapey-button { background:none; border:none; cursor:pointer; display:block; margin:20px auto; font-family:'Luckiest Guy', cursive; font-size:2.8rem; color:#ffffff; text-shadow:0 0 8px #40E0D0,0 0 16px #8F5BFF; transition: all 0.2s ease; }
+#swapey-button:active { transform: scale(0.95) translateY(2px); text-shadow:0 0 12px #40E0D0,0 0 24px #8F5BFF; }
+
+/* ----- Message box (ok le plan...) ----- */
 .message-box {
   margin:30px auto;
   max-width:420px;
@@ -55,208 +99,3 @@ footer{margin:40px 0;font-size:0.65rem;opacity:0.5;}
 }
 .message-box p { margin:8px 0; font-size:1rem; }
 @keyframes pulse {
-  0% { box-shadow:0 0 15px #40E0D0, 0 0 30px #8F5BFF; }
-  100% { box-shadow:0 0 25px #40E0D0, 0 0 50px #8F5BFF; }
-}
-</style>
-</head>
-<body>
-
-<div id="top-bar">
-  <div id="left-top">
-    <button id="network" onclick="toggleNetwork()">Mainnet</button>
-    <div id="wallet-display">Not connected</div>
-  </div>
-  <div id="phantom-btn" class="disconnected" onclick="connectPhantom()">
-    <img src="phantom-logo.png" alt="Phantom">
-  </div>
-</div>
-
-<div class="container">
-<header>
-  <img src="swapey-logo.png" alt="Swapey">
-  <h1>Swapey DEX</h1>
-  <p>Gaming Neon · Jupiter & Raydium</p>
-</header>
-
-<div class="swap-wrapper">
-  <div id="dex-overlay">
-    <div id="countdown">
-      🔒 Unlocks in: <span id="timer">Loading...</span>
-    </div>
-  </div>
-
-  <div class="swap-box">
-    <div class="swap-row">
-      <div>YOU PAY <span id="pay-token">SOL</span> <span id="pay-amount">0</span></div>
-      <div>YOU RECEIVE <span id="receive-token">USDC</span> <span id="receive-amount">0</span></div>
-    </div>
-    <select id="fromToken">
-      <option value="SOL">SOL</option>
-      <option value="USDC">USDC</option>
-    </select>
-    <input id="amount" type="number" placeholder="Amount">
-    <div class="row">
-      <span id="balance">Balance: -</span>
-      <span onclick="max()" style="cursor:pointer;">MAX</span>
-    </div>
-    <select id="toToken">
-      <option value="USDC">USDC</option>
-      <option value="SOL">SOL</option>
-    </select>
-    <button id="flip-btn" onclick="flipTokens()">⇅</button>
-    <div class="row">
-      <span id="route">Route: -</span>
-      <span id="min">Min: -</span>
-    </div>
-    <button id="swap-btn" onclick="flyingTokenAnimation(); realSwap()">SWAPEY</button>
-  </div>
-</div>
-
-<!-- --- MESSAGE BOX --- -->
-<div class="message-box">
-  <p>💬 Ok le plan est lancé ! Tout le programme est conclu. 🚀</p>
-  <p>Rejoins notre monde cryptographique et prépare-toi à profiter du futur token <strong>$SWAPEY</strong> sur <em>Pump.Fun</em> !</p>
-  <p>🔥 Reste connecté, le meilleur est à venir et seuls les early adopters profiteront de cette aventure unique !</p>
-</div>
-
-<div id="history"></div>
-<footer>
-  On-chain swaps · Use at your own risk
-</footer>
-</div>
-
-<script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
-<script>
-// Jupiter & token mapping
-const JUP="https://quote-api.jup.ag/v6";
-const TOKENS={SOL:"So11111111111111111111111111111111111111112",USDC:"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"};
-let wallet=null;
-let network="mainnet-beta";
-
-async function connectPhantom(){
-  if(!window.solana) return alert("Install Phantom");
-  if(!wallet){
-    const r=await solana.connect();
-    wallet=r.publicKey.toString();
-    document.getElementById("phantom-btn").className="connected";
-    document.getElementById("wallet-display").innerText=wallet.slice(0,4)+"*****"+wallet.slice(-4);
-    loadHistory();
-  } else {
-    await solana.disconnect();
-    wallet=null;
-    document.getElementById("phantom-btn").className="disconnected";
-    document.getElementById("wallet-display").innerText="Not connected";
-  }
-}
-
-function toggleNetwork(){
-  network=network==="mainnet-beta"?"devnet":"mainnet-beta";
-  document.getElementById("network").innerText=network==="mainnet-beta"?"Mainnet":"Devnet";
-}
-
-async function max(){
-  if(!wallet) return;
-  const c=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(network));
-  const bal=await c.getBalance(new solanaWeb3.PublicKey(wallet));
-  document.getElementById("amount").value=(bal/1e9).toFixed(4);
-  await updateAmounts();
-}
-
-function flipTokens(){
-  const from=document.getElementById("fromToken");
-  const to=document.getElementById("toToken");
-  [from.value,to.value]=[to.value,from.value];
-  document.getElementById("pay-token").innerText=from.value;
-  document.getElementById("receive-token").innerText=to.value;
-  updateAmounts();
-}
-
-async function updateAmounts(){
-  const from=document.getElementById("fromToken").value;
-  const to=document.getElementById("toToken").value;
-  const amt=parseFloat(document.getElementById("amount").value);
-  if(!amt || amt<=0) return;
-  const inLamports=Math.floor(amt*1e9);
-  try {
-    const q=await fetch(`${JUP}/quote?inputMint=${TOKENS[from]}&outputMint=${TOKENS[to]}&amount=${inLamports}&slippageBps=50`).then(r=>r.json());
-    if(q.data && q.data[0]){
-      const r=q.data[0];
-      document.getElementById("pay-amount").innerText=(r.inAmount/1e9).toFixed(4);
-      document.getElementById("receive-amount").innerText=(r.outAmount/1e9).toFixed(4);
-      document.getElementById("route").innerText=`Route: ${r.marketInfos[0].label}`;
-      document.getElementById("min").innerText=`Min: ${(r.outAmount/1e9).toFixed(4)}`;
-      document.getElementById("pay-token").innerText=from;
-      document.getElementById("receive-token").innerText=to;
-    }
-  } catch(e){ console.error("Quote error:", e); }
-}
-
-async function realSwap(){
-  if(!wallet) return alert("Connect wallet");
-  const from=document.getElementById("fromToken").value;
-  const to=document.getElementById("toToken").value;
-  const amt=parseFloat(document.getElementById("amount").value);
-  if(!amt || amt<=0) return;
-  const inLamports=Math.floor(amt*1e9);
-  const q=await fetch(`${JUP}/quote?inputMint=${TOKENS[from]}&outputMint=${TOKENS[to]}&amount=${inLamports}&slippageBps=50`).then(r=>r.json());
-  const r=q.data[0];
-  document.getElementById("pay-amount").innerText=(r.inAmount/1e9).toFixed(4);
-  document.getElementById("receive-amount").innerText=(r.outAmount/1e9).toFixed(4);
-  document.getElementById("route").innerText=`Route: ${r.marketInfos[0].label}`;
-  document.getElementById("min").innerText=`Min: ${(r.outAmount/1e9).toFixed(4)}`;
-  document.getElementById("pay-token").innerText=from;
-  document.getElementById("receive-token").innerText=to;
-}
-
-async function loadHistory(){
-  if(!wallet) return;
-  const c=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(network));
-  const sigs=await c.getSignaturesForAddress(new solanaWeb3.PublicKey(wallet),{limit:5});
-  document.getElementById("history").innerHTML="<b>History</b><br>"+sigs.map(s=>s.signature.slice(0,10)+"...").join("<br>");
-}
-
-document.getElementById("amount").addEventListener("input", updateAmounts);
-document.getElementById("fromToken").addEventListener("change", updateAmounts);
-document.getElementById("toToken").addEventListener("change", updateAmounts);
-
-function flyingTokenAnimation(){
-  const paySpan = document.getElementById("pay-amount");
-  const receiveSpan = document.getElementById("receive-amount");
-  const tokenText = document.getElementById("pay-token").innerText;
-  const rectFrom = paySpan.getBoundingClientRect();
-  const rectTo = receiveSpan.getBoundingClientRect();
-  const token = document.createElement("div");
-  token.className = "flying-token";
-  token.innerText = tokenText;
-  document.body.appendChild(token);
-  token.style.left = rectFrom.left + rectFrom.width/2 -16 +"px";
-  token.style.top = rectFrom.top + rectFrom.height/2 -16 +"px";
-  token.getBoundingClientRect();
-  token.style.transform = `translate(${rectTo.left - rectFrom.left}px, ${rectTo.top - rectFrom.top}px) scale(0.5)`;
-  setTimeout(()=> token.remove(),800);
-}
-
-function startCountdown(){
-  const endDate = new Date("2026-02-03T03:00:00Z").getTime(); // 02.02.2026 22:00 NY
-  const timerEl = document.getElementById("timer");
-  const overlay = document.getElementById("dex-overlay");
-  const interval = setInterval(()=>{
-    const now = new Date().getTime();
-    const distance = endDate - now;
-    if(distance <= 0){
-      clearInterval(interval);
-      overlay.style.display="none";
-      return;
-    }
-    const days = Math.floor(distance/(1000*60*60*24));
-    const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-    const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
-    const seconds = Math.floor((distance%(1000*60))/1000);
-    timerEl.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-  },1000);
-}
-startCountdown();
-</script>
-</body>
-</html>
