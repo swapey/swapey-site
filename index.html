@@ -172,10 +172,10 @@ header p{color:#aaa}
 #overlay .title,
 #overlay .time {
   color:#ffffff; /* texte blanc */
-  font-size:2.3rem; /* légèrement plus petit */
-  font-family:'Luckiest Guy', cursive;
-  -webkit-text-stroke:2px #000000; /* contour noir néon */
-  text-shadow:1px 1px 3px rgba(255,255,255,0.3); /* léger brillant */
+  font-size:2.3rem;
+  font-family:'Luckiest Guy', cursive; 
+  -webkit-text-stroke:2px #000000;
+  text-shadow:1px 1px 3px rgba(255,255,255,0.3);
   margin:4px 0;
   letter-spacing:1px;
 }
@@ -225,8 +225,12 @@ header p{color:#aaa}
   color:#fff;
 }
 #explanation h2{
+  font-family:'Luckiest Guy', cursive;
+  color:#ffffff;
+  -webkit-text-stroke:2px #000000;
+  text-shadow:1px 1px 3px rgba(255,255,255,0.3);
+  font-size:2.5rem;
   text-align:center;
-  color:#0B3D91;
   margin-bottom:12px;
 }
 #explanation p{
@@ -243,20 +247,36 @@ header p{color:#aaa}
   background:rgba(143,91,255,.05);
   border:2px solid #8F5BFF;
   box-shadow:0 0 20px #8F5BFF,0 0 40px #40E0D0;
-  text-align:center;
   font-family:'Arial', sans-serif;
   color:#fff;
+  text-align:center;
 }
 #roadmap h2{
+  font-family:'Luckiest Guy', cursive;
+  color:#ffffff;
+  -webkit-text-stroke:2px #000000;
+  text-shadow:1px 1px 3px rgba(255,255,255,0.3);
+  font-size:2.5rem;
   margin-bottom:12px;
-  color:#8F5BFF;
 }
 #roadmap ul{
   list-style:none;
   padding-left:0;
+  text-align:center;
 }
 #roadmap li{
+  display:flex;
+  justify-content:center;
+  gap:8px;
   margin:12px 0;
+}
+#roadmap .date{
+  width:120px;
+  text-align:right;
+  font-weight:bold;
+}
+#roadmap .event{
+  text-align:left;
 }
 
 /* ===== FOOTER ===== */
@@ -325,13 +345,14 @@ footer{
 <div id="roadmap">
   <h2>2026 Roadmap</h2>
   <ul>
-    <li>February 2nd - Swap Unlock Event</li>
-    <li>March - First Gaming Integration</li>
-    <li>May - Staking & Rewards Program</li>
-    <li>July - NFT Marketplace Launch</li>
-    <li>September - Cross-chain Bridge Integration</li>
-    <li>November - Global Community Tournament</li>
-    <li>December - End of Year Gala & Major Updates</li>
+    <li><div class="date">January</div><div class="event">Website Launch</div></li>
+    <li><div class="date">February 2nd</div><div class="event">Swap Unlock Event</div></li>
+    <li><div class="date">March</div><div class="event">First Gaming Integration</div></li>
+    <li><div class="date">May</div><div class="event">Staking & Rewards Program</div></li>
+    <li><div class="date">July</div><div class="event">NFT Marketplace Launch</div></li>
+    <li><div class="date">September</div><div class="event">Cross-chain Bridge Integration</div></li>
+    <li><div class="date">November</div><div class="event">Global Community Tournament</div></li>
+    <li><div class="date">December</div><div class="event">End of Year Gala & Major Updates</div></li>
   </ul>
 </div>
 
