@@ -7,10 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing:border-box; }
+*{box-sizing:border-box}
 
 /* ===== BODY / SPACE ===== */
-body {
+body{
   margin:0;
   font-family:'Luckiest Guy', cursive;
   color:white;
@@ -24,30 +24,29 @@ body {
 }
 
 /* ===== SHOOTING STAR ===== */
-.shooting-star {
+.shooting-star{
   position:fixed;
   top:-100px;
   left:-100px;
   width:2px;
   height:160px;
   background:linear-gradient(transparent,#8F5BFF,transparent);
-  opacity:0.7;
+  opacity:.7;
   transform:rotate(45deg);
   animation:shoot 16s infinite;
   z-index:0;
 }
-@keyframes shoot {
-  0% { transform:translate(-200px,-200px) rotate(45deg); opacity:0; }
-  10% { opacity:1; }
-  20% { transform:translate(120vw,120vh) rotate(45deg); opacity:0; }
-  100% { opacity:0; }
+@keyframes shoot{
+  0%{transform:translate(-200px,-200px) rotate(45deg);opacity:0}
+  10%{opacity:1}
+  20%{transform:translate(120vw,120vh) rotate(45deg);opacity:0}
+  100%{opacity:0}
 }
 
 /* ===== TOP BAR ===== */
-#top-bar {
+#top-bar{
   position:fixed;
-  top:0;
-  left:0;
+  top:0;left:0;
   width:100%;
   padding:8px 14px;
   background:#0a0014;
@@ -56,48 +55,36 @@ body {
   align-items:center;
   z-index:20;
 }
-
-#wallet-display {
-  font-size:0.85rem;
+#wallet-display{
+  font-size:.85rem;
   color:#8F5BFF;
   text-shadow:0 0 6px #8F5BFF;
 }
-
-#phantom-btn {
-  width:42px;
-  height:42px;
+#phantom-btn{
+  width:42px;height:42px;
   border-radius:50%;
   display:flex;
   justify-content:center;
   align-items:center;
   cursor:pointer;
 }
-#phantom-btn img { width:28px; }
-#phantom-btn.connected {
-  box-shadow:0 0 0 3px #40E0D0;
-}
-#phantom-btn.disconnected {
-  box-shadow:0 0 0 3px #ff3b3b;
-}
+#phantom-btn img{width:28px}
+#phantom-btn.connected{box-shadow:0 0 0 3px #40E0D0}
+#phantom-btn.disconnected{box-shadow:0 0 0 3px #ff3b3b}
 
 /* ===== HEADER ===== */
-header {
+header{
   padding:120px 20px 20px;
 }
-header img {
+header img{
   max-width:420px;
   width:90%;
 }
-header h1 {
-  font-size:3rem;
-  margin:10px 0;
-}
-header p {
-  color:#aaa;
-}
+header h1{font-size:3rem;margin:10px 0}
+header p{color:#aaa}
 
 /* ===== SWAP BOX ===== */
-.swap-form {
+.swap-form{
   margin:40px auto;
   width:420px;
   max-width:92%;
@@ -107,9 +94,8 @@ header p {
   box-shadow:0 0 25px #8F5BFF,0 0 45px #40E0D0;
   position:relative;
 }
-
 .swap-form select,
-.swap-form input {
+.swap-form input{
   width:100%;
   padding:12px;
   margin:6px 0;
@@ -120,7 +106,7 @@ header p {
 }
 
 /* ===== SWAPEY BUTTON ===== */
-#swapey-button {
+#swapey-button{
   background:none;
   border:none;
   font-size:3rem;
@@ -128,14 +114,11 @@ header p {
   cursor:pointer;
   color:white;
   text-shadow:0 0 10px #8F5BFF,0 0 20px #40E0D0;
-  transition:0.2s;
 }
-#swapey-button:active {
-  transform:scale(0.9) rotate(-2deg);
-}
+#swapey-button:active{transform:scale(.9) rotate(-2deg)}
 
 /* ===== OVERLAY COUNTDOWN ===== */
-#overlay {
+#overlay{
   position:absolute;
   inset:0;
   backdrop-filter:blur(10px);
@@ -146,31 +129,49 @@ header p {
   border-radius:24px;
   z-index:5;
 }
-
 #overlay .title,
-#overlay .time {
+#overlay .time{
   color:#8F5BFF;
   font-size:2.1rem;
-  text-shadow:0 0 8px #8F5BFF, 0 0 16px #40E0D0;
+  text-shadow:0 0 8px #8F5BFF,0 0 16px #40E0D0;
 }
 
-/* ===== MESSAGE BOX ===== */
-.message-box {
+/* ===== COIN ===== */
+.coin-zone{
+  margin:40px auto;
+}
+.swapey-coin{
+  width:140px;
+  animation:spin 8s linear infinite;
+  filter:drop-shadow(0 0 20px gold);
+}
+@keyframes spin{
+  from{transform:rotateY(0deg)}
+  to{transform:rotateY(360deg)}
+}
+.coin-text{
+  margin-top:10px;
+  color:#ffd700;
+  text-shadow:0 0 10px gold;
+}
+
+/* ===== MESSAGE ===== */
+.message-box{
   margin:40px auto;
   max-width:440px;
   padding:22px;
   border-radius:20px;
-  background:rgba(143,91,255,0.1);
+  background:rgba(143,91,255,.1);
   border:2px solid #8F5BFF;
   box-shadow:0 0 20px #8F5BFF,0 0 40px #40E0D0;
   text-align:left;
 }
 
 /* ===== FOOTER ===== */
-footer {
+footer{
   margin:40px 0;
-  font-size:0.75rem;
-  opacity:0.6;
+  font-size:.75rem;
+  opacity:.6;
 }
 </style>
 </head>
@@ -204,21 +205,20 @@ footer {
   </div>
 </div>
 
+<div class="coin-zone">
+  <img src="swapey-coin.png" class="swapey-coin" alt="$SWAPEY Coin">
+  <div class="coin-text">$SWAPEY Token</div>
+</div>
+
 <div class="message-box">
   <p>💬 The plan is live. Everything is now in motion. 🚀</p>
-
   <p>
     The future token <strong>$SWAPEY</strong> is coming to <strong>Pump.fun</strong>.
     Big announcement on <strong>February 2nd, 2026 at 10:00 PM (NY)</strong>.
   </p>
-
   <p>
-    🔥 2026 will be explosive — the Swap will go live, new games will let you earn
-    <strong>$SWAPEY</strong>, and a full futuristic ecosystem is coming.
-  </p>
-
-  <p>
-    Stay ready. Early believers will shape the future of Swapey.
+    🔥 2026 will be explosive — swap, games, rewards and a full ecosystem.
+    Early believers will shape the future.
   </p>
 </div>
 
@@ -227,51 +227,34 @@ footer {
 </footer>
 
 <script>
-let connected = false;
+let connected=false;
 
-function connectWallet(){
-  // Desktop or Phantom browser
-  if (window.solana && window.solana.isPhantom) {
-    window.solana.connect().then(res => {
-      connected = true;
-      const addr = res.publicKey.toString();
-      document.getElementById("wallet-display").innerText =
-        addr.slice(0,4) + "****";
-      document.getElementById("phantom-btn").className = "connected";
-    }).catch(()=>{});
+async function connectWallet(auto=false){
+  if(window.solana && window.solana.isPhantom){
+    try{
+      const resp=await window.solana.connect({onlyIfTrusted:auto});
+      if(!resp||!resp.publicKey)return;
+      connected=true;
+      const a=resp.publicKey.toString();
+      wallet-display.innerText=a.slice(0,4)+"****";
+      phantom-btn.className="connected";
+    }catch(e){}
     return;
   }
-
-  // Mobile → open Phantom app
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  if (isMobile) {
-    const url = window.location.href;
-    window.location.href =
-      `https://phantom.app/ul/browse/${encodeURIComponent(url)}`;
-    return;
+  if(!auto && /iPhone|Android/i.test(navigator.userAgent)){
+    location.href=`https://phantom.app/ul/browse/${encodeURIComponent(location.href)}`;
   }
-
-  alert("Phantom wallet not detected");
 }
 
-/* ===== COUNTDOWN ===== */
+window.addEventListener("load",()=>connectWallet(true));
+
 function updateCountdown(){
-  const target = new Date("2026-02-02T22:00:00-05:00").getTime();
-  const now = Date.now();
-  const diff = target - now;
-
-  if(diff <= 0){
-    document.getElementById("overlay").style.display="none";
-    return;
-  }
-
-  const d = Math.floor(diff/86400000);
-  const h = Math.floor((diff%86400000)/3600000);
-  const m = Math.floor((diff%3600000)/60000);
-  const s = Math.floor((diff%60000)/1000);
-
-  document.getElementById("timer").innerText =
-    `${d}d ${h}h ${m}m ${s}s`;
+  const target=new Date("2026-02-02T22:00:00-05:00").getTime();
+  const now=Date.now();
+  const d=target-now;
+  if(d<=0){overlay.style.display="none";return}
+  timer.innerText=
+    `${Math.floor(d/86400000)}d ${Math.floor(d%86400000/3600000)}h ${Math.floor(d%3600000/60000)}m ${Math.floor(d%60000/1000)}s`;
 }
 setInterval(updateCountdown,1000);
 updateCountdown();
