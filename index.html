@@ -7,10 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 
 <style>
-/* ===== RESET ===== */
-* {
-  box-sizing:border-box;
-}
+* { box-sizing:border-box; }
 
 /* ===== BODY / SPACE ===== */
 body {
@@ -75,9 +72,7 @@ body {
   align-items:center;
   cursor:pointer;
 }
-#phantom-btn img {
-  width:28px;
-}
+#phantom-btn img { width:28px; }
 #phantom-btn.connected {
   box-shadow:0 0 0 3px #40E0D0;
 }
@@ -156,9 +151,7 @@ header p {
 #overlay .time {
   color:#8F5BFF;
   font-size:2.1rem;
-  text-shadow:
-    0 0 8px #8F5BFF,
-    0 0 16px #40E0D0;
+  text-shadow:0 0 8px #8F5BFF, 0 0 16px #40E0D0;
 }
 
 /* ===== MESSAGE BOX ===== */
@@ -189,12 +182,12 @@ footer {
 <div id="top-bar">
   <div id="wallet-display">Not connected</div>
   <div id="phantom-btn" class="disconnected" onclick="connectWallet()">
-    <img src="phantom-logo.png">
+    <img src="phantom-logo.png" alt="Phantom">
   </div>
 </div>
 
 <header>
-  <img src="swapey-logo.png">
+  <img src="swapey-logo.png" alt="Swapey Logo">
   <h1>Swapey DEX</h1>
   <p>Gaming Neon · Jupiter & Raydium</p>
 </header>
@@ -213,13 +206,19 @@ footer {
 
 <div class="message-box">
   <p>💬 The plan is live. Everything is now in motion. 🚀</p>
+
   <p>
     The future token <strong>$SWAPEY</strong> is coming to <strong>Pump.fun</strong>.
     Big announcement on <strong>February 2nd, 2026 at 10:00 PM (NY)</strong>.
   </p>
+
   <p>
-    🔥 2026 will be explosive — Swap, games, rewards and a full ecosystem.
-    Early believers will shape the future.
+    🔥 2026 will be explosive — the Swap will go live, new games will let you earn
+    <strong>$SWAPEY</strong>, and a full futuristic ecosystem is coming.
+  </p>
+
+  <p>
+    Stay ready. Early believers will shape the future of Swapey.
   </p>
 </div>
 
@@ -231,17 +230,28 @@ footer {
 let connected = false;
 
 function connectWallet(){
-  if(!window.solana) return alert("Phantom not detected");
-
-  if(!connected){
-    window.solana.connect().then(res=>{
+  // Desktop or Phantom browser
+  if (window.solana && window.solana.isPhantom) {
+    window.solana.connect().then(res => {
       connected = true;
       const addr = res.publicKey.toString();
       document.getElementById("wallet-display").innerText =
         addr.slice(0,4) + "****";
-      document.getElementById("phantom-btn").className="connected";
-    });
+      document.getElementById("phantom-btn").className = "connected";
+    }).catch(()=>{});
+    return;
   }
+
+  // Mobile → open Phantom app
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isMobile) {
+    const url = window.location.href;
+    window.location.href =
+      `https://phantom.app/ul/browse/${encodeURIComponent(url)}`;
+    return;
+  }
+
+  alert("Phantom wallet not detected");
 }
 
 /* ===== COUNTDOWN ===== */
