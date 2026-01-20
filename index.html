@@ -14,6 +14,7 @@ body {
   color:white;
   text-align:center;
   overflow-x:hidden;
+  position:relative;
 }
 
 /* ===== TOP BAR ===== */
@@ -84,6 +85,7 @@ body {
   max-width:420px;
   margin:100px auto 0;
   padding:0 16px;
+  position:relative;
 }
 
 /* ===== HEADER ===== */
@@ -184,6 +186,31 @@ p { opacity:0.8; margin-top:0; }
 
 /* FOOTER */
 footer { margin:40px 0; font-size:0.65rem; opacity:0.5; }
+
+/* ===== DEX OVERLAY & COUNTDOWN ===== */
+#dex-overlay {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius:30px;
+  z-index:20;
+  color:#40E0D0;
+  font-size:1.2rem;
+  text-align:center;
+  flex-direction:column;
+}
+
+#dex-overlay #countdown {
+  font-family:'Luckiest Guy', cursive;
+  font-size:1.5rem;
+}
 </style>
 </head>
 
@@ -206,6 +233,13 @@ footer { margin:40px 0; font-size:0.65rem; opacity:0.5; }
   <h1>Swapey DEX</h1>
   <p>Gaming Neon · Jupiter & Raydium</p>
 </header>
+
+<!-- DEX Overlay -->
+<div id="dex-overlay">
+  <div id="countdown">
+    🔒 Surprise unlocks in: <span id="timer">Loading...</span>
+  </div>
+</div>
 
 <div class="swap-box">
 
@@ -325,48 +359,35 @@ async function updateAmounts(){
       document.getElementById("pay-token").innerText=from;
       document.getElementById("receive-token").innerText=to;
     }
-  } catch(e){
-    console.error("Quote error:", e);
-  }
+  } catch(e){ console.error("Quote error:", e); }
 }
 
 /* ===== SWAP ===== */
 async function realSwap(){
   if(!wallet) return alert("Connect wallet");
-
   const from=document.getElementById("fromToken").value;
   const to=document.getElementById("toToken").value;
   const amt=parseFloat(document.getElementById("amount").value);
   if(!amt || amt<=0) return;
-
   const inLamports=Math.floor(amt*1e9);
   const q=await fetch(`${JUP}/quote?inputMint=${TOKENS[from]}&outputMint=${TOKENS[to]}&amount=${inLamports}&slippageBps=50`).then(r=>r.json());
   const r=q.data[0];
-
   document.getElementById("pay-amount").innerText=(r.inAmount/1e9).toFixed(4);
   document.getElementById("receive-amount").innerText=(r.outAmount/1e9).toFixed(4);
   document.getElementById("route").innerText=`Route: ${r.marketInfos[0].label}`;
   document.getElementById("min").innerText=`Min: ${(r.outAmount/1e9).toFixed(4)}`;
   document.getElementById("pay-token").innerText=from;
   document.getElementById("receive-token").innerText=to;
-
   const tx=await fetch(`${JUP}/swap`,{
     method:"POST",
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      route:r,
-      userPublicKey:wallet,
-      wrapAndUnwrapSol:true
-    })
+    body:JSON.stringify({route:r,userPublicKey:wallet,wrapAndUnwrapSol:true})
   }).then(r=>r.json());
-
   const raw=Uint8Array.from(atob(tx.swapTransaction),c=>c.charCodeAt(0));
   const vtx=solanaWeb3.VersionedTransaction.deserialize(raw);
   const signed=await solana.signTransaction(vtx);
-
   const c=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(network));
   await c.sendRawTransaction(signed.serialize());
-
   loadHistory();
 }
 
@@ -384,6 +405,32 @@ document.getElementById("amount").addEventListener("input", updateAmounts);
 document.getElementById("fromToken").addEventListener("change", updateAmounts);
 document.getElementById("toToken").addEventListener("change", updateAmounts);
 
+/* ===== COUNTDOWN ===== */
+function startCountdown(){
+  const endDate = new Date("2026-01-26T20:00:00").getTime();
+  const timerEl = document.getElementById("timer");
+  const overlay = document.getElementById("dex-overlay");
+
+  const interval = setInterval(()=>{
+    const now = new Date().getTime();
+    const distance = endDate - now;
+
+    if(distance<=0){
+      clearInterval(interval);
+      overlay.style.display="none"; // retire le flou
+      return;
+    }
+
+    const days=Math.floor(distance/(1000*60*60*24));
+    const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+    const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+    const seconds=Math.floor((distance%(1000*60))/1000);
+
+    timerEl.innerText=`${days}d ${hours}h ${minutes}m ${seconds}s`;
+  },1000);
+}
+
+startCountdown();
 </script>
 
 </body>
