@@ -57,7 +57,7 @@ body{
 /* Language top-left */
 .language-selector{
   position:fixed;
-  top:12px;
+  top:12px; /* légèrement descendu pour aligner avec wallet */
   left:14px;
   cursor:pointer;
   font-size:0.9rem;
@@ -169,25 +169,18 @@ header p{color:#aaa}
   border-radius:24px;
   z-index:5;
 }
-#overlay .title{
-  color:#0B3D91;
-  font-size:2.2rem;
+#overlay .title,
+#overlay .time {
+  color:#C88FFF; /* violet clair néon */
   font-family:'Arial Black', Gadget, sans-serif;
-  text-shadow:0 0 5px #0B3D91,0 0 10px #0B3D91,0 0 20px #1E40FF,0 0 30px #1E40FF,0 0 40px #1E40FF;
-  margin-bottom:10px;
-}
-#overlay .time{
-  color:#40E0D0; /* turquoise */
-  font-size:2.5rem;
-  font-family:'Arial Black', Gadget, sans-serif;
-  text-shadow:0 0 5px #40E0D0,0 0 10px #40E0D0,0 0 20px #40E0D0,0 0 30px #40E0D0,0 0 40px #40E0D0;
+  text-shadow:0 0 5px #C88FFF,0 0 10px #C88FFF,0 0 20px #C88FFF,0 0 30px #C88FFF,0 0 40px #C88FFF;
   animation: glowPulse 2s infinite alternate;
 }
 
 /* ===== GLOW ANIMATION ===== */
 @keyframes glowPulse{
-  0%,100%{text-shadow:0 0 5px #40E0D0,0 0 10px #40E0D0,0 0 20px #40E0D0,0 0 30px #40E0D0,0 0 40px #40E0D0;}
-  50%{text-shadow:0 0 10px #40E0D0,0 0 20px #40E0D0,0 0 40px #40E0D0,0 0 60px #40E0D0,0 0 80px #40E0D0;}
+  0%,100%{text-shadow:0 0 5px #C88FFF,0 0 10px #C88FFF,0 0 20px #C88FFF,0 0 30px #C88FFF,0 0 40px #C88FFF;}
+  50%{text-shadow:0 0 10px #C88FFF,0 0 20px #C88FFF,0 0 40px #C88FFF,0 0 60px #C88FFF,0 0 80px #C88FFF;}
 }
 
 /* ===== COIN ===== */
@@ -431,9 +424,6 @@ function translateSite(lang){
   document.getElementById("explanation").querySelector("p").innerText = translations[lang]["explanation"];
 }
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
