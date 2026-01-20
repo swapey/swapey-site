@@ -38,6 +38,26 @@ footer{margin:40px 0;font-size:0.65rem;opacity:0.5;}
 #dex-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);backdrop-filter: blur(10px);display:flex;justify-content:center;align-items:center;border-radius:30px;z-index:50;color:#40E0D0;font-size:1.3rem;text-align:center;flex-direction:column;pointer-events:all;}
 #dex-overlay #countdown{font-family:'Luckiest Guy', cursive;font-size:1.5rem;}
 .flying-token{position:absolute;width:32px;height:32px;border-radius:50%;background:#40E0D0;display:flex;justify-content:center;align-items:center;color:#12001f;font-weight:bold;font-family:'Luckiest Guy', cursive;z-index:60;pointer-events:none;box-shadow:0 0 8px #8F5BFF,0 0 16px #40E0D0;transition: transform 0.8s cubic-bezier(0.65,0,0.35,1);}
+
+/* --- MESSAGE BOX --- */
+.message-box {
+  margin:30px auto;
+  max-width:420px;
+  background: rgba(64,224,208,0.1);
+  border: 2px solid #40E0D0;
+  border-radius:20px;
+  padding:20px;
+  color:#40E0D0;
+  font-family:'Luckiest Guy', cursive;
+  text-align:left;
+  box-shadow: 0 0 20px #40E0D0, 0 0 40px #8F5BFF;
+  animation: pulse 2s infinite alternate;
+}
+.message-box p { margin:8px 0; font-size:1rem; }
+@keyframes pulse {
+  0% { box-shadow:0 0 15px #40E0D0, 0 0 30px #8F5BFF; }
+  100% { box-shadow:0 0 25px #40E0D0, 0 0 50px #8F5BFF; }
+}
 </style>
 </head>
 <body>
@@ -91,6 +111,13 @@ footer{margin:40px 0;font-size:0.65rem;opacity:0.5;}
     </div>
     <button id="swap-btn" onclick="flyingTokenAnimation(); realSwap()">SWAPEY</button>
   </div>
+</div>
+
+<!-- --- MESSAGE BOX --- -->
+<div class="message-box">
+  <p>💬 Ok le plan est lancé ! Tout le programme est conclu. 🚀</p>
+  <p>Rejoins notre monde cryptographique et prépare-toi à profiter du futur token <strong>$SWAPEY</strong> sur <em>Pump.Fun</em> !</p>
+  <p>🔥 Reste connecté, le meilleur est à venir et seuls les early adopters profiteront de cette aventure unique !</p>
 </div>
 
 <div id="history"></div>
@@ -211,8 +238,7 @@ function flyingTokenAnimation(){
 }
 
 function startCountdown(){
-  // 02.02.2026 22:00 New York = 03.02.2026 03:00 UTC
-  const endDate = new Date("2026-02-03T03:00:00Z").getTime();
+  const endDate = new Date("2026-02-03T03:00:00Z").getTime(); // 02.02.2026 22:00 NY
   const timerEl = document.getElementById("timer");
   const overlay = document.getElementById("dex-overlay");
   const interval = setInterval(()=>{
