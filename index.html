@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Swapey DEX | Solana Swap</title>
+<title>Swapey DEX — Jupiter / Raydium</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
@@ -11,61 +11,38 @@
 body {
   margin:0;
   font-family:'Luckiest Guy', cursive;
+  background:#12001f;
   color:white;
-  background:#16002d;
-  overflow-x:hidden;
   text-align:center;
+  overflow-x:hidden;
 }
 
-/* ===== TOP BAR ===== */
+/* ========== TOP BAR ========== */
 #top-bar {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:6px 12px;
-  background:#1a0033;
   position:fixed;
   top:0;
   width:100%;
-  z-index:12;
-}
-
-#left-top {
+  background:#1a0033;
   display:flex;
+  justify-content:space-between;
   align-items:center;
-  gap:10px;
+  padding:8px 14px;
+  z-index:10;
 }
 
-#history-btn {
-  background:none;
-  border:2px solid #40E0D0;
-  color:white;
-  font-family:'Luckiest Guy', cursive;
-  border-radius:12px;
-  padding:4px 12px;
-  cursor:pointer;
+#wallet-display {
+  font-size:0.85rem;
+  opacity:0.9;
 }
 
-#history-btn:hover {
-  box-shadow:0 0 10px #40E0D0;
-}
-
-#ticker {
-  flex:1;
-  font-size:0.9rem;
-  text-align:center;
-}
-
-/* ===== PHANTOM BUTTON ===== */
 #phantom-btn {
-  cursor:pointer;
+  width:46px;
+  height:46px;
   border-radius:50%;
-  width:44px;
-  height:44px;
   display:flex;
   justify-content:center;
   align-items:center;
-  transition:0.2s;
+  cursor:pointer;
 }
 
 #phantom-btn.disconnected {
@@ -77,111 +54,82 @@ body {
 }
 
 #phantom-btn img {
-  width:32px;
-  height:32px;
+  width:30px;
+  height:30px;
 }
 
-/* ===== WALLET DASHBOARD ===== */
-#wallet-dashboard {
-  margin-top:70px;
-  max-width:320px;
-  margin-left:auto;
-  margin-right:auto;
-  padding:12px;
-  background:rgba(64,224,208,0.1);
-  border-radius:16px;
-  box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
-  text-align:left;
-  font-size:0.9rem;
+/* ========== CONTAINER ========== */
+.container {
+  max-width:420px;
+  margin:90px auto 0;
+  padding:0 16px;
 }
 
-#wallet-address,
-#wallet-sol {
-  margin-bottom:6px;
-}
-
-/* ===== HEADER ===== */
-header {
-  padding:80px 20px 20px;
-}
-
+/* ========== LOGO / HEADER ========== */
 header img {
-  width:180px; /* LOGO TAILLE RESTAURÉE */
+  width:260px; /* LOGO BIEN GRAND */
+  margin-bottom:10px;
 }
 
 h1 {
-  font-size:3rem;
+  font-size:2.8rem;
   margin:10px 0;
 }
 
 p {
-  font-size:1.1rem;
-  color:#ffffffcc;
-  max-width:720px;
-  margin:auto;
+  opacity:0.8;
 }
 
-/* ===== SWAP FORM ===== */
-.swap-form {
-  margin:40px auto;
-  width:420px;
-  max-width:95%;
-  padding:20px;
-  border-radius:24px;
+/* ========== SWAP BOX ========== */
+.swap-box {
+  margin-top:30px;
   background:linear-gradient(135deg,#2a004f,#4d00a0);
-  box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
+  padding:22px;
+  border-radius:26px;
+  box-shadow:0 0 25px #40E0D0,0 0 45px #8F5BFF;
 }
 
-.swap-form select,
-.swap-form input {
+.swap-box select,
+.swap-box input {
   width:100%;
-  padding:10px;
-  border-radius:12px;
+  padding:12px;
+  margin:8px 0;
+  border-radius:14px;
   border:none;
-  font-size:1rem;
-  font-family:'Luckiest Guy', cursive;
   text-align:center;
-  margin:6px 0;
+  font-family:'Luckiest Guy', cursive;
 }
 
-.swap-form input {
-  color:#000;
+.swap-box input {
+  color:black;
 }
 
-/* ===== SWAP BUTTON ===== */
-#swapey-button {
+#swap-btn {
+  margin-top:14px;
+  font-size:2.6rem;
   background:none;
   border:none;
-  cursor:pointer;
-  margin-top:20px;
-  font-size:2.8rem;
   color:white;
-  text-shadow:0 0 8px #40E0D0,0 0 16px #8F5BFF;
+  cursor:pointer;
+  text-shadow:0 0 10px #40E0D0,0 0 20px #8F5BFF;
 }
 
-#swapey-button:hover {
+#swap-btn:hover {
   transform:scale(1.1);
 }
 
-/* ===== CONFIRM ===== */
-#confirm {
-  position:fixed;
-  top:70px;
-  left:50%;
-  transform:translateX(-50%);
-  background:linear-gradient(135deg,#40E0D0,#8F5BFF);
-  padding:16px 32px;
-  border-radius:16px;
-  color:black;
-  font-weight:bold;
-  display:none;
+/* ========== CONFIRM ========== */
+#status {
+  margin-top:14px;
+  font-size:1rem;
+  opacity:0.9;
 }
 
-/* ===== FOOTER ===== */
+/* ========== FOOTER ========== */
 footer {
   margin:40px 0;
-  font-size:0.75rem;
-  opacity:0.6;
+  font-size:0.7rem;
+  opacity:0.5;
 }
 </style>
 </head>
@@ -190,139 +138,99 @@ footer {
 
 <!-- TOP BAR -->
 <div id="top-bar">
-  <div id="left-top">
-    <button id="history-btn" onclick="openHistory()">History</button>
-  </div>
-
-  <div id="ticker">Loading prices...</div>
-
-  <div id="phantom-btn" class="disconnected" onclick="togglePhantom()">
+  <div id="wallet-display">Not connected</div>
+  <div id="phantom-btn" class="disconnected" onclick="connectPhantom()">
     <img src="phantom-logo.png" alt="Phantom">
   </div>
 </div>
 
-<!-- WALLET -->
-<div id="wallet-dashboard">
-  <div id="wallet-address"></div>
-  <div id="wallet-sol"></div>
-</div>
+<div class="container">
 
-<!-- HEADER -->
 <header>
-  <img src="swapey-logo.png" alt="Swapey Logo">
+  <img src="swapey-logo.png" alt="Swapey">
   <h1>Swapey DEX</h1>
-  <p>Swap hundreds of SPL tokens instantly on Solana using Phantom.</p>
+  <p>Powered by Jupiter · Liquidity from Raydium</p>
 </header>
 
-<!-- SWAP -->
-<div class="swap-form">
-  <select id="token-from"></select>
-  <input type="number" id="amount" placeholder="Enter amount">
-  <select id="token-to"></select>
-  <button id="swapey-button" onclick="swapTokens()">Swapey</button>
+<div class="swap-box">
+  <select id="fromToken">
+    <option>SOL</option>
+    <option>USDC</option>
+    <option>USDT</option>
+  </select>
+
+  <input type="number" id="amount" placeholder="Amount">
+
+  <select id="toToken">
+    <option>USDC</option>
+    <option>SOL</option>
+    <option>USDT</option>
+  </select>
+
+  <button id="swap-btn" onclick="swap()">Swapey</button>
+  <div id="status"></div>
 </div>
 
-<div id="confirm">✅ Swap Successful!</div>
-
 <footer>
-  Swapey is decentralized. Use at your own risk.
+  Jupiter Aggregator · Raydium Pools · Solana
 </footer>
 
+</div>
+
 <script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@solana/spl-token-registry@0.2.10/dist/index.iife.js"></script>
 
 <script>
-let connection, pubKey;
-const phantomBtn = document.getElementById("phantom-btn");
+let wallet = null;
 
-/* ===== PHANTOM CONNECT ===== */
-async function togglePhantom(){
-  if(!window.solana || !window.solana.isPhantom){
-    alert("Phantom not detected");
+/* ========== CONNECT PHANTOM ========== */
+async function connectPhantom() {
+  if (!window.solana || !window.solana.isPhantom) {
+    alert("Phantom Wallet not detected");
     return;
   }
 
-  if(!pubKey){
-    const resp = await window.solana.connect();
-    pubKey = resp.publicKey;
-    phantomBtn.classList.remove("disconnected");
-    phantomBtn.classList.add("connected");
-    updateWalletInfo();
+  if (!wallet) {
+    const res = await window.solana.connect();
+    wallet = res.publicKey.toString();
+
+    const masked =
+      wallet.slice(0,4) +
+      "*".repeat(wallet.length - 8) +
+      wallet.slice(-4);
+
+    document.getElementById("wallet-display").innerText = masked;
+    document.getElementById("phantom-btn").classList.remove("disconnected");
+    document.getElementById("phantom-btn").classList.add("connected");
   } else {
     await window.solana.disconnect();
-    pubKey = null;
-    phantomBtn.classList.remove("connected");
-    phantomBtn.classList.add("disconnected");
-    document.getElementById("wallet-address").innerText="";
-    document.getElementById("wallet-sol").innerText="";
+    wallet = null;
+    document.getElementById("wallet-display").innerText = "Not connected";
+    document.getElementById("phantom-btn").classList.remove("connected");
+    document.getElementById("phantom-btn").classList.add("disconnected");
   }
 }
 
-/* ===== WALLET INFO ===== */
-async function updateWalletInfo(){
-  connection = new solanaWeb3.Connection(
-    solanaWeb3.clusterApiUrl("mainnet-beta")
-  );
+/* ========== SWAP PLACEHOLDER (JUPITER LOGIC) ========== */
+function swap() {
+  if (!wallet) {
+    alert("Connect Phantom first");
+    return;
+  }
 
-  const sol = await connection.getBalance(pubKey);
-  const addr = pubKey.toString();
+  const amount = document.getElementById("amount").value;
+  if (!amount || amount <= 0) {
+    alert("Invalid amount");
+    return;
+  }
 
-  const masked =
-    addr.slice(0,4) +
-    "*".repeat(addr.length - 8) +
-    addr.slice(-4);
+  document.getElementById("status").innerText =
+    "Fetching best route via Jupiter…";
 
-  document.getElementById("wallet-address").innerText =
-    "Address: " + masked;
-
-  document.getElementById("wallet-sol").innerText =
-    "SOL Balance: " + (sol/1e9).toFixed(4);
-
-  populateTokens();
+  setTimeout(() => {
+    document.getElementById("status").innerText =
+      "✅ Swap simulated (Jupiter → Raydium)";
+  }, 1500);
 }
-
-/* ===== TOKENS ===== */
-async function populateTokens(){
-  const list = await new TokenListProvider().resolve();
-  const tokens = list.filter(t=>t.chainId===101).slice(0,50);
-
-  const from = document.getElementById("token-from");
-  const to = document.getElementById("token-to");
-  from.innerHTML=""; to.innerHTML="";
-
-  tokens.forEach(t=>{
-    from.innerHTML+=`<option>${t.symbol}</option>`;
-    to.innerHTML+=`<option>${t.symbol}</option>`;
-  });
-}
-
-/* ===== SWAP ===== */
-function swapTokens(){
-  if(!pubKey){ alert("Connect Phantom first"); return; }
-  const amt = document.getElementById("amount").value;
-  if(!amt || amt<=0){ alert("Invalid amount"); return; }
-
-  const c = document.getElementById("confirm");
-  c.style.display="block";
-  setTimeout(()=>c.style.display="none",3000);
-}
-
-/* ===== HISTORY (PLACEHOLDER) ===== */
-function openHistory(){
-  alert("History panel coming next 🚀");
-}
-
-/* ===== TICKER ===== */
-async function updateTicker(){
-  const r = await fetch(
-    "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd"
-  );
-  const d = await r.json();
-  document.getElementById("ticker").innerText =
-    `BTC $${d.bitcoin.usd} | ETH $${d.ethereum.usd} | SOL $${d.solana.usd}`;
-}
-updateTicker();
-setInterval(updateTicker,10000);
 </script>
 
 </body>
