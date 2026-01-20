@@ -114,8 +114,9 @@ p { opacity:0.8; margin-top:0; }
   display:flex;
   align-items:center;
   gap:8px;
+  font-size:1rem;
+  font-weight:bold;
 }
-.swap-row img { width:28px; height:28px; }
 
 /* INPUTS */
 .swap-box select, .swap-box input {
@@ -151,7 +152,7 @@ p { opacity:0.8; margin-top:0; }
 }
 #flip-btn:hover { transform:translate(-50%,-50%) scale(1.2) rotate(180deg); }
 
-/* ===== SWAP BUTTON (SWAPPEY) ===== */
+/* ===== SWAP BUTTON (SWAPEY) ===== */
 #swap-btn {
   margin-top:16px;
   font-family:'Luckiest Guy', cursive;
@@ -160,7 +161,7 @@ p { opacity:0.8; margin-top:0; }
   border:none;
   color:#ffffff;
   cursor:pointer;
-  text-shadow:0 0 8px #40E0D0,0 0 16px #8F5BFF;
+  text-shadow:0 0 8px #40E0D0, 0 0 16px #8F5BFF;
   transition: transform 0.1s ease;
 }
 #swap-btn:active { transform: scale(0.9) translateY(2px); }
@@ -209,8 +210,8 @@ footer { margin:40px 0; font-size:0.65rem; opacity:0.5; }
 <div class="swap-box">
 
   <div class="swap-row">
-    <div>YOU PAY <img src="sol-logo.png" alt="SOL"> <span id="pay-amount">0</span></div>
-    <div>YOU RECEIVE <img src="usdc-logo.png" alt="USDC"> <span id="receive-amount">0</span></div>
+    <div>YOU PAY <span id="pay-token">SOL</span> <span id="pay-amount">0</span></div>
+    <div>YOU RECEIVE <span id="receive-token">USDC</span> <span id="receive-amount">0</span></div>
   </div>
 
   <select id="fromToken">
@@ -237,7 +238,7 @@ footer { margin:40px 0; font-size:0.65rem; opacity:0.5; }
     <span id="min">Min: -</span>
   </div>
 
-  <button id="swap-btn" onclick="realSwap()">SWAPPEY</button>
+  <button id="swap-btn" onclick="realSwap()">SWAPEY</button>
 </div>
 
 <div id="history"></div>
@@ -298,6 +299,8 @@ function flipTokens(){
   const from=document.getElementById("fromToken");
   const to=document.getElementById("toToken");
   [from.value,to.value]=[to.value,from.value];
+  document.getElementById("pay-token").innerText=from.value;
+  document.getElementById("receive-token").innerText=to.value;
   updateAmounts();
 }
 
@@ -316,6 +319,8 @@ async function realSwap(){
   document.getElementById("min").innerText=`Min: ${(r.outAmount/1e9).toFixed(4)}`;
   document.getElementById("pay-amount").innerText=(r.inAmount/1e9).toFixed(4);
   document.getElementById("receive-amount").innerText=(r.outAmount/1e9).toFixed(4);
+  document.getElementById("pay-token").innerText=from;
+  document.getElementById("receive-token").innerText=to;
 
   const tx=await fetch(`${JUP}/swap`,{
     method:"POST",
@@ -346,7 +351,7 @@ async function loadHistory(){
     "<b>History</b><br>"+sigs.map(s=>s.signature.slice(0,10)+"...").join("<br>");
 }
 
-/* ===== UPDATE AMOUNTS PLACEHOLDER ===== */
+/* ===== UPDATE AMOUNTS ===== */
 function updateAmounts(){
   document.getElementById("pay-amount").innerText=document.getElementById("amount").value || 0;
   document.getElementById("receive-amount").innerText=document.getElementById("amount").value || 0;
