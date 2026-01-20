@@ -14,122 +14,65 @@ body {
   background:#16002d;
   overflow-x:hidden;
 }
-
-/* ----- Top-left Home ----- */
-#top-left {
-  position: fixed;
-  top:32px;
-  left:12px;
-  z-index:10;
+#ticker {
+  position:fixed; top:0; width:100%; background:#1a0033; color:#40E0D0;
+  padding:6px; font-weight:bold; font-family:'Luckiest Guy', cursive;
+  overflow:hidden; z-index:11; text-align:center;
 }
-#top-left .btn-home {
-  background: linear-gradient(135deg,#40E0D0,#8F5BFF);
-  color:white;
-  padding:10px 18px;
-  border-radius:16px;
-  text-decoration:none;
-  font-weight:bold;
-  font-family:'Luckiest Guy', cursive;
-  transition: all 0.2s;
-}
-#top-left .btn-home:hover { transform: scale(1.1); }
 
-/* ----- Top-right Phantom ----- */
+/* ----- Top-right Phantom & Back ----- */
 #top-right {
-  position: fixed;
-  top:32px;
-  right:12px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  z-index:10;
+  position:fixed; top:12px; right:12px;
+  display:flex; align-items:center; gap:10px; z-index:12;
 }
 #top-right img {
-  width:40px;
-  cursor:pointer;
-  border:3px solid red; /* rouge = déconnecté */
-  border-radius:50%;
-  transition: all 0.2s ease;
+  width:40px; cursor:pointer; border:3px solid red; border-radius:50%;
+  transition: all 0.3s ease;
 }
-#top-right img.connected {
-  border-color:lime; /* vert = connecté */
+#top-right img.connected { border-color:lime; }
+#top-right a.btn-back {
+  background: linear-gradient(135deg,#40E0D0,#8F5BFF);
+  color:white; padding:10px 18px; border-radius:16px;
+  text-decoration:none; font-weight:bold;
+  transition:all 0.2s;
 }
+#top-right a.btn-back:hover { transform:scale(1.1); }
 
 /* ----- Wallet dashboard ----- */
 #wallet-dashboard {
-  position: fixed;
-  top:80px;
-  right:12px;
-  width:260px;
-  padding:12px;
-  background: rgba(64,224,208,0.1);
-  border-radius:16px;
-  text-align:left;
+  position:fixed; top:70px; right:12px; width:260px;
+  padding:12px; background: rgba(64,224,208,0.1);
+  border-radius:16px; text-align:left;
   box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
-  font-size:0.9rem;
-  z-index:10;
+  font-size:0.9rem; z-index:11;
 }
 #wallet-balance { margin-bottom:6px; }
 #wallet-tokens { max-height:280px; overflow-y:auto; }
 
 /* ----- Header ----- */
-header {
-  padding:100px 20px 20px;
-}
-header img {
-  width:520px;
-  max-width:92%;
-  margin-bottom:20px;
-}
-h1 { font-size:3rem; margin:10px 0; }
+header { padding:80px 20px 20px; position:relative; z-index:1; }
+header img { width:520px; max-width:92%; margin-bottom:20px; }
+h1 { font-size:3.4rem; margin:10px 0; }
+p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
 
-/* ----- History content ----- */
-.history-box {
-  margin:40px auto;
-  width:90%;
-  max-width:720px;
-  padding:16px 24px;
-  border-radius:16px;
-  background: rgba(64,224,208,0.15);
-  border:2px solid #40E0D0;
-  text-align:left;
-  color:white;
-  box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
+/* ----- Swap history table ----- */
+.history-table { margin:40px auto; width:90%; max-width:800px; border-collapse:collapse; z-index:1; }
+.history-table th, .history-table td {
+  border:1px solid #40E0D0; padding:10px; text-align:center;
 }
-.history-box h2 {
-  text-align:center;
-  font-size:1.6rem;
-  margin-bottom:12px;
-}
-.history-box ul {
-  list-style:none;
-  padding:0;
-  margin:0;
-}
-.history-box li {
-  margin-bottom:8px;
-  font-size:1rem;
-}
+.history-table th { background:linear-gradient(135deg,#40E0D0,#8F5BFF); font-weight:bold; }
 
 /* ----- Footer ----- */
-footer {
-  margin:40px 0;
-  font-size:0.75rem;
-  opacity:0.6;
-  text-align:center;
-}
+footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 </style>
 </head>
 <body>
 
-<!-- Home button -->
-<div id="top-left">
-  <a href="index.html" class="btn-home">Home</a>
-</div>
+<div id="ticker">Loading crypto prices...</div>
 
-<!-- Phantom Wallet -->
 <div id="top-right">
-  <img src="phantom-logo.png" alt="Phantom" id="phantom-logo" onclick="connectPhantom()"/>
+  <a href="index.html" class="btn-back">Home</a>
+  <img id="phantom-logo" src="phantom-logo.png" onclick="togglePhantom()" alt="Phantom"/>
 </div>
 
 <div id="wallet-dashboard">
@@ -140,38 +83,45 @@ footer {
 <header>
   <img src="swapey-logo.png" alt="Swapey Logo"/>
   <h1>Swapey DEX History</h1>
+  <p>Track your past swaps and wallet balances.</p>
 </header>
 
-<div class="history-box">
-  <h2>Recent Swap Activity</h2>
-  <ul id="swap-history">
-    <li>No swaps yet.</li>
-  </ul>
-</div>
+<table class="history-table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Amount</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody id="history-body">
+    <tr><td colspan="5">No swaps yet.</td></tr>
+  </tbody>
+</table>
 
-<footer>
-  Swapey is decentralized. Use at your own risk.
-</footer>
+<footer>Swapey is decentralized. Use at your own risk.</footer>
 
 <script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token-registry@0.2.10/dist/index.iife.js"></script>
 <script>
-let phantomConnected = false;
+// ----- Phantom Wallet -----
+let phantomConnected=false;
+const phantomLogo=document.getElementById("phantom-logo");
 
-// Phantom Wallet
-async function connectPhantom(){
-  const img=document.getElementById("phantom-logo");
-  if(window.solana && window.solana.isPhantom){
-    if(!phantomConnected){
-      const resp=await window.solana.connect();
-      const pubKey=resp.publicKey;
-      img.classList.add("connected");
+async function togglePhantom(){
+  if(!phantomConnected){
+    if(window.solana && window.solana.isPhantom){
+      const resp = await window.solana.connect();
       phantomConnected=true;
-
-      const connection=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
+      phantomLogo.classList.add("connected");
+      const pubKey=resp.publicKey;
+      const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
       const solBalance=await connection.getBalance(pubKey);
       document.getElementById("wallet-balance").innerText="SOL: "+(solBalance/1e9).toFixed(4);
 
+      // SPL tokens
       const tokenList = await new TokenListProvider().resolve();
       const tokenMap = tokenList.filter(t=>t.chainId===101);
       const walletTokensDiv=document.getElementById("wallet-tokens");
@@ -189,18 +139,41 @@ async function connectPhantom(){
         } catch(e){ console.error(token.symbol,e); }
       }
       walletTokensDiv.innerHTML+="</ul>";
-    } else {
-      // disconnect
-      img.classList.remove("connected");
-      phantomConnected=false;
-      document.getElementById("wallet-balance").innerText="";
-      document.getElementById("wallet-tokens").innerHTML="";
-      await window.solana.disconnect();
-    }
+    } else alert("Phantom not detected");
   } else {
-    alert("Phantom not detected");
+    phantomConnected=false;
+    phantomLogo.classList.remove("connected");
+    document.getElementById("wallet-balance").innerText="";
+    document.getElementById("wallet-tokens").innerHTML="";
   }
 }
+
+// ----- CoinGecko Ticker -----
+async function updateTicker(){
+  const resp=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd");
+  const data=await resp.json();
+  document.getElementById("ticker").innerText = 
+    `BTC: $${data.bitcoin.usd} | ETH: $${data.ethereum.usd} | SOL: $${data.solana.usd}`;
+}
+updateTicker();
+setInterval(updateTicker,10000);
+
+// ----- Placeholder Swap History -----
+const historyBody=document.getElementById("history-body");
+const swapHistory=[
+  {date:"2026-01-10", from:"SOL", to:"USDC", amount:"12.5", status:"Success"},
+  {date:"2026-01-12", from:"USDC", to:"SOL", amount:"100", status:"Pending"}
+];
+
+function loadHistory(){
+  historyBody.innerHTML="";
+  swapHistory.forEach(s=>{
+    const row=document.createElement("tr");
+    row.innerHTML=`<td>${s.date}</td><td>${s.from}</td><td>${s.to}</td><td>${s.amount}</td><td>${s.status}</td>`;
+    historyBody.appendChild(row);
+  });
+}
+loadHistory();
 </script>
 </body>
 </html>
