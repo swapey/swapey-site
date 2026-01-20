@@ -207,7 +207,7 @@ footer{
 
 <div class="coin-zone">
   <img src="swapey-coin.png" class="swapey-coin" alt="$SWAPEY Coin">
-  <div class="coin-text">$SWAPEY Token</div>
+  <div class="coin-text">$SWAPEY</div>
 </div>
 
 <div class="message-box">
@@ -229,15 +229,20 @@ footer{
 <script>
 let connected=false;
 
+const overlay = document.getElementById("overlay");
+const timer = document.getElementById("timer");
+const walletDisplay = document.getElementById("wallet-display");
+const phantomBtn = document.getElementById("phantom-btn");
+
 async function connectWallet(auto=false){
   if(window.solana && window.solana.isPhantom){
     try{
       const resp=await window.solana.connect({onlyIfTrusted:auto});
-      if(!resp||!resp.publicKey)return;
+      if(!resp||!resp.publicKey) return;
       connected=true;
       const a=resp.publicKey.toString();
-      wallet-display.innerText=a.slice(0,4)+"****";
-      phantom-btn.className="connected";
+      walletDisplay.innerText=a.slice(0,4)+"****";
+      phantomBtn.className="connected";
     }catch(e){}
     return;
   }
@@ -252,10 +257,11 @@ function updateCountdown(){
   const target=new Date("2026-02-02T22:00:00-05:00").getTime();
   const now=Date.now();
   const d=target-now;
-  if(d<=0){overlay.style.display="none";return}
+  if(d<=0){overlay.style.display="none"; return;}
   timer.innerText=
     `${Math.floor(d/86400000)}d ${Math.floor(d%86400000/3600000)}h ${Math.floor(d%3600000/60000)}m ${Math.floor(d%60000/1000)}s`;
 }
+
 setInterval(updateCountdown,1000);
 updateCountdown();
 </script>
