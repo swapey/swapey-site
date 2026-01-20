@@ -5,7 +5,6 @@
 <title>Swapey DEX</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
-
 <style>
 *{box-sizing:border-box}
 
@@ -46,7 +45,7 @@ body{
 /* ===== TOP BAR ===== */
 #top-bar{
   position:fixed;
-  top:0;left:0;
+  top:0; left:0;
   width:100%;
   padding:8px 14px;
   background:#0a0014;
@@ -55,6 +54,8 @@ body{
   align-items:center;
   z-index:20;
 }
+
+/* Wallet & Phantom */
 #wallet-display{
   font-size:.85rem;
   color:#8F5BFF;
@@ -71,6 +72,37 @@ body{
 #phantom-btn img{width:28px}
 #phantom-btn.connected{box-shadow:0 0 0 3px #40E0D0}
 #phantom-btn.disconnected{box-shadow:0 0 0 3px #ff3b3b}
+
+/* Language selector */
+.language-selector{
+  position:relative;
+  margin-left:12px;
+  cursor:pointer;
+  font-size:0.9rem;
+  color:#8F5BFF;
+  text-shadow:0 0 4px #8F5BFF;
+}
+.language-dropdown{
+  display:none;
+  position:absolute;
+  top:26px;
+  left:0;
+  background:#1a0033;
+  border:1px solid #8F5BFF;
+  border-radius:6px;
+  text-align:left;
+  min-width:120px;
+  z-index:25;
+}
+.language-dropdown div{
+  padding:6px 12px;
+  cursor:pointer;
+  color:#fff;
+}
+.language-dropdown div:hover{
+  background:#8F5BFF;
+  color:#000;
+}
 
 /* ===== HEADER ===== */
 header{
@@ -129,11 +161,18 @@ header p{color:#aaa}
   border-radius:24px;
   z-index:5;
 }
-#overlay .title,
+#overlay .title{
+  color:#0B3D91;
+  font-size:2.2rem;
+  font-family:'Arial Black', Gadget, sans-serif;
+  text-shadow:0 0 5px #0B3D91,0 0 10px #0B3D91,0 0 20px #1E40FF,0 0 30px #1E40FF,0 0 40px #1E40FF;
+  margin-bottom:10px;
+}
 #overlay .time{
-  color:#8F5BFF;
-  font-size:2.1rem;
-  text-shadow:0 0 8px #8F5BFF,0 0 16px #40E0D0;
+  color:#0B3D91;
+  font-size:2.5rem;
+  font-family:'Arial Black', Gadget, sans-serif;
+  text-shadow:0 0 5px #0B3D91,0 0 10px #0B3D91,0 0 20px #1E40FF,0 0 30px #1E40FF,0 0 40px #1E40FF;
 }
 
 /* ===== COIN ===== */
@@ -167,6 +206,62 @@ header p{color:#aaa}
   text-align:left;
 }
 
+/* ===== EXPLANATION SECTION ===== */
+#explanation{
+  margin:40px auto;
+  max-width:600px;
+  padding:24px;
+  border-radius:20px;
+  background:rgba(11,61,145,0.1);
+  border:2px solid #0B3D91;
+  box-shadow:0 0 20px #0B3D91,0 0 40px #1E40FF;
+  text-align:left;
+  font-family:'Arial', sans-serif;
+  color:#fff;
+}
+#explanation h2{
+  text-align:center;
+  color:#0B3D91;
+  margin-bottom:12px;
+}
+#explanation p{
+  line-height:1.5rem;
+  font-size:1rem;
+}
+
+/* ===== ROADMAP ===== */
+#roadmap{
+  margin:40px auto;
+  max-width:720px;
+  padding:24px;
+  border-radius:20px;
+  background:rgba(143,91,255,.05);
+  border:2px solid #8F5BFF;
+  box-shadow:0 0 20px #8F5BFF,0 0 40px #40E0D0;
+  text-align:left;
+  font-family:'Arial', sans-serif;
+  color:#fff;
+}
+#roadmap h2{
+  text-align:center;
+  color:#8F5BFF;
+  margin-bottom:12px;
+}
+#roadmap ul{
+  list-style:none;
+  padding-left:0;
+}
+#roadmap li{
+  margin:12px 0;
+  padding-left:12px;
+  position:relative;
+}
+#roadmap li:before{
+  content:"🚀";
+  position:absolute;
+  left:0;
+}
+
 /* ===== FOOTER ===== */
 footer{
   margin:40px 0;
@@ -181,16 +276,29 @@ footer{
 <div class="shooting-star"></div>
 
 <div id="top-bar">
-  <div id="wallet-display">Not connected</div>
-  <div id="phantom-btn" class="disconnected" onclick="connectWallet()">
-    <img src="phantom-logo.png" alt="Phantom">
+  <div style="display:flex; align-items:center;">
+    <div id="wallet-display">Not connected</div>
+    <div id="phantom-btn" class="disconnected" onclick="connectWallet()">
+      <img src="phantom-logo.png" alt="Phantom">
+    </div>
+    <div class="language-selector" onclick="toggleDropdown()">Language
+      <div class="language-dropdown" id="languageDropdown">
+        <div data-lang="en">English</div>
+        <div data-lang="zh">Chinese</div>
+        <div data-lang="es">Spanish</div>
+        <div data-lang="fr">French</div>
+        <div data-lang="it">Italian</div>
+        <div data-lang="ja">Japanese</div>
+        <div data-lang="pt">Portuguese</div>
+      </div>
+    </div>
   </div>
 </div>
 
 <header>
   <img src="swapey-logo.png" alt="Swapey Logo">
-  <h1>Swapey DEX</h1>
-  <p>Gaming Neon · Jupiter & Raydium</p>
+  <h1 id="header-title">Swapey DEX</h1>
+  <p id="header-subtitle">Gaming Neon · Jupiter & Raydium</p>
 </header>
 
 <div class="swap-form">
@@ -210,16 +318,29 @@ footer{
   <div class="coin-text">$SWAPEY</div>
 </div>
 
+<div id="explanation">
+  <h2>Why Swapey?</h2>
+  <p>
+    Swapey is the future of crypto platforms. Simple, efficient, and reliable for everyone—from the youngest enthusiasts to seasoned investors.
+    The fun, interactive interface helps newcomers understand the blockchain world and cryptography while keeping the experience engaging.
+  </p>
+</div>
+
+<div id="roadmap">
+  <h2>2026 Roadmap</h2>
+  <ul>
+    <li>February 2nd - $SWAPEY Launch Event</li>
+    <li>March - First Gaming Integration</li>
+    <li>May - Staking & Rewards Program</li>
+    <li>July - NFT Marketplace Launch</li>
+    <li>September - Cross-chain Bridge Integration</li>
+    <li>November - Global Community Tournament</li>
+    <li>December - End of Year Gala & Major Updates</li>
+  </ul>
+</div>
+
 <div class="message-box">
   <p>💬 The plan is live. Everything is now in motion. 🚀</p>
-  <p>
-    The future token <strong>$SWAPEY</strong> is coming to <strong>Pump.fun</strong>.
-    Big announcement on <strong>February 2nd, 2026 at 10:00 PM (NY)</strong>.
-  </p>
-  <p>
-    🔥 2026 will be explosive — swap, games, rewards and a full ecosystem.
-    Early believers will shape the future.
-  </p>
 </div>
 
 <footer>
@@ -227,8 +348,8 @@ footer{
 </footer>
 
 <script>
+/* ===== Wallet Connection ===== */
 let connected=false;
-
 const overlay = document.getElementById("overlay");
 const timer = document.getElementById("timer");
 const walletDisplay = document.getElementById("wallet-display");
@@ -253,6 +374,7 @@ async function connectWallet(auto=false){
 
 window.addEventListener("load",()=>connectWallet(true));
 
+/* ===== Countdown ===== */
 function updateCountdown(){
   const target=new Date("2026-02-02T22:00:00-05:00").getTime();
   const now=Date.now();
@@ -261,9 +383,67 @@ function updateCountdown(){
   timer.innerText=
     `${Math.floor(d/86400000)}d ${Math.floor(d%86400000/3600000)}h ${Math.floor(d%3600000/60000)}m ${Math.floor(d%60000/1000)}s`;
 }
-
 setInterval(updateCountdown,1000);
 updateCountdown();
+
+/* ===== Language Selector ===== */
+function toggleDropdown(){
+  const dropdown = document.getElementById("languageDropdown");
+  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+document.querySelectorAll('#languageDropdown div').forEach(el=>{
+  el.addEventListener('click',()=>{
+    const lang = el.getAttribute('data-lang');
+    translateSite(lang);
+    document.getElementById("languageDropdown").style.display='none';
+  });
+});
+
+/* ===== Simple Translation Object ===== */
+const translations = {
+  en:{
+    "header-title":"Swapey DEX",
+    "header-subtitle":"Gaming Neon · Jupiter & Raydium",
+    "explanation":"Swapey is the future of crypto platforms. Simple, efficient, and reliable for everyone—from the youngest enthusiasts to seasoned investors. The fun, interactive interface helps newcomers understand the blockchain world and cryptography while keeping the experience engaging."
+  },
+  fr:{
+    "header-title":"Swapey DEX",
+    "header-subtitle":"Gaming Néon · Jupiter & Raydium",
+    "explanation":"Swapey est l'avenir des plateformes crypto. Simple, efficace et fiable pour tous — des plus jeunes aux investisseurs expérimentés. L'interface ludique aide les débutants à comprendre la blockchain et la cryptographie."
+  },
+  es:{
+    "header-title":"Swapey DEX",
+    "header-subtitle":"Neón de Juegos · Jupiter & Raydium",
+    "explanation":"Swapey es el futuro de las plataformas cripto. Simple, eficiente y confiable para todos, desde los más jóvenes hasta los inversores experimentados. La interfaz divertida ayuda a los principiantes a comprender la blockchain y la criptografía."
+  },
+  pt:{
+    "header-title":"Swapey DEX",
+    "header-subtitle":"Neon de Jogos · Jupiter & Raydium",
+    "explanation":"Swapey é o futuro das plataformas cripto. Simples, eficiente e confiável para todos — dos mais jovens aos investidores experientes. A interface divertida ajuda os iniciantes a entender blockchain e criptografia."
+  },
+  ja:{
+    "header-title":"Swapey DEX",
+    "header-subtitle":"ゲームネオン · ジュピター & レイディウム",
+    "explanation":"Swapeyは暗号プラットフォームの未来です。若い初心者から経験豊富な投資家まで、すべての人にシンプルで効率的で信頼性があります。楽しいインターフェースは、初心者がブロックチェーンと暗号を理解するのを助けます。"
+  },
+  zh:{
+    "header-title":"Swapey DEX",
+    "header-subtitle":"游戏霓虹 · 木星 & Raydium",
+    "explanation":"Swapey 是加密平台的未来。简单、高效且可靠，适合从年轻爱好者到资深投资者。趣味互动的界面帮助新手理解区块链和加密学。"
+  },
+  it:{
+    "header-title":"Swapey DEX",
+    "header-subtitle":"Neon di Gioco · Jupiter & Raydium",
+    "explanation":"Swapey è il futuro delle piattaforme crypto. Semplice, efficiente e affidabile per tutti — dai più giovani agli investitori esperti. L'interfaccia divertente aiuta i principianti a comprendere la blockchain e la crittografia."
+  }
+};
+
+function translateSite(lang){
+  document.getElementById("header-title").innerText = translations[lang].header-title;
+  document.getElementById("header-subtitle").innerText = translations[lang].header-subtitle;
+  document.getElementById("explanation").querySelector("p").innerText = translations[lang].explanation;
+}
 </script>
 
 </body>
