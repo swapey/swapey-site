@@ -57,7 +57,7 @@ body{
 /* Language top-left */
 .language-selector{
   position:fixed;
-  top:12px; /* aligné avec wallet */
+  top:12px;
   left:14px;
   cursor:pointer;
   font-size:0.9rem;
@@ -172,11 +172,12 @@ header p{color:#aaa}
 #overlay .title,
 #overlay .time {
   color:#ffffff; /* texte blanc */
-  font-size:3rem; /* plus grand */
-  font-family:'Arial Black', Gadget, sans-serif;
-  -webkit-text-stroke: 2px #40E0D0; /* contour turquoise */
-  text-shadow: 1px 1px 4px rgba(255,255,255,0.4); /* léger brillant */
+  font-size:2.5rem; /* un peu plus petit */
+  font-family:'Luckiest Guy', cursive;
+  -webkit-text-stroke:2px #000000; /* contour noir néon */
+  text-shadow:1px 1px 3px rgba(255,255,255,0.3); /* léger brillant */
   margin:4px 0;
+  letter-spacing:1px;
 }
 
 /* ===== COIN ===== */
@@ -314,7 +315,7 @@ footer{
   <select><option>USDC</option></select>
   <button id="swapey-button">SWAPEY</button>
   <div id="overlay">
-    <div class="title">Unlock's in</div>
+    <div class="title">UNℙKEY's in</div>
     <div class="time" id="timer"></div>
   </div>
 </div>
@@ -354,7 +355,6 @@ footer{
 </footer>
 
 <script>
-/* ===== Wallet ===== */
 let connected=false;
 const overlay = document.getElementById("overlay");
 const timer = document.getElementById("timer");
@@ -379,7 +379,6 @@ async function connectWallet(auto=false){
 }
 window.addEventListener("load",()=>connectWallet(true));
 
-/* ===== Countdown ===== */
 function updateCountdown(){
   const target=new Date("2026-02-02T22:00:00-05:00").getTime();
   const now=Date.now();
@@ -391,7 +390,7 @@ function updateCountdown(){
 setInterval(updateCountdown,1000);
 updateCountdown();
 
-/* ===== Language ===== */
+/* Language */
 function toggleDropdown(){
   const dropdown = document.getElementById("languageDropdown");
   dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
@@ -405,12 +404,8 @@ document.querySelectorAll('#languageDropdown div').forEach(el=>{
 });
 const translations = {
   en:{ "header-title":"Swapey DEX", "header-subtitle":"Gaming Neon · Jupiter & Raydium", "explanation":"Swapey is the future of crypto platforms. Simple, efficient, and reliable for everyone—from the youngest enthusiasts to seasoned investors. The fun, interactive interface helps newcomers understand the blockchain world and cryptography while keeping the experience engaging." },
-  fr:{ "header-title":"Swapey DEX", "header-subtitle":"Gaming Néon · Jupiter & Raydium", "explanation":"Swapey est l'avenir des plateformes crypto. Simple, efficace et fiable pour tous — des plus jeunes aux investisseurs expérimentés. L'interface ludique aide les débutants à comprendre la blockchain et la cryptographie." },
-  es:{ "header-title":"Swapey DEX", "header-subtitle":"Neón de Juegos · Jupiter & Raydium", "explanation":"Swapey es el futuro de las plataformas cripto. Simple, eficiente y confiable para todos, desde los más jóvenes hasta los inversores experimentados. La interfaz divertida ayuda a los principiantes a comprender la blockchain y la criptografía." },
-  pt:{ "header-title":"Swapey DEX", "header-subtitle":"Neon de Jogos · Jupiter & Raydium", "explanation":"Swapey é o futuro das plataformas cripto. Simples, eficiente e confiável para todos — dos mais jovens aos investidores experientes. A interface divertida ajuda os iniciantes a entender blockchain e criptografia." },
-  ja:{ "header-title":"Swapey DEX", "header-subtitle":"ゲームネオン · ジュピター & レイディウム", "explanation":"Swapeyは暗号プラットフォームの未来です。若い初心者から経験豊富な投資家まで、すべての人にシンプルで効率的で信頼性があります。楽しいインターフェースは、初心者がブロックチェーンと暗号を理解するのを助けます。" },
-  zh:{ "header-title":"Swapey DEX", "header-subtitle":"游戏霓虹 · 木星 & Raydium", "explanation":"Swapey 是加密平台的未来。简单、高效且可靠，适合从年轻爱好者到资深投资者。趣味互动的界面帮助新手理解区块链和加密学。" },
-  it:{ "header-title":"Swapey DEX", "header-subtitle":"Neon di Gioco · Jupiter & Raydium", "explanation":"Swapey è il futuro delle piattaforme crypto. Semplice, efficiente e affidabile per tutti — dai più giovani agli investitori esperti. L'interfaccia divertente aiuta i principianti a comprendere la blockchain e la crittografia." }
+  fr:{ "header-title":"Swapey DEX", "header-subtitle":"Gaming Néon · Jupiter & Raydium", "explanation":"Swapey est l'avenir des plateformes crypto. Simple, efficace et fiable pour tous — des plus jeunes aux investisseurs expérimentés. L'interface ludique aide les débutants à comprendre la blockchain et la cryptographie." }
+  // tu peux compléter les autres langues
 };
 function translateSite(lang){
   document.getElementById("header-title").innerText = translations[lang]["header-title"];
