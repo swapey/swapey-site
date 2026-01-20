@@ -11,100 +11,129 @@ body {
   font-family:'Luckiest Guy', cursive;
   color:white;
   text-align:center;
-  background: linear-gradient(270deg,#16002d,#2b004d,#4000a0,#16002d);
-  background-size: 800% 800%;
-  animation: gradientBG 20s ease infinite;
+  overflow-x:hidden;
+  background:#16002d;
 }
-@keyframes gradientBG{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
+#ticker { position:fixed;top:0;width:100%;background:#1a0033;color:#40E0D0;padding:6px;font-weight:bold;font-family:'Luckiest Guy', cursive;overflow:hidden; z-index:11; }
 
-header { padding:60px 20px 20px; }
+/* Top-right Phantom */
+#top-right { position: fixed; top:32px; right:12px; display:flex; align-items:center; gap:10px; z-index:10; }
+#top-right img { width:40px; cursor:pointer; border:3px solid red; border-radius:50%; transition:all 0.3s ease; }
+#top-right img.connected { border-color:green; }
+
+/* Wallet dashboard */
+#wallet-dashboard { position: fixed; top:80px; right:12px; width:260px; padding:12px; background: rgba(64,224,208,0.1); border-radius:16px; text-align:left; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; font-family:'Luckiest Guy', cursive; font-size:0.9rem; z-index:10; }
+#wallet-balance { margin-bottom:6px; }
+#wallet-tokens { max-height:280px; overflow-y:auto; }
+
+/* Header */
+header { padding:60px 20px 20px; position:relative; z-index:1; }
 header img { width:520px; max-width:92%; margin-bottom:20px; }
-h1 { font-size:3rem; margin-bottom:10px; }
-p { font-size:1.2rem; max-width:800px; margin:auto 0 20px; color:#ffffffcc; }
+h1 { font-size:3.4rem; margin:10px 0; }
+p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
 
-section { margin:40px auto; width:90%; max-width:900px; background: rgba(64,224,208,0.1); border-radius:16px; padding:24px; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; text-align:left; }
-section h2 { font-size:1.8rem; margin-bottom:12px; text-align:center; }
-section p, section ul { font-size:1rem; margin-bottom:8px; }
-section ul { padding-left:20px; }
+footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; position:relative; z-index:1; }
 
-#top-right { position: fixed; top:32px; right:12px; display:flex; flex-direction:column; align-items:flex-end; gap:10px; z-index:10; }
-#top-right img { width:40px; cursor:pointer; transition: transform 0.2s ease; }
-#top-right img:hover { transform: scale(1.2) rotate(-10deg); }
-#top-right button { background: linear-gradient(135deg,#40E0D0,#8F5BFF); color:white; padding:6px 12px; border-radius:12px; font-weight:bold; border:none; cursor:pointer; }
-#top-right button:hover { transform: scale(1.05); }
-
-footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
-
-a.back-home { display:inline-block; margin:20px auto; background: linear-gradient(135deg,#40E0D0,#8F5BFF); color:white; padding:10px 20px; border-radius:16px; text-decoration:none; font-weight:bold; font-family:'Luckiest Guy', cursive; }
-a.back-home:hover { transform: scale(1.05); display:inline-block; }
+/* History Table */
+#history-table { margin:20px auto; width:90%; max-width:800px; border-collapse:collapse; }
+#history-table th, #history-table td { border:1px solid #40E0D0; padding:8px; }
+#history-table th { background: #2b004d; }
+#history-table td { background: rgba(64,224,208,0.1); }
 </style>
 </head>
 <body>
 
+<div id="ticker">Loading crypto prices...</div>
+
 <div id="top-right">
-  <img src="phantom-logo.png" onclick="connectPhantom()" alt="Phantom"/>
-  <button onclick="disconnectPhantom()">Log out</button>
+  <img id="phantom-logo" src="phantom-logo.png" onclick="connectPhantom()" alt="Phantom"/>
+</div>
+
+<div id="wallet-dashboard">
+  <div id="wallet-balance"></div>
+  <div id="wallet-tokens"></div>
 </div>
 
 <header>
   <img src="swapey-logo.png" alt="Swapey Logo"/>
   <h1>Swapey DEX History</h1>
-  <p>Discover the mission, the token, and how Swapey is empowering young crypto enthusiasts worldwide with low fees and fun events.</p>
+  <p>Track your past swaps and token interactions.</p>
 </header>
 
-<section>
-  <h2>What is Swapey?</h2>
-  <p>Swapey is a decentralized exchange designed to give more freedom to young people entering the cryptocurrency space. Swapey offers ultra-low transaction fees, making trading accessible and enjoyable.</p>
-</section>
-
-<section>
-  <h2>Swapey Token</h2>
-  <p>A native token called <strong>SWAPEY</strong> will be created and listed on multiple platforms. The token will be used for governance, rewards, and participation in Swapey events globally.</p>
-</section>
-
-<section>
-  <h2>Events & Community</h2>
-  <ul>
-    <li>Swapey organizes global events to educate and connect crypto enthusiasts.</li>
-    <li>Engaging activities for learning about crypto while having fun.</li>
-    <li>Promotes community interaction and networking in a gamified style.</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Vision 2026</h2>
-  <p>Our goal is to make cryptocurrency approachable and exciting for everyone, while keeping the experience fun and low-pressure compared to traditional exchanges like Bitcoin or Ethereum platforms.</p>
-</section>
-
-<a href="index.html" class="back-home">Back to Swapey DEX</a>
+<table id="history-table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Token From</th>
+      <th>Token To</th>
+      <th>Amount</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>2026-01-15 14:22</td><td>MATIC</td><td>USDC</td><td>50</td><td>Success</td></tr>
+    <tr><td>2026-01-16 09:10</td><td>USDT</td><td>MATIC</td><td>120</td><td>Success</td></tr>
+    <tr><td>2026-01-18 21:45</td><td>USDC</td><td>DAI</td><td>200</td><td>Success</td></tr>
+  </tbody>
+</table>
 
 <footer>
   Swapey is decentralized. Use at your own risk.
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+<script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@solana/spl-token-registry@0.2.10/dist/index.iife.js"></script>
 <script>
-let phantomPublicKey;
-
+// Phantom Wallet
 async function connectPhantom(){
+  const logo=document.getElementById("phantom-logo");
   if(window.solana && window.solana.isPhantom){
-    const resp = await window.solana.connect();
-    phantomPublicKey = resp.publicKey.toString();
-    alert("Connected Phantom: "+phantomPublicKey.slice(0,4)+"…"+phantomPublicKey.slice(-4));
+    if(!logo.classList.contains("connected")){
+      const resp=await window.solana.connect();
+      logo.classList.add("connected");
+
+      const pubKey=resp.publicKey;
+      const connection=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
+      const solBalance=await connection.getBalance(pubKey);
+      document.getElementById("wallet-balance").innerText="SOL: "+(solBalance/1e9).toFixed(4);
+
+      const tokenList = await new TokenListProvider().resolve();
+      const tokenMap = tokenList.filter(t=>t.chainId===101);
+      const walletTokensDiv=document.getElementById("wallet-tokens");
+      walletTokensDiv.innerHTML="<ul>";
+      for(const token of tokenMap){
+        try{
+          const tokenPubKey = new solanaWeb3.PublicKey(token.address);
+          const tokenAccounts = await connection.getTokenAccountsByOwner(pubKey,{mint:tokenPubKey});
+          let balance = 0;
+          if(tokenAccounts.value.length>0){
+            const accountInfo = await connection.getParsedAccountInfo(tokenAccounts.value[0].pubkey);
+            balance = accountInfo.value.data.parsed.info.tokenAmount.uiAmount || 0;
+          }
+          walletTokensDiv.innerHTML+=`<li>${token.symbol}: ${balance}</li>`;
+        } catch(e){ console.error(token.symbol,e); }
+      }
+      walletTokensDiv.innerHTML+="</ul>";
+    } else {
+      // Disconnect
+      await window.solana.disconnect();
+      logo.classList.remove("connected");
+      document.getElementById("wallet-balance").innerText="";
+      document.getElementById("wallet-tokens").innerHTML="";
+    }
   } else alert("Phantom not detected");
 }
 
-function disconnectPhantom(){
-  if(window.solana && window.solana.isPhantom){
-    window.solana.disconnect();
-    phantomPublicKey = null;
-    alert("Disconnected Phantom");
-  }
+// Ticker
+async function updateTicker(){
+  const resp=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd");
+  const data=await resp.json();
+  document.getElementById("ticker").innerText = 
+    `BTC: $${data.bitcoin.usd} | ETH: $${data.ethereum.usd} | SOL: $${data.solana.usd}`;
 }
+updateTicker();
+setInterval(updateTicker,10000);
 </script>
 </body>
 </html>
