@@ -21,12 +21,14 @@ body {
 #top-bar {
   position:fixed;
   top:0;
+  left:0;
   width:100%;
   background:#1a0033;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  padding:8px 20px;
+  justify-content:space-between;
+  padding:8px 16px;            /* 🔧 réduit et équilibré */
+  box-sizing:border-box;       /* 🔑 FIX IMPORTANT */
   z-index:10;
 }
 
@@ -34,6 +36,7 @@ body {
   display:flex;
   align-items:center;
   gap:10px;
+  min-width:0;
 }
 
 #network {
@@ -43,20 +46,27 @@ body {
   border-radius:10px;
   padding:4px 8px;
   cursor:pointer;
+  font-family:'Luckiest Guy', cursive;
 }
 
 #wallet-display {
-  font-size:0.8rem;
+  font-size:0.75rem;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
+/* ===== PHANTOM BUTTON ===== */
 #phantom-btn {
-  width:46px;
-  height:46px;
+  flex-shrink:0;               /* 🔑 empêche la coupe */
+  width:44px;
+  height:44px;
   border-radius:50%;
   display:flex;
   justify-content:center;
   align-items:center;
   cursor:pointer;
+  margin-right:4px;            /* 🔧 pousse vers la gauche */
 }
 
 #phantom-btn.connected {
@@ -67,7 +77,8 @@ body {
 }
 
 #phantom-btn img {
-  width:30px;
+  width:28px;
+  height:28px;
 }
 
 /* ===== CONTAINER ===== */
@@ -157,15 +168,16 @@ footer {
     <button id="network" onclick="toggleNetwork()">Mainnet</button>
     <div id="wallet-display">Not connected</div>
   </div>
+
   <div id="phantom-btn" class="disconnected" onclick="connectPhantom()">
-    <img src="phantom-logo.png">
+    <img src="phantom-logo.png" alt="Phantom">
   </div>
 </div>
 
 <div class="container">
 
 <header>
-  <img src="swapey-logo.png">
+  <img src="swapey-logo.png" alt="Swapey">
   <h1>Swapey DEX</h1>
   <p>Jupiter Aggregator · Raydium Liquidity</p>
 </header>
@@ -177,6 +189,7 @@ footer {
   </select>
 
   <input id="amount" type="number" placeholder="Amount">
+
   <div class="row">
     <span id="balance">Balance: -</span>
     <span onclick="max()" style="cursor:pointer;">MAX</span>
@@ -206,8 +219,8 @@ footer {
 <script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
 
 <script>
-const JUP = "https://quote-api.jup.ag/v6";
-const TOKENS = {
+const JUP="https://quote-api.jup.ag/v6";
+const TOKENS={
   SOL:"So11111111111111111111111111111111111111112",
   USDC:"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
 };
@@ -222,7 +235,8 @@ async function connectPhantom(){
     const r=await solana.connect();
     wallet=r.publicKey.toString();
     document.getElementById("phantom-btn").className="connected";
-    showWallet();
+    document.getElementById("wallet-display").innerText=
+      wallet.slice(0,4)+"*****"+wallet.slice(-4);
     loadHistory();
   } else {
     await solana.disconnect();
@@ -230,11 +244,6 @@ async function connectPhantom(){
     document.getElementById("phantom-btn").className="disconnected";
     document.getElementById("wallet-display").innerText="Not connected";
   }
-}
-
-function showWallet(){
-  const m=wallet.slice(0,4)+"*****"+wallet.slice(-4);
-  document.getElementById("wallet-display").innerText=m;
 }
 
 /* ===== NETWORK ===== */
@@ -297,3 +306,4 @@ async function loadHistory(){
 
 </body>
 </html>
+
