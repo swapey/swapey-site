@@ -292,6 +292,7 @@ async function max(){
   const c=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(network));
   const bal=await c.getBalance(new solanaWeb3.PublicKey(wallet));
   document.getElementById("amount").value=(bal/1e9).toFixed(4);
+  await updateAmounts();
 }
 
 /* ===== FLIP TOKENS ===== */
@@ -304,21 +305,48 @@ function flipTokens(){
   updateAmounts();
 }
 
+/* ===== LIVE QUOTE ===== */
+async function updateAmounts(){
+  const from=document.getElementById("fromToken").value;
+  const to=document.getElementById("toToken").value;
+  const amt=parseFloat(document.getElementById("amount").value);
+  if(!amt || amt<=0) return;
+
+  const inLamports=Math.floor(amt*1e9);
+
+  try {
+    const q=await fetch(`${JUP}/quote?inputMint=${TOKENS[from]}&outputMint=${TOKENS[to]}&amount=${inLamports}&slippageBps=50`).then(r=>r.json());
+    if(q.data && q.data[0]){
+      const r=q.data[0];
+      document.getElementById("pay-amount").innerText=(r.inAmount/1e9).toFixed(4);
+      document.getElementById("receive-amount").innerText=(r.outAmount/1e9).toFixed(4);
+      document.getElementById("route").innerText=`Route: ${r.marketInfos[0].label}`;
+      document.getElementById("min").innerText=`Min: ${(r.outAmount/1e9).toFixed(4)}`;
+      document.getElementById("pay-token").innerText=from;
+      document.getElementById("receive-token").innerText=to;
+    }
+  } catch(e){
+    console.error("Quote error:", e);
+  }
+}
+
 /* ===== SWAP ===== */
 async function realSwap(){
   if(!wallet) return alert("Connect wallet");
 
   const from=document.getElementById("fromToken").value;
   const to=document.getElementById("toToken").value;
-  const amt=Math.floor(document.getElementById("amount").value*1e9);
+  const amt=parseFloat(document.getElementById("amount").value);
+  if(!amt || amt<=0) return;
 
-  const q=await fetch(`${JUP}/quote?inputMint=${TOKENS[from]}&outputMint=${TOKENS[to]}&amount=${amt}&slippageBps=50`).then(r=>r.json());
+  const inLamports=Math.floor(amt*1e9);
+  const q=await fetch(`${JUP}/quote?inputMint=${TOKENS[from]}&outputMint=${TOKENS[to]}&amount=${inLamports}&slippageBps=50`).then(r=>r.json());
   const r=q.data[0];
 
-  document.getElementById("route").innerText=`Route: ${r.marketInfos[0].label}`;
-  document.getElementById("min").innerText=`Min: ${(r.outAmount/1e9).toFixed(4)}`;
   document.getElementById("pay-amount").innerText=(r.inAmount/1e9).toFixed(4);
   document.getElementById("receive-amount").innerText=(r.outAmount/1e9).toFixed(4);
+  document.getElementById("route").innerText=`Route: ${r.marketInfos[0].label}`;
+  document.getElementById("min").innerText=`Min: ${(r.outAmount/1e9).toFixed(4)}`;
   document.getElementById("pay-token").innerText=from;
   document.getElementById("receive-token").innerText=to;
 
@@ -351,11 +379,11 @@ async function loadHistory(){
     "<b>History</b><br>"+sigs.map(s=>s.signature.slice(0,10)+"...").join("<br>");
 }
 
-/* ===== UPDATE AMOUNTS ===== */
-function updateAmounts(){
-  document.getElementById("pay-amount").innerText=document.getElementById("amount").value || 0;
-  document.getElementById("receive-amount").innerText=document.getElementById("amount").value || 0;
-}
+/* ===== LISTENERS ===== */
+document.getElementById("amount").addEventListener("input", updateAmounts);
+document.getElementById("fromToken").addEventListener("change", updateAmounts);
+document.getElementById("toToken").addEventListener("change", updateAmounts);
+
 </script>
 
 </body>
