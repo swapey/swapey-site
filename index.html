@@ -12,45 +12,103 @@ body {
   color:white;
   text-align:center;
   background:#16002d;
+  overflow-x:hidden;
 }
 #ticker {
-  position:fixed; top:0; width:100%; background:#1a0033; color:#40E0D0; padding:6px; font-weight:bold; font-family:'Luckiest Guy', cursive; overflow:hidden; z-index:12;
-  text-align:center;
+  position:fixed; top:0; width:100%; background:#1a0033; color:#40E0D0;
+  padding:6px; font-weight:bold; font-family:'Luckiest Guy', cursive;
+  overflow:hidden; z-index:11; text-align:center;
 }
+
+/* ----- Top-right Phantom & History ----- */
 #top-right {
-  position: fixed; top:32px; right:12px; display:flex; align-items:center; gap:10px; z-index:12;
+  position:fixed; top:12px; right:12px;
+  display:flex; align-items:center; gap:10px; z-index:12;
 }
 #top-right img {
-  width:48px; height:48px; border-radius:50%; border:3px solid red; cursor:pointer; transition: all 0.3s ease;
+  width:40px; cursor:pointer; border:3px solid red; border-radius:50%;
+  transition: all 0.3s ease;
 }
-#top-right img.connected { border-color: limegreen; }
+#top-right img.connected { border-color:lime; }
 #top-right a.btn-history {
-  background: linear-gradient(135deg,#40E0D0,#8F5BFF); color:white; padding:10px 18px; border-radius:16px; text-decoration:none; font-weight:bold; transition:all 0.2s;
+  background: linear-gradient(135deg,#40E0D0,#8F5BFF);
+  color:white; padding:10px 18px; border-radius:16px;
+  text-decoration:none; font-weight:bold;
+  transition:all 0.2s;
 }
-#top-right a.btn-history:hover { transform: scale(1.05); }
-header { padding:80px 20px 20px; }
+#top-right a.btn-history:hover { transform:scale(1.1); }
+
+/* ----- Wallet dashboard ----- */
+#wallet-dashboard {
+  position:fixed; top:70px; right:12px; width:260px;
+  padding:12px; background: rgba(64,224,208,0.1);
+  border-radius:16px; text-align:left;
+  box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
+  font-size:0.9rem; z-index:11;
+}
+#wallet-balance { margin-bottom:6px; }
+#wallet-tokens { max-height:280px; overflow-y:auto; }
+
+/* ----- Header ----- */
+header { padding:80px 20px 20px; position:relative; z-index:1; }
 header img { width:520px; max-width:92%; margin-bottom:20px; }
-h1 { font-size:3.2rem; margin:10px 0; }
+h1 { font-size:3.4rem; margin:10px 0; }
 p { font-size:1.2rem; color:#ffffffcc; max-width:720px; margin:auto; }
+
+/* ----- Countdown ----- */
 #event-countdown { font-size:1.5rem; margin:20px 0; color:#40E0D0; font-weight:bold; }
-.swap-form { margin:40px auto; width:420px; max-width:95%; padding:20px; border-radius:24px; text-align:center; display:grid; grid-template-columns:1fr; gap:10px; }
-.swap-form select, .swap-form input { width:100%; padding:10px; border-radius:12px; border:none; font-size:1rem; font-family:'Luckiest Guy', cursive; text-align:center; }
+
+/* ----- Swap form ----- */
+.swap-form {
+  margin:40px auto; width:420px; max-width:95%; padding:20px;
+  border-radius:24px; text-align:center;
+  background: linear-gradient(135deg,#2a004f,#4d00a0);
+  box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
+}
+.swap-form select, .swap-form input {
+  width:100%; padding:10px; border-radius:12px; border:none;
+  font-size:1rem; font-family:'Luckiest Guy', cursive; text-align:center;
+  margin:6px 0;
+}
 .swap-form input { color:#000; }
-#swapey-button { background:none; border:none; cursor:pointer; font-family:'Luckiest Guy', cursive; font-size:2.8rem; color:#ffffff; text-shadow:0 0 8px #40E0D0,0 0 16px #8F5BFF; transition: all 0.3s ease; }
+
+/* ----- Swapey button ----- */
+#swapey-button {
+  background:none; border:none; cursor:pointer; display:block; margin:20px auto;
+  text-align:center; font-family:'Luckiest Guy', cursive;
+  font-size:2.8rem; color:#ffffff;
+  text-shadow:0 0 8px #40E0D0,0 0 16px #8F5BFF;
+  transition: all 0.3s ease;
+}
 #swapey-button:hover { transform: scale(1.1) rotate(-2deg); text-shadow:0 0 12px #40E0D0,0 0 24px #8F5BFF; }
-#confirm { position:fixed; top:60px; left:50%; transform:translateX(-50%); background: linear-gradient(135deg,#40E0D0,#8F5BFF); padding:16px 32px; border-radius:16px; font-weight:bold; color:black; font-size:1.2rem; display:none; box-shadow:0 0 25px #40E0D0,0 0 50px #8F5BFF; }
-.announcement-box { margin:40px auto; width:90%; max-width:720px; padding:16px 24px; border-radius:16px; background: rgba(64,224,208,0.15); border:2px solid #40E0D0; text-align:left; color:white; box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF; }
+
+/* ----- Confirmation ----- */
+#confirm {
+  position:fixed; top:60px; left:50%; transform:translateX(-50%);
+  background: linear-gradient(135deg,#40E0D0,#8F5BFF); padding:16px 32px;
+  border-radius:16px; font-weight:bold; color:black; font-size:1.2rem;
+  display:none; box-shadow:0 0 25px #40E0D0,0 0 50px #8F5BFF;
+  animation: flash 0.5s ease-in-out;
+}
+@keyframes flash {
+  0% { transform:translateX(-50%) scale(0.8); opacity:0; }
+  50% { transform:translateX(-50%) scale(1.1); opacity:1; }
+  100% { transform:translateX(-50%) scale(1); opacity:1; }
+}
+
+/* ----- Announcement box ----- */
+.announcement-box {
+  margin:40px auto; width:90%; max-width:720px;
+  padding:16px 24px; border-radius:16px;
+  background: rgba(64,224,208,0.15); border:2px solid #40E0D0;
+  text-align:left; color:white;
+  box-shadow:0 0 20px #40E0D0,0 0 40px #8F5BFF;
+}
 .announcement-box h2 { text-align:center; font-size:1.6rem; margin-bottom:12px; }
 .announcement-box ul { list-style:none; padding:0; margin:0; max-height:150px; overflow-y:auto; }
 .announcement-box li { margin-bottom:6px; font-size:1rem; }
+
 footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
-/* Responsive */
-@media(max-width:600px){
-  header img{width:300px;}
-  h1{font-size:2.4rem;}
-  .swap-form{width:90%;}
-  #top-right{top:12px; right:12px;}
-}
 </style>
 </head>
 <body>
@@ -59,7 +117,12 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
 
 <div id="top-right">
   <a href="history.html" class="btn-history">History</a>
-  <img id="phantom-btn" src="phantom-logo.png" alt="Phantom" onclick="togglePhantomConnection()"/>
+  <img id="phantom-logo" src="phantom-logo.png" onclick="togglePhantom()" alt="Phantom"/>
+</div>
+
+<div id="wallet-dashboard">
+  <div id="wallet-balance"></div>
+  <div id="wallet-tokens"></div>
 </div>
 
 <header>
@@ -91,21 +154,24 @@ footer { margin:40px 0; font-size:0.75rem; opacity:0.6; text-align:center; }
   </ul>
 </div>
 
-<footer>
-  Swapey is decentralized. Use at your own risk.
-</footer>
+<footer>Swapey is decentralized. Use at your own risk.</footer>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 <script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token-registry@0.2.10/dist/index.iife.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 <script>
-const polygonTokens=[
+// ----- Polygon tokens (100+) -----
+const polygonTokens = [
   {symbol:"MATIC",addr:"0x0000000000000000000000000000000000001010"},
   {symbol:"USDC",addr:"0x2791bca1f2de4661ed88a30c99a7a9449aa84174"},
-  {symbol:"USDT",addr:"0xc2132d05d31c914a87c6611c10748aeb04b58e8f"}
+  {symbol:"USDT",addr:"0xc2132d05d31c914a87c6611c10748aeb04b58e8f"},
+  // compléter avec plus de tokens si besoin
 ];
-let provider, signer;
 
+let provider, signer;
+let phantomConnected=false;
+
+// ----- Populate selects -----
 function populateTokenSelects(){
   const fromSelect=document.getElementById("token-from");
   const toSelect=document.getElementById("token-to");
@@ -117,32 +183,47 @@ function populateTokenSelects(){
 }
 populateTokenSelects();
 
-let phantomConnected=false;
-let phantomPublicKey=null;
-async function togglePhantomConnection(){
-  const btn=document.getElementById("phantom-btn");
-  if(phantomConnected){
-    phantomConnected=false;
-    phantomPublicKey=null;
-    btn.classList.remove("connected");
-    return;
-  }
-  if(window.solana && window.solana.isPhantom){
-    try{
-      const resp=await window.solana.connect();
+// ----- Phantom Wallet -----
+const phantomLogo=document.getElementById("phantom-logo");
+async function togglePhantom(){
+  if(!phantomConnected){
+    if(window.solana && window.solana.isPhantom){
+      const resp = await window.solana.connect();
       phantomConnected=true;
-      phantomPublicKey=resp.publicKey.toString();
-      btn.classList.add("connected");
-      alert("Connected to Phantom: "+phantomPublicKey.slice(0,4)+"…"+phantomPublicKey.slice(-4));
-    }catch(err){console.error(err); alert("Failed to connect Phantom");}
-  }else{
-    const ua=navigator.userAgent;
-    if(/android/i.test(ua)) window.open("https://play.google.com/store/apps/details?id=com.phantom.app","_blank");
-    else if(/iPad|iPhone|iPod/.test(ua)) window.open("https://apps.apple.com/app/phantom-wallet/id1598432977","_blank");
-    else alert("Phantom wallet not detected. Please install Phantom.");
+      phantomLogo.classList.add("connected");
+      const pubKey=resp.publicKey;
+      const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
+      const solBalance=await connection.getBalance(pubKey);
+      document.getElementById("wallet-balance").innerText="SOL: "+(solBalance/1e9).toFixed(4);
+
+      // SPL tokens
+      const tokenList = await new TokenListProvider().resolve();
+      const tokenMap = tokenList.filter(t=>t.chainId===101);
+      const walletTokensDiv=document.getElementById("wallet-tokens");
+      walletTokensDiv.innerHTML="<ul>";
+      for(const token of tokenMap){
+        try{
+          const tokenPubKey = new solanaWeb3.PublicKey(token.address);
+          const tokenAccounts = await connection.getTokenAccountsByOwner(pubKey,{mint:tokenPubKey});
+          let balance = 0;
+          if(tokenAccounts.value.length>0){
+            const accountInfo = await connection.getParsedAccountInfo(tokenAccounts.value[0].pubkey);
+            balance = accountInfo.value.data.parsed.info.tokenAmount.uiAmount || 0;
+          }
+          walletTokensDiv.innerHTML+=`<li>${token.symbol}: ${balance}</li>`;
+        } catch(e){ console.error(token.symbol,e); }
+      }
+      walletTokensDiv.innerHTML+="</ul>";
+    } else alert("Phantom not detected");
+  } else {
+    phantomConnected=false;
+    phantomLogo.classList.remove("connected");
+    document.getElementById("wallet-balance").innerText="";
+    document.getElementById("wallet-tokens").innerHTML="";
   }
 }
 
+// ----- Countdown -----
 const eventDate=new Date("2026-01-26T20:00:00");
 function updateCountdown(){
   const now=new Date();
@@ -157,6 +238,7 @@ function updateCountdown(){
 updateCountdown();
 const countdownInterval=setInterval(updateCountdown,1000);
 
+// ----- Swapey Swap (placeholder) -----
 async function swapTokens(){
   const amount=document.getElementById("amount").value;
   if(!amount||amount<=0){ alert("Enter a valid amount"); return; }
@@ -165,10 +247,12 @@ async function swapTokens(){
   setTimeout(()=>{confirm.style.display="none";},3500);
 }
 
+// ----- CoinGecko Ticker -----
 async function updateTicker(){
   const resp=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd");
   const data=await resp.json();
-  document.getElementById("ticker").innerText = `BTC: $${data.bitcoin.usd} | ETH: $${data.ethereum.usd} | SOL: $${data.solana.usd}`;
+  document.getElementById("ticker").innerText = 
+    `BTC: $${data.bitcoin.usd} | ETH: $${data.ethereum.usd} | SOL: $${data.solana.usd}`;
 }
 updateTicker();
 setInterval(updateTicker,10000);
