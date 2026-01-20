@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Swapey DEX — Jupiter / Raydium</title>
+<title>Swapey DEX — Jupiter Powered</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@ body {
   overflow-x:hidden;
 }
 
-/* ========== TOP BAR ========== */
+/* ===== TOP BAR ===== */
 #top-bar {
   position:fixed;
   top:0;
@@ -26,13 +26,27 @@ body {
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:8px 14px;
+  padding:8px 20px;
   z-index:10;
 }
 
+#left-top {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+#network {
+  background:none;
+  border:2px solid #40E0D0;
+  color:white;
+  border-radius:10px;
+  padding:4px 8px;
+  cursor:pointer;
+}
+
 #wallet-display {
-  font-size:0.85rem;
-  opacity:0.9;
+  font-size:0.8rem;
 }
 
 #phantom-btn {
@@ -45,42 +59,36 @@ body {
   cursor:pointer;
 }
 
+#phantom-btn.connected {
+  box-shadow:0 0 0 3px #00ff80;
+}
 #phantom-btn.disconnected {
   box-shadow:0 0 0 3px #ff3b3b;
 }
 
-#phantom-btn.connected {
-  box-shadow:0 0 0 3px #00ff80;
-}
-
 #phantom-btn img {
   width:30px;
-  height:30px;
 }
 
-/* ========== CONTAINER ========== */
+/* ===== CONTAINER ===== */
 .container {
   max-width:420px;
   margin:90px auto 0;
   padding:0 16px;
 }
 
-/* ========== LOGO / HEADER ========== */
+/* ===== HEADER ===== */
 header img {
-  width:260px; /* LOGO BIEN GRAND */
-  margin-bottom:10px;
+  width:260px;
 }
-
 h1 {
-  font-size:2.8rem;
-  margin:10px 0;
+  font-size:2.6rem;
 }
-
 p {
   opacity:0.8;
 }
 
-/* ========== SWAP BOX ========== */
+/* ===== SWAP BOX ===== */
 .swap-box {
   margin-top:30px;
   background:linear-gradient(135deg,#2a004f,#4d00a0);
@@ -93,42 +101,50 @@ p {
 .swap-box input {
   width:100%;
   padding:12px;
-  margin:8px 0;
+  margin:6px 0;
   border-radius:14px;
   border:none;
-  text-align:center;
   font-family:'Luckiest Guy', cursive;
+  text-align:center;
 }
 
 .swap-box input {
   color:black;
 }
 
+.row {
+  display:flex;
+  justify-content:space-between;
+  font-size:0.75rem;
+  opacity:0.9;
+}
+
 #swap-btn {
   margin-top:14px;
-  font-size:2.6rem;
+  font-size:2.4rem;
   background:none;
   border:none;
   color:white;
   cursor:pointer;
-  text-shadow:0 0 10px #40E0D0,0 0 20px #8F5BFF;
+  text-shadow:0 0 10px #40E0D0;
 }
 
-#swap-btn:hover {
-  transform:scale(1.1);
+/* ===== HISTORY ===== */
+#history {
+  margin-top:30px;
+  font-size:0.7rem;
+  text-align:left;
+  background:rgba(255,255,255,0.05);
+  padding:12px;
+  border-radius:14px;
+  max-height:160px;
+  overflow:auto;
 }
 
-/* ========== CONFIRM ========== */
-#status {
-  margin-top:14px;
-  font-size:1rem;
-  opacity:0.9;
-}
-
-/* ========== FOOTER ========== */
+/* ===== FOOTER ===== */
 footer {
   margin:40px 0;
-  font-size:0.7rem;
+  font-size:0.65rem;
   opacity:0.5;
 }
 </style>
@@ -136,43 +152,53 @@ footer {
 
 <body>
 
-<!-- TOP BAR -->
 <div id="top-bar">
-  <div id="wallet-display">Not connected</div>
+  <div id="left-top">
+    <button id="network" onclick="toggleNetwork()">Mainnet</button>
+    <div id="wallet-display">Not connected</div>
+  </div>
   <div id="phantom-btn" class="disconnected" onclick="connectPhantom()">
-    <img src="phantom-logo.png" alt="Phantom">
+    <img src="phantom-logo.png">
   </div>
 </div>
 
 <div class="container">
 
 <header>
-  <img src="swapey-logo.png" alt="Swapey">
+  <img src="swapey-logo.png">
   <h1>Swapey DEX</h1>
-  <p>Powered by Jupiter · Liquidity from Raydium</p>
+  <p>Jupiter Aggregator · Raydium Liquidity</p>
 </header>
 
 <div class="swap-box">
   <select id="fromToken">
-    <option>SOL</option>
-    <option>USDC</option>
-    <option>USDT</option>
+    <option value="SOL">SOL</option>
+    <option value="USDC">USDC</option>
   </select>
 
-  <input type="number" id="amount" placeholder="Amount">
+  <input id="amount" type="number" placeholder="Amount">
+  <div class="row">
+    <span id="balance">Balance: -</span>
+    <span onclick="max()" style="cursor:pointer;">MAX</span>
+  </div>
 
   <select id="toToken">
-    <option>USDC</option>
-    <option>SOL</option>
-    <option>USDT</option>
+    <option value="USDC">USDC</option>
+    <option value="SOL">SOL</option>
   </select>
 
-  <button id="swap-btn" onclick="swap()">Swapey</button>
-  <div id="status"></div>
+  <div class="row">
+    <span id="route">Route: -</span>
+    <span id="min">Min: -</span>
+  </div>
+
+  <button id="swap-btn" onclick="realSwap()">Swapey</button>
 </div>
 
+<div id="history"></div>
+
 <footer>
-  Jupiter Aggregator · Raydium Pools · Solana
+  On-chain swaps · Use at your own risk
 </footer>
 
 </div>
@@ -180,56 +206,92 @@ footer {
 <script src="https://unpkg.com/@solana/web3.js@1.73.0/lib/index.iife.min.js"></script>
 
 <script>
-let wallet = null;
+const JUP = "https://quote-api.jup.ag/v6";
+const TOKENS = {
+  SOL:"So11111111111111111111111111111111111111112",
+  USDC:"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+};
 
-/* ========== CONNECT PHANTOM ========== */
-async function connectPhantom() {
-  if (!window.solana || !window.solana.isPhantom) {
-    alert("Phantom Wallet not detected");
-    return;
-  }
+let wallet=null;
+let network="mainnet-beta";
 
-  if (!wallet) {
-    const res = await window.solana.connect();
-    wallet = res.publicKey.toString();
-
-    const masked =
-      wallet.slice(0,4) +
-      "*".repeat(wallet.length - 8) +
-      wallet.slice(-4);
-
-    document.getElementById("wallet-display").innerText = masked;
-    document.getElementById("phantom-btn").classList.remove("disconnected");
-    document.getElementById("phantom-btn").classList.add("connected");
+/* ===== PHANTOM ===== */
+async function connectPhantom(){
+  if(!window.solana) return alert("Install Phantom");
+  if(!wallet){
+    const r=await solana.connect();
+    wallet=r.publicKey.toString();
+    document.getElementById("phantom-btn").className="connected";
+    showWallet();
+    loadHistory();
   } else {
-    await window.solana.disconnect();
-    wallet = null;
-    document.getElementById("wallet-display").innerText = "Not connected";
-    document.getElementById("phantom-btn").classList.remove("connected");
-    document.getElementById("phantom-btn").classList.add("disconnected");
+    await solana.disconnect();
+    wallet=null;
+    document.getElementById("phantom-btn").className="disconnected";
+    document.getElementById("wallet-display").innerText="Not connected";
   }
 }
 
-/* ========== SWAP PLACEHOLDER (JUPITER LOGIC) ========== */
-function swap() {
-  if (!wallet) {
-    alert("Connect Phantom first");
-    return;
-  }
+function showWallet(){
+  const m=wallet.slice(0,4)+"*****"+wallet.slice(-4);
+  document.getElementById("wallet-display").innerText=m;
+}
 
-  const amount = document.getElementById("amount").value;
-  if (!amount || amount <= 0) {
-    alert("Invalid amount");
-    return;
-  }
+/* ===== NETWORK ===== */
+function toggleNetwork(){
+  network=network==="mainnet-beta"?"devnet":"mainnet-beta";
+  document.getElementById("network").innerText=
+    network==="mainnet-beta"?"Mainnet":"Devnet";
+}
 
-  document.getElementById("status").innerText =
-    "Fetching best route via Jupiter…";
+/* ===== MAX ===== */
+async function max(){
+  if(!wallet) return;
+  const c=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(network));
+  const bal=await c.getBalance(new solanaWeb3.PublicKey(wallet));
+  document.getElementById("amount").value=(bal/1e9).toFixed(4);
+}
 
-  setTimeout(() => {
-    document.getElementById("status").innerText =
-      "✅ Swap simulated (Jupiter → Raydium)";
-  }, 1500);
+/* ===== SWAP ===== */
+async function realSwap(){
+  if(!wallet) return alert("Connect wallet");
+
+  const from=document.getElementById("fromToken").value;
+  const to=document.getElementById("toToken").value;
+  const amt=Math.floor(document.getElementById("amount").value*1e9);
+
+  const q=await fetch(`${JUP}/quote?inputMint=${TOKENS[from]}&outputMint=${TOKENS[to]}&amount=${amt}&slippageBps=50`).then(r=>r.json());
+  const r=q.data[0];
+
+  document.getElementById("route").innerText=`Route: ${r.marketInfos[0].label}`;
+  document.getElementById("min").innerText=`Min: ${(r.outAmount/1e9).toFixed(4)}`;
+
+  const tx=await fetch(`${JUP}/swap`,{
+    method:"POST",
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      route:r,
+      userPublicKey:wallet,
+      wrapAndUnwrapSol:true
+    })
+  }).then(r=>r.json());
+
+  const raw=Uint8Array.from(atob(tx.swapTransaction),c=>c.charCodeAt(0));
+  const vtx=solanaWeb3.VersionedTransaction.deserialize(raw);
+  const signed=await solana.signTransaction(vtx);
+
+  const c=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(network));
+  await c.sendRawTransaction(signed.serialize());
+
+  loadHistory();
+}
+
+/* ===== HISTORY ===== */
+async function loadHistory(){
+  const c=new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(network));
+  const sigs=await c.getSignaturesForAddress(new solanaWeb3.PublicKey(wallet),{limit:5});
+  document.getElementById("history").innerHTML=
+    "<b>History</b><br>"+sigs.map(s=>s.signature.slice(0,10)+"...").join("<br>");
 }
 </script>
 
